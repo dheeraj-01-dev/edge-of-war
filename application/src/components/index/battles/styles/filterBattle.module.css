@@ -1,0 +1,36 @@
+.container {
+  position: sticky;
+  z-index: 1;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  padding: 10px 15px 13px 20px;
+  margin-top: 3px;
+  font-weight: 900;
+  background: var(--bg-10);
+  background: var(--background-color);
+  justify-content: space-between;
+  /* border-bottom: 2px solid var(--bg-3); */
+}
+.filterItemBox {
+  display: flex;
+  width: 100%;
+  margin-right: 15px;
+  justify-content: flex-end;
+}
+.filterItems {
+  margin: 0 9px;
+  opacity: 0.4;
+  display: flex;
+  align-items: center;
+  font-size: 90%;
+}
+.filterBtn {
+  display: flex;
+  place-items: center;
+  opacity: 0.5;
+}
+.active {
+  opacity: 1 !important;
+}

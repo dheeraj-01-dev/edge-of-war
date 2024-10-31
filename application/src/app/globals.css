@@ -118,3 +118,6 @@ a {
   background-color: #ffffff;
 }
 
+.activeSideNav{
+  left: 0 !important;
+}

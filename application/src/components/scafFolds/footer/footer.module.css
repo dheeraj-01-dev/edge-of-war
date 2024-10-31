@@ -1,0 +1,32 @@
+.footerContainer{
+  height: 50px;
+  width: 100dvw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding-top: 5px;
+  /* display: flex;
+  justify-content: space-around; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 7px;
+  background-color: var(--bg-9);
+  border-top: 2px solid var(--bg-5);
+}
+
+.footerContainer a{
+  display: flex;
+  padding-top: 5px;
+  justify-content: center;
+}
+
+.active{
+  filter: brightness(0) saturate(100%) invert(100%) sepia(42%) saturate(1791%) hue-rotate(174deg) brightness(100%) contrast(103%);
+  filter: brightness(0) saturate(100%) invert(100%) sepia(31%) saturate(4179%) hue-rotate(174deg) brightness(102%) contrast(101%);
+}
+
+@media screen and (min-width: 680px) {
+  .footerContainer{
+    display: none;
+  }
+}

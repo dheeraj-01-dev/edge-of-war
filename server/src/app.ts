@@ -3,6 +3,7 @@ import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'e
 
 config();
 import cors from 'cors'
+import battleRouter from './battles/battles.router.js';
 
 const app = express();
 app.use(cors())
@@ -18,6 +19,8 @@ app.use(express.json({
   }
   next();
 });
+
+app.use("/battle", battleRouter)
 
 app.all('*', (req, res)=>{
   res.status(404).json({

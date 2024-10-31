@@ -1,0 +1,156 @@
+.battleCard{
+  border: 2px solid var(--bg-1);
+  border-radius: 12px;
+  padding: 15px;
+  background: linear-gradient(90deg, var(--bg-8), var(--bg-6));
+  margin-bottom: 7px;
+
+  background-color: var(--bg-8);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  min-width: 280px;
+  max-width: 400px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.battleCard:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+}
+@media screen and (max-width: 480px) {
+  
+}
+
+.header{
+  /* background: orchid; */
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.title{
+  font-weight: 700;
+}
+.timeCountDown{
+  color: yellow;
+}
+
+.infoContainer{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 3fr 4fr;
+  /* background: red; */
+  padding: 0 10px;
+}
+
+.dealBox{
+  margin-top: 10px;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 3fr 4fr;
+  /* background: yellow; */
+  padding: 0 10px;
+}
+
+.battleMap{
+  /* background: rebeccapurple; */
+}
+
+.entryBox{
+  display: flex;
+  justify-content: center;
+  /* background: darkolivegreen; */
+}
+
+.entryBtn{
+  text-align: center;
+  padding: 10px 10px;
+  border-radius: 7px;
+  font-size: 80%;
+  max-width: max-content;
+  font-weight: 600;
+  border: 2px solid #f25202;
+  background: linear-gradient(97deg, #C92812 0%, #E45309 100%);
+}
+
+.battleMode{
+  font-weight: 600;
+}
+
+.battleDetail{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* margin-top: -4px; */
+  padding-top: -4px;
+  align-items: center;
+  /* background: brown; */
+}
+
+.prizes{
+  font-size: 180%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  /* background: rgb(28, 49, 145); */
+}
+
+.organisationTemplate{
+  font-size: 60%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer{
+  margin-top: 7px;
+  height: 30px;
+  /* background: crimson; */
+
+  /* margin: 4px 10px 10px; */
+}
+
+.battleCardCount{
+  font-size: 70%;
+}
+
+.battleCardOutliner{
+  display: flex;
+  align-items: center;
+  height: 4px;
+  margin-top: 3px;
+  border-radius: 20px;
+  background: var(--bg-10, #31495E);
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.92) inset;
+
+
+  display: flex;
+  align-items: center;
+  height: 4px;
+  margin-top: 3px;
+  border-radius: 20px;
+  background: var(--brand-brand-blue, #31495E);
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.92) inset;
+
+
+}
+
+.battleCardOutlinerCount{
+  height: 3px;
+  width: 60%;
+  border-radius: 20px;
+  background: linear-gradient(97deg, #C92812 0%, #E44B09 100%);
+  background: linear-gradient(97deg, #ec1e02 0%, #ff6422 100%);
+  box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.25) inset;
+
+
+
+
+  height: 3px;
+  width: 60%;
+  border-radius: 20px;
+  background: linear-gradient(97deg, #C92812 0%, #E44B09 100%);
+  background: linear-gradient(97deg, #ec1e02 0%, #ff6422 100%);
+  box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.25) inset;
+}

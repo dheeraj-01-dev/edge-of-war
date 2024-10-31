@@ -1,0 +1,63 @@
+.profile{
+  height: 110px;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-5);
+  border-bottom-right-radius: 60px;
+  background: rgb(255, 84, 21);
+  background: linear-gradient(90deg, #ff000098, var(--bg-7));
+  background: var(--bg-4);
+}
+
+.linkContainer{
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-weight: 500 !important;
+  margin: 0 20px;
+  display: flex;
+  /* align-items: center; */
+}
+.profilePic{
+  height: 60px;
+  width: 60px;
+  border-radius: 100px;
+  overflow: hidden;
+}
+.profilePic img{
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 100px;
+  background: black;
+}
+.identity{
+  margin-top: 3px;
+  margin-left: 10px;
+}
+.name{
+  font-size: 110%;
+}
+.uid{
+  opacity: 0.7;
+  font-size: 64%;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+
+.loginContainer{
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.loginLink{
+  padding: 5px 20px;
+  border: 2px solid rgb(8, 91, 136);
+}
+
+@media screen and (min-width: 680px) {
+  .profile{
+    display: none;
+  }
+}
