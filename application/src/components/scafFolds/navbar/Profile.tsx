@@ -1,11 +1,10 @@
 import React from 'react'
 import styles from './styles/profile.module.css'
 import Link from 'next/link'
-import { cookies } from 'next/headers'
 import Image from 'next/image'
 
 type profile = {
-  isLogin :Boolean
+  isLogin :boolean
 }
 
 const Profile :React.FC<profile> = async ({isLogin}) => {

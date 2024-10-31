@@ -1,20 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 
-import { Exo_2, Inter, Itim } from "next/font/google";
+import { Exo_2 } from "next/font/google";
 import Script from "next/script";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 const exo = Exo_2({ weight: "400", subsets: ["cyrillic"] });
 

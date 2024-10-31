@@ -5,15 +5,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface FilterBattleProps {
-  setFilterdBattle: React.Dispatch<React.SetStateAction<any[]>>;
-  battles: any[];
+  setFilterdBattle: React.Dispatch<React.SetStateAction<battleType[]>>;
+  battles: battleType[];
 }
 
 const FilterBattle: React.FC<FilterBattleProps> = ({ setFilterdBattle, battles }) => {
   const router = useRouter();
   const [currentFilter, setCurrentFilter] = useState<string>("all");
 
-  const applyFilter = (filter: string, condition: (battle: any) => boolean) => {
+  const applyFilter = (filter: string, condition: (battle: battleType) => boolean) => {
     if (currentFilter === filter) return;
     const filteredBattles = battles.filter(condition);
     setCurrentFilter(filter);
@@ -42,7 +42,7 @@ const FilterBattle: React.FC<FilterBattleProps> = ({ setFilterdBattle, battles }
           &nbsp; All
         </div>
         <div
-          onClick={() => applyFilter("br", (battle) => battle.settings.gameMode === "Battle Royale")}
+          onClick={() => applyFilter("br", (battle :battleType) => battle.settings.gameMode === "Battle Royale")}
           className={`${styles.filterItems} ${currentFilter === "br" && styles.active}`}
         >
           <Image height={17} width={17} alt="Battle Royale" src="/icons/game.png" /> &nbsp; Battle Royale

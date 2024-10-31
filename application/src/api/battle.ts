@@ -1,29 +1,47 @@
-"use server"
+"use server";
 import axios from "axios";
 
 const domain = process.env.server_domain;
 
-export const getAllBattles = async ({token}: {token: string|undefined}) => {  
+type BattleResponse<T> = {
+  success: boolean;
+  data: T;
+  message?: string;
+};
+
+export const getAllBattles = async ({ token }: { token: string | undefined }): Promise<BattleResponse<battleType[]>> => {
   try {
     const json = await axios({
       method: "GET",
       url: `${domain}/battle/get/all`,
       headers: {
-        Authorization: token
-      }
+        Authorization: token,
+      },
     });
+
     return {
       success: json.data.success,
-      data: json.data.data
+      data: json.data.data,
     };
-  } catch (error :any) {
-    return {
-      data: [],
-      success: error.response.data.success,
-      message: error.response.data.message
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        data: [],
+        message: error.response.data.message || "An error occurred",
+      };
     }
+
+    // Handle any other error types
+    return {
+      success: false,
+      data: [],
+      message: "An unexpected error occurred",
+    };
   }
 };
+
 
 // const fetchSingleBattle = async (_id: string)=>{
 //   try {

@@ -9,7 +9,7 @@ type battleType = {
   _id: string,
   battleId: number,
   settings:{
-    gameMode: "Battle Royal"|"Clash Squad",
+    gameMode: "Battle Royale"|"Clash Squad",
     map: "BERMUDA"|"PURGATORY"|"KALAHARI"|"ALPINE"|"NEXTERA"|"BERMUDA REMASTER",
     teamMode: "1v1"|"2v2"|"4v4",
     slots: number,
@@ -31,10 +31,10 @@ type battleType = {
   teams: Array<team>
 };
 
-type jsonType = {
+type jsonType<T> = {
   success: boolean,
   message?: string,
   error?: string
-  data: any
+  data: T
 }
 // export default battleType;

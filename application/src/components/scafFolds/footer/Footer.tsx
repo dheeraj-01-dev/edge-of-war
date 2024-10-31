@@ -9,10 +9,10 @@ import { usePathname } from 'next/navigation'
 const Footer = () => {
   const pathname = usePathname();
 
-  let home, contest, leaderboard, tournament, friends;
+  let home, contest, leaderboard, friends;
   if(pathname==="/"){home=true}
   if(pathname==="/contest"){contest=true}
-  if(pathname==="/tournament"){tournament=true}
+  // if(pathname==="/tournament"){tournament=true}
   if(pathname==="/leaderboard"){leaderboard=true}
   if(pathname==="/friends"){friends=true}
 

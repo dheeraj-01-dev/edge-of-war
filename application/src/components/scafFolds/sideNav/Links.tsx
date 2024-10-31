@@ -85,7 +85,7 @@ const links = [
 
 const Links = () => {
   const router = useRouter();
-  let pathName = usePathname();
+  const pathName = usePathname();
 
   const logOut = ()=>{
     const outConfirm = confirm("confirm to log Out");

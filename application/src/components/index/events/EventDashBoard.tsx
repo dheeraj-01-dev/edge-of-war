@@ -22,22 +22,7 @@ const EventDashboard: React.FC = () => {
   const [transitioning, setTransitioning] = useState<boolean>(false);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      scrollToNextImage();
-    }, 5000); // 5 seconds interval
-
-    return () => clearInterval(intervalId);
-  }, [currentIndex]);
-
-  useEffect(() => {
-    if (transitioning) {
-      const timer = setTimeout(() => setTransitioning(false), 500); // Match animation duration
-      return () => clearTimeout(timer);
-    }
-  }, [transitioning]);
-
+  
   const scrollToNextImage = () => {
     const nextIndex = (currentIndex + 1) % posterImages.length;
     setTransitioning(true);
@@ -49,6 +34,24 @@ const EventDashboard: React.FC = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      scrollToNextImage();
+    }, 5000); // 5 seconds interval
+
+    return () => clearInterval(intervalId);
+  },
+  // [currentIndex]
+);
+
+  useEffect(() => {
+    if (transitioning) {
+      const timer = setTimeout(() => setTransitioning(false), 500); // Match animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [transitioning]);
+
 
   const handleManualScroll = (direction: "left" | "right") => {
     const maxIndex = posterImages.length - 1;

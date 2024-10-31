@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './styles/battleCard.module.css'
 import Image from 'next/image';
 import Link from 'next/link';
@@ -40,13 +40,13 @@ const BattleCard: React.FC<battleCardProps> = ({
 }) => {
   const { _id, settings, battleId, expire, entry, winning, teams } = battle;
   const { _1 } = winning;
-  const { id, dateStr } = expire;
+  const { dateStr } = expire;
   const { gameMode, map, teamMode, ammo, slots } = settings;
 
-  const [rday, setRday] = useState("")
-  const [rhr, setRhr] = useState("")
-  const [rmi, setRmi] = useState("")
-  const [rsec, setRsec] = useState("")
+  // const [rday, setRday] = useState("")
+  // const [rhr, setRhr] = useState("")
+  // const [rmi, setRmi] = useState("")
+  // const [rsec, setRsec] = useState("")
 
   // function getTimeDifference(date1 :any, date2 :any) {
   //   const diffInMs = Math.abs(date2 - date1);
@@ -75,31 +75,31 @@ const BattleCard: React.FC<battleCardProps> = ({
   // }
 
 
-  function getTimeDifference(date1 :any, date2 :any) {
-    const diffInMs = date2 - date1;
+  // function getTimeDifference(date1 :number, date2 :number) {
+  //   const diffInMs = date2 - date1;
   
-    if (diffInMs <= 0) {
-      return { days: "00", hours: "00", minutes: "00", seconds: "00" };
-    }
+  //   if (diffInMs <= 0) {
+  //     return { days: "00", hours: "00", minutes: "00", seconds: "00" };
+  //   }
   
-    const days = String(Math.floor(diffInMs / (1000 * 60 * 60 * 24))).padStart(2, '0');
-    const hours = String(Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-    const minutes = String(Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-    const seconds = String(Math.floor((diffInMs % (1000 * 60)) / 1000)).padStart(2, '0');
+  //   const days = String(Math.floor(diffInMs / (1000 * 60 * 60 * 24))).padStart(2, '0');
+  //   const hours = String(Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+  //   const minutes = String(Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+  //   const seconds = String(Math.floor((diffInMs % (1000 * 60)) / 1000)).padStart(2, '0');
   
-    return { days, hours, minutes, seconds };
-  }
+  //   return { days, hours, minutes, seconds };
+  // }
   
   
 
-  setTimeout(() => {
-    const currentTime = +new Date();
-    const { days, hours, minutes, seconds } = getTimeDifference(currentTime, id);
-    setRday(days);
-    setRhr(hours);
-    setRmi(minutes);
-    setRsec(seconds)
-  }, 1000);
+  // setTimeout(() => {
+  //   // const currentTime = +new Date();
+  //   // const { days, hours, minutes, seconds } = getTimeDifference(currentTime, id);
+  //   // setRday(days);
+  //   // setRhr(hours);
+  //   // setRmi(minutes);
+  //   // setRsec(seconds)
+  // }, 1000);
 
   return (
     <div style={parentStyle}>

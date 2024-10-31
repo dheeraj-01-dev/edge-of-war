@@ -4,7 +4,7 @@ import Profile from './Profile'
 import Hamburger from './Hamburger'
 
 type navbar = {
-  isLogin: Boolean
+  isLogin: boolean
 }
 
 const Navbar :React.FC<navbar> = ({isLogin}) => {
