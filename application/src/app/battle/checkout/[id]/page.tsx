@@ -4,9 +4,10 @@ import Image from "next/image";
 import React from "react";
 import CheckOutDetails from "@/components/index/battles/checkout/CheckOutDetails";
 import { getSingleBattle } from "@/api/battle";
-import AuthRequired from "@/components/auth/AuthRequired";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { getAllFriends } from "@/api/user";
+import AuthProtected from "@/components/auth/AuthProtected";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const cookieStore = cookies();
@@ -14,23 +15,25 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   // Check if userToken exists and decode it
   if (!userToken) {
-    return <AuthRequired isLoggedIn={false}><div></div></AuthRequired>;
+    return <AuthProtected isLoggedIn={false}><div></div></AuthProtected>;
   }
+
+  const jsonResponse = await getAllFriends({token: userToken})
 
   const decodedUserToken = jwt.decode<decodedUserToken>(userToken);
   
   // Validate the decoded token
   const isTokenValid = decodedUserToken && typeof decodedUserToken !== 'string';
-  if (!isTokenValid) {
-    return <AuthRequired isLoggedIn={false}><div></div></AuthRequired>;
+  if (!isTokenValid || !jsonResponse.data) {
+    return <AuthProtected isLoggedIn={false}><div></div></AuthProtected>;
   }
 
-  const { userName } = decodedUserToken;
+  const { userName, profile, name, ffUid } = decodedUserToken;
   const { id } = await params;
   const response: responseType<battleType> = await getSingleBattle(id);
 
   return (
-    <AuthRequired isLoggedIn={true}>
+    <AuthProtected isLoggedIn={true}>
       <div>
         <NavigateBack styles={{ height: 15, display: "flex", margin: "15px" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -38,12 +41,12 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </NavigateBack>
         {response.data ? (
-          <CheckOutDetails userName={userName} battle={response.data} />
+          <CheckOutDetails friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile}} battle={response.data} />
         ) : (
           <div>Battle Not Found</div>
         )}
       </div>
-    </AuthRequired>
+    </AuthProtected>
   );
 };
 

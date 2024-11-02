@@ -2,15 +2,15 @@
 "use server"
 import React from "react";
 import Link from "next/link";
-import styles from "./AuthRequired.module.css";
+import styles from './AuthProtected.module.css'
 import Image from "next/image";
 
-type authRequired = {
+type authProtected = {
   isLoggedIn: boolean;
   children: React.ReactElement;
 };
 
-const AuthRequired: React.FC<authRequired> = async ({ isLoggedIn, children }) => {
+const AuthProtected: React.FC<authProtected> = async ({ isLoggedIn, children }) => {
   if (!isLoggedIn) {
     return (
       <div className={styles.authRequiredContainer}>
@@ -38,4 +38,4 @@ const AuthRequired: React.FC<authRequired> = async ({ isLoggedIn, children }) =>
   return <div>{children}</div>;
 };
 
-export default AuthRequired;
+export default AuthProtected;

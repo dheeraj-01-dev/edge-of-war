@@ -52,56 +52,56 @@ export const loginUser_V = (req: Request, res: Response, next: NextFunction)=>{
   })
 };
 
-// export const getPersonalInfo_V = async (req: Request, res: Response, next: NextFunction) => {
-//   const { authorization } = req.headers; 
-//   if(!authorization){
-//     return res.status(400).json({
-//       success: false,
-//       error: "not authorized !"
-//     })
-//   };
-//   const schema = z.string({message: "invalid User !"});
-//   try {
-//     const validSchema = schema.safeParse(authorization);
-//     if(validSchema.success){
-//       return next();
-//     };
-//     res.status(400).json({
-//       success: false,
-//       error: validSchema.error
-//     })
-//   } catch (err) {
-//     res.status(400).json({
-//       success: false,
-//       error: "invalid user !"
-//     })
-//   }
-// }
-// export const findUser_V = async (req: Request, res: Response, next: NextFunction) => {
-//   next()
-// };
+export const getPersonalInfo_V = async (req: Request, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers; 
+  if(!authorization){
+    return res.status(400).json({
+      success: false,
+      error: "not authorized !"
+    })
+  };
+  const schema = z.string({message: "invalid User !"});
+  try {
+    const validSchema = schema.safeParse(authorization);
+    if(validSchema.success){
+      return next();
+    };
+    res.status(400).json({
+      success: false,
+      error: validSchema.error
+    })
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      error: "invalid user !"
+    })
+  }
+}
+export const findUser_V = async (req: Request, res: Response, next: NextFunction) => {
+  next()
+};
 
-// export const getAllFriends_V = async (req: Request, res: Response, next: NextFunction) => {
-//   const { authorization } = req.headers;
+export const getAllFriends_V = async (req: Request, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers;
 
-//   const schema = z.string({message: "not authorized"});
-//   try {
+  const schema = z.string({message: "not authorized"});
+  try {
     
-//     const verified = schema.safeParse(authorization);
-//     if(verified.success){
-//       return next();
-//     }else{
-//       return res.status(404).json({
-//         success: false,
-//         error: "unauthorized"
-//       })
-//     }
-//   } catch (err) {
-//     res.status(404).json({
-//       success: false,
-//       error: "not authorized !"
-//     })
-//   }
-// }
+    const verified = schema.safeParse(authorization);
+    if(verified.success){
+      return next();
+    }else{
+      return res.status(404).json({
+        success: false,
+        error: "unauthorized"
+      })
+    }
+  } catch (err) {
+    res.status(404).json({
+      success: false,
+      error: "not authorized !"
+    })
+  }
+}
 
-// export { validateRegistration, validateLogin }
+export { validateRegistration }

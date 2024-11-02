@@ -7,12 +7,16 @@ import FinalCheckOut from "./FinalCheckOut";
 
 type checkOutDetails = {
   battle: battleType;
-  friends?: unknown[];
-  userName: string;
+  self: friendMember;
+  friendList?: friendMember[];
 };
 const slotArr = ["", "Solo", "Duo", "", "Squad"];
 
-const CheckOutDetails: React.FC<checkOutDetails> = ({ battle, userName }) => {
+const CheckOutDetails: React.FC<checkOutDetails> = ({
+  battle,
+  self,
+  friendList,
+}) => {
   const {
     settings: { map, gameMode, teamMode, ammo },
     battleId,
@@ -24,15 +28,15 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle, userName }) => {
   const [FriendState, setFriendState] = useState(false);
   const [finalCheckoutState, setFinalCheckoutState] = useState(false);
 
-  const [members, setMembers] = useState<string[]>([userName]);
+  const [members, setMembers] = useState<friendMember[]>([self]);
 
-  const addMember = (newMember: string) => {
+  const addMember = (newMember: friendMember) => {
     setMembers((prevMembers) => [...prevMembers, newMember]);
   };
 
   const removeMember = (usernameToRemove: string) => {
     setMembers((prevMembers) =>
-      prevMembers.filter((member) => member !== usernameToRemove)
+      prevMembers.filter((member) => member.userName !== usernameToRemove)
     );
   };
 
@@ -170,11 +174,11 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle, userName }) => {
             </div>
           </div>
           <div className={styles.members}>
-            {members.map((member: string, index: number) => {
+            {members.map((member: friendMember, index: number) => {
               return (
-                <div key={member} className={styles.member}>
-                  {index + 1}. &nbsp; &nbsp;{member}
-                  {userName === member && (
+                <div key={member.userName} className={styles.member}>
+                  {index + 1}. &nbsp; &nbsp;{member.userName}
+                  {self.userName === member.userName && (
                     <div className={styles.selfMemberTemplate}>[You]</div>
                   )}
                 </div>
@@ -182,12 +186,24 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle, userName }) => {
             })}
           </div>
         </div>
-
-        <div onClick={activeFinalCheckout} className={styles.joinBtn}>
+        {members.length !== slotArr.indexOf(teamMode) && (
+          <div style={{ color: "red", marginTop: 30, marginLeft: 10 }}>
+            * Incomplet team members !
+          </div>
+        )}
+        <div
+          onClick={activeFinalCheckout}
+          className={`${styles.joinBtn} ${
+            members.length !== slotArr.indexOf(teamMode) &&
+            styles.disableJoinBtn
+          }`}
+        >
           <button>Join Now - ₹ {entry}</button>
         </div>
 
         <Friends
+          slots={slotArr.indexOf(teamMode)}
+          friendList={friendList}
           members={members}
           addMember={addMember}
           removeMember={removeMember}

@@ -44,4 +44,58 @@ export const loginUser_V = (req, res, next) => {
         message: validReq.error?.issues[0].message
     });
 };
+export const getPersonalInfo_V = async (req, res, next) => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(400).json({
+            success: false,
+            error: "not authorized !"
+        });
+    }
+    ;
+    const schema = z.string({ message: "invalid User !" });
+    try {
+        const validSchema = schema.safeParse(authorization);
+        if (validSchema.success) {
+            return next();
+        }
+        ;
+        res.status(400).json({
+            success: false,
+            error: validSchema.error
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            error: "invalid user !"
+        });
+    }
+};
+export const findUser_V = async (req, res, next) => {
+    next();
+};
+export const getAllFriends_V = async (req, res, next) => {
+    const { authorization } = req.headers;
+    const schema = z.string({ message: "not authorized" });
+    try {
+        const verified = schema.safeParse(authorization);
+        if (verified.success) {
+            return next();
+        }
+        else {
+            return res.status(404).json({
+                success: false,
+                error: "unauthorized"
+            });
+        }
+    }
+    catch (err) {
+        res.status(404).json({
+            success: false,
+            error: "not authorized !"
+        });
+    }
+};
+export { validateRegistration };
 //# sourceMappingURL=user.validator.js.map

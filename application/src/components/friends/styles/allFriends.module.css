@@ -1,0 +1,124 @@
+.addFriendBox{
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+}
+.addFriendImg{
+  background: var(--bg-5);
+  border-radius: 100px;
+}
+
+.noFriendTemplate{
+  opacity: 0.6;
+  font-size: 140%;
+  text-align: center;
+  margin-top: 250px;
+}
+
+.friendBox{
+  border-radius: 10px;
+}.actionBox{
+  padding: 10px 0;
+  display: none;
+  border-top: 2px solid var(--bg-7);
+  grid-template-columns: repeat(3, 1fr);
+}.actions{
+  text-align: center;
+}
+.actions img{
+  opacity: 0.7;
+}
+
+.activeBorder{
+  border: 2px solid var(--bg-5);
+}.showActionBox{
+  display: grid;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.friendTemplate{
+  display: flex;
+  padding: 10px;
+}
+.friendsProfile{
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  object-fit: cover;
+  background: #000;
+  border-radius: 100px;
+}
+.names{
+  margin-left: 10px;
+}.userName{
+  opacity: 0.9;
+}.uid{
+  font-size: 90%;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+
+
+
+
+/* NoFriends.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 80dvh;
+  border-radius: 10px;
+  background-color: #f0f2f5;
+  background-color: var(--bg-9);
+  /* background: inherit; */
+  color: #333;
+  color: #555;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #555;
+  color: #888;
+}
+
+.message {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #777;
+}
+
+.addButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #0070f3;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #005bb5;
+}
+
+
+
+
+
+

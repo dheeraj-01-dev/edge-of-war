@@ -1,3 +1,133 @@
 .page{
   padding: 15px;
 }
+
+.memberCount{
+  display: inline-block;
+  font-size: 70%;
+  font-weight: 700;
+  color: #039dda;
+}
+.redTeam{
+  color: red !important;
+}
+
+/* NoFriends.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 80dvh;
+  border-radius: 10px;
+  background-color: #f0f2f5;
+  background-color: var(--bg-9);
+  /* background: inherit; */
+  color: #333;
+  color: #555;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #555;
+  color: #888;
+}
+
+.message {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #777;
+}
+
+.addButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #0070f3;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #005bb5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.members{
+  margin-top: 10px;
+  border-bottom: 3px solid var(--bg-6);
+}
+
+.memberContainer{
+  height: 80px;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.userName{
+  font-size: 80%;
+  max-width: 100%;
+  opacity: 0.8;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* animation: scrollText 5s linear infinite; */
+
+}
+
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
