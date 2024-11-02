@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import battleModel from "./battles.model.js";
 
 
@@ -77,28 +76,28 @@ export const getAllBattles = async (req: Request, res: Response) => {
   }
 };
 
-// export const getSingleBattle_C = async (req: Request, res: Response) => {
-//   const { _id } = req.params;
-//   try {
-//     const battle = await battleModel.findById(_id);
-//     if (!battle) {
-//       return res.status(404).json({
-//         success: false,
-//         error: "battle not found !",
-//       });
-//     }
+export const getSingleBattle_C = async (req: Request, res: Response) => {
+  const { _id } = req.params;
+  try {
+    const battle = await battleModel.findById(_id);
+    if (!battle) {
+      return res.status(404).json({
+        success: false,
+        error: "battle not found !",
+      });
+    }
 
-//     res.status(200).json({
-//       success: true,
-//       data: { battle },
-//     });
-//   } catch (err) {
-//     res.status(400).json({
-//       success: false,
-//       error: err,
-//     });
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      data: battle,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      error: err,
+    });
+  }
+};
 
 // export const joinBattle_C = async (req: Request, res: Response) => {
 //   const { authorization } = req.headers;

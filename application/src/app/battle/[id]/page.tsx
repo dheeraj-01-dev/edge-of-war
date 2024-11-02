@@ -95,7 +95,7 @@ const Page = async ({params}: {params: Params}) => {
             placeItems: "center",
             opacity: 0.5,
           }}
-        >
+        ><div></div>
           Battle Not Found!
         </div>
       </div>
