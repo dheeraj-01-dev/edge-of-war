@@ -27,11 +27,20 @@ const BattleDetails = ({ battle }: { battle: battleType }) => {
           />
         </NavigateBack>
         <div className={styles["img"]}>
-          <Image src={`/maps/${map}.png`} alt="cover" />
+          {/* <img src={`/maps/${map}.png`} alt="cover" /> */}
+          <picture>
+            {/* <source srcSet="https://example.com/hero.avif" type="image/avif" />
+            <source srcSet="https://example.com/hero.webp" type="image/webp" /> */}
+            {/* <source srcSet={`/maps/${map}.png`} type="image/webp" /> */}
+            <img src={`/maps/${map}.png`} alt="cover" />
+          </picture>
         </div>
         <div className={styles["winners"]}>
           <div className={styles["winner-section"]}>
             <Image
+              unoptimized
+              height={60}
+              width={30}
               className={styles["winner-trophy-img"]}
               src="/winner/trophy-silver.png"
               alt="winner"
@@ -47,6 +56,9 @@ const BattleDetails = ({ battle }: { battle: battleType }) => {
             className={`${styles["winner-section"]} ${styles["winner-gold-section"]}`}
           >
             <Image
+              unoptimized
+              height={60}
+              width={30}
               className={styles["winner-trophy-img"]}
               src="/winner/trophy-gold.png"
               alt="winner"
@@ -57,6 +69,9 @@ const BattleDetails = ({ battle }: { battle: battleType }) => {
           </div>
           <div className={styles["winner-section"]}>
             <Image
+              unoptimized
+              height={60}
+              width={30}
               className={styles["winner-trophy-img"]}
               src="/winner/trophy-bronze.png"
               alt="winner"

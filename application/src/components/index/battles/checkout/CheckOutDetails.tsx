@@ -8,9 +8,11 @@ import FinalCheckOut from "./FinalCheckOut";
 type checkOutDetails = {
   battle: battleType;
   friends?: unknown[];
+  userName: string;
 };
+const slotArr = ["", "Solo", "Duo", "", "Squad"];
 
-const CheckOutDetails: React.FC<checkOutDetails> = ({ battle }) => {
+const CheckOutDetails: React.FC<checkOutDetails> = ({ battle, userName }) => {
   const {
     settings: { map, gameMode, teamMode, ammo },
     battleId,
@@ -21,6 +23,18 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle }) => {
 
   const [FriendState, setFriendState] = useState(false);
   const [finalCheckoutState, setFinalCheckoutState] = useState(false);
+
+  const [members, setMembers] = useState<string[]>([userName]);
+
+  const addMember = (newMember: string) => {
+    setMembers((prevMembers) => [...prevMembers, newMember]);
+  };
+
+  const removeMember = (usernameToRemove: string) => {
+    setMembers((prevMembers) =>
+      prevMembers.filter((member) => member !== usernameToRemove)
+    );
+  };
 
   const activeFriendState = () => {
     history.pushState({ freindState: true }, "friendState");
@@ -33,13 +47,16 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle }) => {
   };
 
   const activeFinalCheckout = () => {
+    if (members.length !== slotArr.indexOf(teamMode)) {
+      return activeFriendState();
+    }
     history.pushState({ finalCheckout: true }, "finalCheckout");
     setFinalCheckoutState(true);
   };
 
   const blurFinalCheckout = () => {
     setFinalCheckoutState(false);
-    history.back()
+    history.back();
   };
 
   // Handle back button press
@@ -139,17 +156,30 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle }) => {
         <div className={styles.teamSection}>
           <div className={styles.teamTemplate}>
             <div>
-              Your team <span className={styles.memberCount}>[4/4]</span>
+              Your team{" "}
+              <span
+                className={`${styles.memberCount} ${
+                  members.length !== slotArr.indexOf(teamMode) && styles.redTeam
+                }`}
+              >
+                [{members.length}/{slotArr.indexOf(teamMode)}]
+              </span>
             </div>
             <div onClick={activeFriendState}>
               <Image height={15} width={15} alt="_" src="/icons/edit.png" />
             </div>
           </div>
           <div className={styles.members}>
-            <div className={styles.member}>1. un-be4t4ble</div>
-            <div className={styles.member}>2. player2</div>
-            <div className={styles.member}>3. player3</div>
-            <div className={styles.member}>4. player4</div>
+            {members.map((member: string, index: number) => {
+              return (
+                <div key={member} className={styles.member}>
+                  {index + 1}. &nbsp; &nbsp;{member}
+                  {userName === member && (
+                    <div className={styles.selfMemberTemplate}>[You]</div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -158,6 +188,9 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({ battle }) => {
         </div>
 
         <Friends
+          members={members}
+          addMember={addMember}
+          removeMember={removeMember}
           blurFriendState={blurFriendState}
           parentClass={`${styles.friendState} ${
             FriendState && styles.activeFriendState

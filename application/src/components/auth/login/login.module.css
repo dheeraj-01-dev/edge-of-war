@@ -1,0 +1,38 @@
+.login{
+  display: grid;
+  place-items: center;
+  height: 80dvh;
+}
+.loginChild{
+}
+.inputContainer{
+  /* margin: 10px 10px 20px 10px; */
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+}
+.inputContainer input{
+  border: none;
+  margin-left: 10px;
+  color: #d5dbe0;
+  padding: 0 0 4px 4px;
+  border-bottom: 2px solid #2f4f4f67;
+}
+
+.loginTitle{
+  margin-bottom: 40px;
+}
+
+.registerLink{
+  margin-left: 20px;
+  font-size: 90%;
+  color: #03adea;
+}
+.submitButton{
+  padding: 5px 15px;
+  outline: none;
+  background: none;
+  border: 1px solid white;
+  color: inherit;
+  float: right;
+}

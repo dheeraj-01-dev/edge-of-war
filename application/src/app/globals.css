@@ -77,10 +77,11 @@ body {
 }
 
 input{
-  background: whitesmoke;
+  /* background: whitesmoke; */
   box-shadow: none;
   outline: none;
   border: none;
+  background: none;
   color: var(--color);
 }
 input:-webkit-autofill,

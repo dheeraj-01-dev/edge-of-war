@@ -4,7 +4,7 @@ type battleType = {
   settings:{
     gameMode: "Battle Royale"|"Clash Squad",
     map: "BERMUDA"|"PURGATORY"|"KALAHARI"|"ALPINE"|"NEXTERA"|"BERMUDA REMASTER",
-    teamMode: "1v1"|"2v2"|"4v4",
+    teamMode: "Solo"|"Duo"|"Squad",
     slots: number,
     ammo: "Limited"|"UN-Limited",
     gunAttributes: "Yes"|"No",
@@ -30,3 +30,11 @@ type responseType<T> = {
   data?: T
 }
 // export default battleType;
+
+type decodedUserToken = {
+  name: string,
+  ffUid: number,
+  userName: string,
+  id: string,
+  iat: number
+}

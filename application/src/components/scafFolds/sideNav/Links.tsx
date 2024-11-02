@@ -90,7 +90,7 @@ const Links = () => {
   const logOut = ()=>{
     const outConfirm = confirm("confirm to log Out");
     if(outConfirm){
-      deleteCookie("u_state")
+      deleteCookie("__eow_user_token")
       router.push("/");
       router.refresh();
       toggleSideNav();
