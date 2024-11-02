@@ -1,15 +1,12 @@
 "use server";
 import axios from "axios";
-
 const domain = process.env.server_domain;
 
-type BattleResponse<T> = {
-  success: boolean;
-  data: T;
-  message?: string;
-};
-
-export const getAllBattles = async ({ token }: { token: string | undefined }): Promise<BattleResponse<battleType[]>> => {
+export const getAllBattles = async ({
+  token,
+}: {
+  token: string | undefined;
+}): Promise<responseType<battleType[]>> => {
   try {
     const json = await axios({
       method: "GET",
@@ -29,7 +26,7 @@ export const getAllBattles = async ({ token }: { token: string | undefined }): P
       return {
         success: error.response.data.success || false,
         data: [],
-        message: error.response.data.message || "An error occurred",
+        error: error.response.data.message || "An error occurred",
       };
     }
 
@@ -37,23 +34,35 @@ export const getAllBattles = async ({ token }: { token: string | undefined }): P
     return {
       success: false,
       data: [],
-      message: "An unexpected error occurred",
+      error: "An unexpected error occurred",
     };
   }
 };
 
-
-// const fetchSingleBattle = async (_id: string)=>{
-//   try {
-//     const json = await axios({
-//       method: "GET",
-//       url: `${domain}/battle/get/${_id}`
-//     });
-//     return json.data;
-//   } catch (err: any) {
-//     return err.response.data
-//   }
-// };
+export const getSingleBattle = async (
+  _id: string
+): Promise<responseType<battleType>> => {
+  try {
+    const response = await axios.get(`${domain}/battle/get/${_id}`);
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+    // Handle any other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+};
 
 // const joinBattle = async ({battle, team, members, Authorization}: {
 //   battle: string,
@@ -84,7 +93,7 @@ export const getAllBattles = async ({ token }: { token: string | undefined }): P
 //   }
 // };
 
-// const fetchUpcomingBattles = async ( authorization: string | undefined ) => { 
+// const fetchUpcomingBattles = async ( authorization: string | undefined ) => {
 //   if(!authorization){
 //     return {
 //       success: false,

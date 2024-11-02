@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface FilterBattleProps {
-  setFilterdBattle: React.Dispatch<React.SetStateAction<battleType[]>>;
+  setFilterdBattle: React.Dispatch<React.SetStateAction<battleType[] | undefined>>;
   battles: battleType[];
 }
 

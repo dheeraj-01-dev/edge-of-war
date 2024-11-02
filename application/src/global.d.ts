@@ -1,10 +1,3 @@
-
-interface team{
-  teamId: string,
-  leader: string,
-  participants: Array<string>
-}
-
 type battleType = {
   _id: string,
   battleId: number,
@@ -28,13 +21,12 @@ type battleType = {
     _2: number,
     _3: number
   },
-  teams: Array<team>
+  teams: [string[]]
 };
 
-type jsonType<T> = {
+type responseType<T> = {
   success: boolean,
-  message?: string,
   error?: string
-  data: T
+  data?: T
 }
 // export default battleType;
