@@ -11,9 +11,9 @@ const toast = ( message: string|number|undefined|null )=>{
   toastText.innerHTML = `${message===undefined?"Invalid icomming!":message}`;
   globalToast.style.display = "flex"
 
-  // const ti = setTimeout(() => {
-  //   globalToast.style.display = "none"
-  // }, 3000);
+  setTimeout(() => {
+    globalToast.style.display = "none"
+  }, 3000);
 };
 
 export default toast;

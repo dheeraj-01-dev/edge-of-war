@@ -1,0 +1,23 @@
+.container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  width: calc(100dvw - 24px);
+  position: fixed;
+  bottom: 20px;
+}
+.withdrawBtn, .addMoneyBtn{
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.withdrawBtn{
+  color: #0ba7e5;
+  background: #0ba7e524;
+}
+.addMoneyBtn{
+  background: #0295cf;
+}

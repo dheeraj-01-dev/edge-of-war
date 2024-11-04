@@ -1,0 +1,18 @@
+.profile{
+  overflow: auto;
+  height: 100dvh;
+  padding: 10px;
+}
+
+@media screen and (min-width: 680px) {
+  .profile{
+    max-width: 70dvw;
+    margin: auto;
+  }
+  .section1, .section2{
+    display: grid;
+    grid-gap: 40px;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+  }
+}

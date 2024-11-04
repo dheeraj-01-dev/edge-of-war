@@ -7,11 +7,11 @@ type friends = {
   styleSheet?: React.CSSProperties;
   parentClass?: string;
   blurFriendState: () => void;
-  members: friendMember[];
+  members: member[];
   slots: number;
-  addMember: (newMember: friendMember) => void;
+  addMember: (newMember: member) => void;
   removeMember: (usernameToRemove: string) => void;
-  friendList?: friendMember[];
+  friendList?: member[];
 };
 
 type selectedMember = {
@@ -99,7 +99,7 @@ const Friends: React.FC<friends> = ({
       </div>
 
       {friendList && friendList.length > 0 ? (
-        friendList?.map((friend: friendMember) => {
+        friendList?.map((friend: member) => {
           return (
             <FriendMembers
               key={friend.userName}

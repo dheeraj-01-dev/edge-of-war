@@ -18,7 +18,7 @@ const NoFriends: React.FC = () => {
   );
 };
 
-const FriendMember: React.FC<friendMember> = ({ profile, userName }) => {
+const FriendMember: React.FC<member> = ({ profile, userName }) => {
   return (
     <div>
       <Image height={25} width={25} alt="_" src={profile} />
@@ -28,14 +28,14 @@ const FriendMember: React.FC<friendMember> = ({ profile, userName }) => {
 };
 
 type allFriends = {
-  friends: friendMember[] | undefined;
+  friends: member[] | undefined;
 };
 const AllFriendSection :React.FC<allFriends> = ({ friends }) => {
   return(
     <div>
       {
         friends && friends.length > 0 ? (
-          friends.map((friend: friendMember) => {
+          friends.map((friend: member) => {
             return (
               <FriendMember
                 name={friend.name}

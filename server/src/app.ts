@@ -1,10 +1,11 @@
 import { config } from 'dotenv';
-import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 
 config();
 import cors from 'cors'
 import battleRouter from './battles/battles.router.js';
 import { userRouter } from './users/user.router.js';
+import notificatonRouter from './notification/notification.routes.js';
 
 const app = express();
 app.use(cors())
@@ -23,11 +24,12 @@ app.use(express.json({
 
 app.use("/battle", battleRouter)
 app.use("/user", userRouter)
+app.use("/notification", notificatonRouter)
 
 app.all('*', (req, res)=>{
   res.status(404).json({
     success: false,
-    message: "route not found!"
+    error: "route not found!"
   })
 });
 
@@ -35,7 +37,7 @@ app.use((err:any, req:any, res:any, next:any)=>{
   if(err){
     return res.status(500).json({
       success: false,
-      message: "internal server error!"
+      error: "internal server error!"
     })
   }
 });

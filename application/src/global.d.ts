@@ -46,14 +46,41 @@ type decodedUserToken = {
   profile: string;
 };
 
-type friendMember = {
-  name: string;
+type member = {
+  name?: string,
   ffUid: number;
   profile: string;
   userName: string;
 };
 
 type getFriendsApi = {
-    length: number;
-    friends: friendMember[];
-  };
+  length: number;
+  friends: member[];
+};
+
+type personalInfo = {
+  _id: string,
+  balance: number,
+  name: string,
+  ffUid: number,
+  ffUserName: string,
+  profile: string,
+  userName: string,
+  email: string,
+  friends: {
+      closeFriends: member[],
+      allFriends: member[]
+  },
+  createdAt: string,
+  updatedAt: string,
+  __v: number
+}
+
+type notification = {
+  _id?: string,
+  from: string,
+  to: string,
+  n_type: string
+}
+
+type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;

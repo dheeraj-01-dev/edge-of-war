@@ -1,0 +1,28 @@
+.notificationContainer {
+  margin: 15px 10px 10px 10px;
+}
+.li {
+  font-style: 90%;
+  list-style-type: square;
+  margin: 0 10px;
+}
+.notificationHeader {
+  opacity: 0.8;
+}
+.notificationBody {
+  margin-left: 30px;
+  font-size: 80%;
+  text-wrap: nowrap;
+}
+.notificationBody a{
+  margin-right: 10px;
+}
+.actionBtn {
+  border-radius: 2px;
+  padding: 3px 7px;
+  border: 0.7px solid gainsboro;
+  display: -ms-inline-grid;
+  margin-left: 10px;
+  place-items: center;
+  max-width: max-content;
+}

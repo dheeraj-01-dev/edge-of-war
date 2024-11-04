@@ -114,9 +114,7 @@ export const findUser_C = async (req, res) => {
         if (userFound.length) {
             return res.status(200).json({
                 success: true,
-                data: {
-                    users: userFound,
-                },
+                data: userFound
             });
         }
         res.status(400).json({

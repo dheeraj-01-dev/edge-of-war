@@ -7,8 +7,8 @@ import FinalCheckOut from "./FinalCheckOut";
 
 type checkOutDetails = {
   battle: battleType;
-  self: friendMember;
-  friendList?: friendMember[];
+  self: member;
+  friendList?: member[];
 };
 const slotArr = ["", "Solo", "Duo", "", "Squad"];
 
@@ -28,9 +28,9 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
   const [FriendState, setFriendState] = useState(false);
   const [finalCheckoutState, setFinalCheckoutState] = useState(false);
 
-  const [members, setMembers] = useState<friendMember[]>([self]);
+  const [members, setMembers] = useState<member[]>([self]);
 
-  const addMember = (newMember: friendMember) => {
+  const addMember = (newMember: member) => {
     setMembers((prevMembers) => [...prevMembers, newMember]);
   };
 
@@ -174,7 +174,7 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
             </div>
           </div>
           <div className={styles.members}>
-            {members.map((member: friendMember, index: number) => {
+            {members.map((member: member, index: number) => {
               return (
                 <div key={member.userName} className={styles.member}>
                   {index + 1}. &nbsp; &nbsp;{member.userName}
@@ -187,7 +187,7 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
           </div>
         </div>
         {members.length !== slotArr.indexOf(teamMode) && (
-          <div style={{ color: "red", marginTop: 30, marginLeft: 10 }}>
+          <div style={{ color: "#777", marginTop: 30, marginLeft: 10 }}>
             * Incomplet team members !
           </div>
         )}
