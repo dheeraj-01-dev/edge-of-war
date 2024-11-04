@@ -45,7 +45,7 @@ const ProfileSection: React.FC<profileSection> = async (
     userName = decodedUser.userName;
     ffUid = decodedUser.ffUid;
     profileSrc = decodedUser.profile;
-  } catch (error) {
+  } catch {
     return (
       <div className={styles.loginContainer}>
         <Link className={styles.loginLink} href="/login">
