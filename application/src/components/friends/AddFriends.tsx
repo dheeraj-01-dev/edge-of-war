@@ -75,7 +75,7 @@ const AddFriends = ({ sampleUsers, userToken }: { sampleUsers: member[] | undefi
       </form>
 
       <div className={styles.samples}>
-        {users ? (
+        {users&&users.length>0 ? (
           users.map((user: member) => {
             return (
               <div key={user.userName}>

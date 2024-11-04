@@ -4,7 +4,8 @@ import CloseSidenavButton from './CloseSidenavButton'
 import ProfileSection from './ProfileSection'
 import Links from './Links'
 
-const SideNav = () => {
+const SideNav = async () => {
+
   return (
     <>
       <CloseSidenavButton />

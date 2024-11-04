@@ -1,11 +1,12 @@
-"use client"
-import React from 'react'
-import Link from 'next/link'
-import styles from './styles/links.module.css'
-import { toggleSideNav } from '@/scripts/event-listener'
-import { usePathname, useRouter } from 'next/navigation'
-import { deleteCookie } from 'cookies-next'
-import Image from 'next/image'
+"use client";
+import React from "react";
+import Link from "next/link";
+import styles from "./styles/links.module.css";
+import { toggleSideNav } from "@/scripts/event-listener";
+import { usePathname, useRouter } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import Image from "next/image";
+import { useConfirmationDialog } from "@/components/ConfirmDialog/ConfirmDialog";
 
 const links = [
   {
@@ -13,14 +14,14 @@ const links = [
     src: "/icons/home-a7.png",
     href: "/",
     width: 20,
-    height: 20
+    height: 20,
   },
   {
     text: "Contest",
     src: "/icons/cart-a7.png",
     href: "/contest",
     width: 20,
-    height: 20
+    height: 20,
   },
   // {
   //   text: "Tournament",
@@ -36,88 +37,125 @@ const links = [
     href: "/leaderboard",
     onlyForPc: true,
     width: 20,
-    height: 20
+    height: 20,
   },
   {
     text: "Profile",
     src: "/icons/user-a7.png",
     href: "/profile",
     width: 20,
-    height: 20
+    height: 20,
   },
   {
     text: "Friends",
     src: "/icons/friends-a7.png",
     href: "/friends",
     width: 20,
-    height: 15
+    height: 15,
   },
   {
     text: "Refrals",
     src: "/icons/share-a7.png",
     href: "/refer",
     width: 20,
-    height: 20
+    height: 20,
   },
   {
     text: "Support",
     src: "/icons/headset-a7.png",
     href: "/support",
     width: 20,
-    height: 20
+    height: 20,
   },
   {
     text: "About",
     src: "/icons/terminal-a7.png",
     href: "/about",
     width: 13,
-    height: 20
+    height: 20,
   },
   {
     text: "terms & condition",
     src: "/icons/terminal-a7.png",
     href: "/terms",
     width: 13,
-    height: 20
+    height: 20,
   },
-]
-
+];
 
 const Links = () => {
   const router = useRouter();
   const pathName = usePathname();
 
-  const logOut = ()=>{
-    const outConfirm = confirm("confirm to log Out");
-    if(outConfirm){
-      deleteCookie("__eow_user_token")
+  const { show } = useConfirmationDialog();
+  const logOut = () => {
+    show("Confirm to Log Out?", () => {
+      deleteCookie("__eow_user_token");
       router.push("/");
       router.refresh();
       toggleSideNav();
-    }
+    });
+    // const outConfirm = confirm("confirm to log Out");
+    // if (outConfirm) {
+    //   deleteCookie("__eow_user_token");
+    //   router.push("/");
+    //   router.refresh();
+    //   toggleSideNav();
+    // }
   };
 
-
-  const LinkTab = ({text, src, href, onlyForPc = false, width, height}: {text: string, src: string, href: string, onlyForPc?: boolean, width: number, height: number})=>{
-    return(
-      <div className={`${styles.linkContainer} ${onlyForPc&&styles.hideInMobile}`}>
-        <Link onClick={toggleSideNav} className={`${styles.links} ${pathName===href&&styles.active}`} href={href}><span className={styles.iconContainer}><Image width={width} height={height} alt='' src={src} /></span>{text}</Link>
+  const LinkTab = ({
+    text,
+    src,
+    href,
+    onlyForPc = false,
+    width,
+    height,
+  }: {
+    text: string;
+    src: string;
+    href: string;
+    onlyForPc?: boolean;
+    width: number;
+    height: number;
+  }) => {
+    return (
+      <div
+        className={`${styles.linkContainer} ${
+          onlyForPc && styles.hideInMobile
+        }`}
+      >
+        <Link
+          onClick={toggleSideNav}
+          className={`${styles.links} ${pathName === href && styles.active}`}
+          href={href}
+        >
+          <span className={styles.iconContainer}>
+            <Image width={width} height={height} alt="" src={src} />
+          </span>
+          {text}
+        </Link>
       </div>
-    )
-  }
-  
+    );
+  };
+
   return (
     <div>
-      {
-        links.map((link)=>{
-          const { text, src, href, onlyForPc, width, height } = link;
-          return(
-            <div key={link.href}>
-              <LinkTab text={text} src={src} href={href} onlyForPc={onlyForPc} width={width} height={height} />
-            </div>
-          )
-        })
-      }
+      {links.map((link) => {
+        const { text, src, href, onlyForPc, width, height } = link;
+        return (
+          <div key={link.href}>
+            <LinkTab
+              text={text}
+              src={src}
+              href={href}
+              onlyForPc={onlyForPc}
+              width={width}
+              height={height}
+            />
+          </div>
+        );
+      })}
       {/* <div className={styles.linkContainer}>
         <Link onClick={toggleSideNav} className={`${styles.links} ${pathName==="/"&&styles.active}`} href="/"><span className={styles.iconContainer}><Image width={20} height={20} alt='' src="/icons/home-a7.png" /></span>Home</Link>
       </div>
@@ -128,9 +166,14 @@ const Links = () => {
       <div className={styles.linkContainer}><Link onClick={toggleSideNav} className={`${styles.links} ${pathName==="/support"&&styles.active}`} href="/support"><span className={styles.iconContainer}><Image width={20} height={20} alt='' src="/icons/headset-a7.png" /></span>Support</Link></div>
       <div className={styles.linkContainer}><Link onClick={toggleSideNav} className={`${styles.links} ${pathName==="/about"&&styles.active}`} href="/about"><span className={styles.iconContainer}><Image width={13} height={20} alt='' src="/icons/terminal-a7.png" /></span>About us</Link></div>
       <div className={styles.linkContainer}><Link onClick={toggleSideNav} className={`${styles.links} ${pathName==="/terms"&&styles.active}`} href="/terms"><span className={styles.iconContainer}><Image width={13} height={20} alt='' src="/icons/terminal-a7.png" /></span>terms & condition</Link></div> */}
-      <div className={styles.logoutContainer} onClick={logOut}><span className={styles.iconContainer}><Image width={20} height={20} alt='' src="/icons/logout-a7.png" /></span>Log Out</div>
+      <div className={styles.logoutContainer} onClick={logOut}>
+        <span className={styles.iconContainer}>
+          <Image width={20} height={20} alt="" src="/icons/logout-a7.png" />
+        </span>
+        Log Out
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Links
+export default Links;
