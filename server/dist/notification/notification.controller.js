@@ -46,45 +46,47 @@ export const createFriendRequest_C = async (req, res) => {
         });
     }
 };
-export const acceptFriendReqest_C = async (req, res) => {
-    const { from, to } = req.body;
+export const acceptFriendRequest_C = async (req, res) => {
+    const { authorization } = req.headers;
+    const { from } = req.body;
+    if (!authorization) {
+        return res.status(401).json({
+            success: false,
+            error: "Unauthorized request!",
+        });
+    }
     const session = await mongoose.startSession();
-    await session.startTransaction();
+    session.startTransaction();
     try {
-        const doc = await notificationModel.deleteOne({ from, to }, { session });
-        if (doc.deletedCount < 1) {
+        const decodedUser = jwt.verify(authorization, jwt_secret);
+        const { userName } = decodedUser;
+        await Promise.all([
+            userModel.updateOne({ userName: from }, { $addToSet: { "friends.allFriends": userName } }, { session }),
+            userModel.updateOne({ userName }, { $addToSet: { "friends.allFriends": from } }, { session }),
+        ]);
+        const deleteResult = await notificationModel.deleteOne({ from, to: userName }, { session });
+        if (!deleteResult.deletedCount) {
             await session.abortTransaction();
-            await session.endSession();
-            res.status(404).json({
+            return res.status(404).json({
                 success: false,
-                error: "request not found",
+                error: "Friend request not found!",
             });
-            return;
         }
-        await userModel.updateOne({ _id: from }, {
-            $addToSet: {
-                "friends.allFriends": [to],
-            },
-        }, { session });
-        await userModel.updateOne({ _id: to }, {
-            $addToSet: {
-                "friends.allFriends": [from],
-            },
-        }, { session });
         await session.commitTransaction();
-        await session.endSession();
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            data: "Accepted Successfully !",
+            data: "Friend request accepted successfully!",
         });
     }
     catch (err) {
         await session.abortTransaction();
-        await session.endSession();
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            error: "internal server error !",
+            error: err,
         });
+    }
+    finally {
+        session.endSession();
     }
 };
 export const getAllNotification_C = async (req, res) => {
@@ -109,26 +111,7 @@ export const getAllNotification_C = async (req, res) => {
                 $match: {
                     to: decodedUser.userName,
                 },
-            },
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "from",
-                    foreignField: "userName",
-                    as: "from",
-                },
-            },
-            {
-                $project: {
-                    _id: 1,
-                    to: 1,
-                    n_type: 1,
-                    message: 1,
-                    from: {
-                        userName: 1,
-                    },
-                },
-            },
+            }
         ]);
         res.status(200).json({
             success: true,

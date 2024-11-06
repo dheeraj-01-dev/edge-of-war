@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import styles from "./checkOutDetails.module.css";
 import Image from "next/image";
 import Friends from "./Friends";
-import FinalCheckOut from "./FinalCheckOut";
+import BalanceConfirmationModal from "./BalanceConfirmationModal";
 
 type checkOutDetails = {
   battle: battleType;
   self: member;
+  balance: number
   friendList?: member[];
 };
 const slotArr = ["", "Solo", "Duo", "", "Squad"];
@@ -15,6 +16,7 @@ const slotArr = ["", "Solo", "Duo", "", "Squad"];
 const CheckOutDetails: React.FC<checkOutDetails> = ({
   battle,
   self,
+  balance,
   friendList,
 }) => {
   const {
@@ -213,12 +215,7 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
           }`}
         />
 
-        <FinalCheckOut
-          blurFinalChekout={blurFinalCheckout}
-          parentClass={`${styles.finalCheckOut} ${
-            finalCheckoutState && styles.activeFinalCheckout
-          }`}
-        />
+          {finalCheckoutState&&<BalanceConfirmationModal totalBalance={balance} entryFee={entry} onCancel={()=>{blurFinalCheckout()}} onConfirm={()=>{}} />}
       </div>
     </div>
   );

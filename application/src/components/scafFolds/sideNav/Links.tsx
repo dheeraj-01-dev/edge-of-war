@@ -53,13 +53,13 @@ const links = [
     width: 20,
     height: 15,
   },
-  {
-    text: "Refrals",
-    src: "/icons/share-a7.png",
-    href: "/refer",
-    width: 20,
-    height: 20,
-  },
+  // {
+  //   text: "Refrals",
+  //   src: "/icons/share-a7.png",
+  //   href: "/refer",
+  //   width: 20,
+  //   height: 20,
+  // },
   {
     text: "Support",
     src: "/icons/headset-a7.png",

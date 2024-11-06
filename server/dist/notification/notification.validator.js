@@ -1,4 +1,3 @@
-import mongoose, { SchemaTypes } from 'mongoose';
 import z from 'zod';
 import jwt from 'jsonwebtoken';
 const jwt_secret = process.env.JWT_SECRET_STR ||
@@ -46,20 +45,15 @@ export const createFriendRequest_V = async (req, res, next) => {
     }
 };
 export const acceptFriendReqest_V = async (req, res, next) => {
-    const { from, to } = req.body;
-    if (from === to) {
-        return res.status(404).json({
-            success: false,
-            error: "illigal operation !"
-        });
-    }
+    const { from } = req.body;
+    const { authorization } = req.headers;
     const schema = z.object({
-        from: z.instanceof(mongoose.Schema.ObjectId, { message: "invalid user" }),
-        to: z.instanceof(mongoose.Schema.ObjectId, { message: "invalid user" })
+        from: z.string(),
+        authorization: z.string()
     });
     const validSchma = schema.safeParse({
-        from: new SchemaTypes.ObjectId(from),
-        to: new SchemaTypes.ObjectId(to)
+        from,
+        authorization
     });
     if (validSchma.success) {
         next();

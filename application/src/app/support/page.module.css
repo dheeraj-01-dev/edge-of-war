@@ -1,0 +1,8 @@
+.support{
+    overflow: scroll;
+    position: fixed;
+    width: 100dvw;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+}

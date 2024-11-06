@@ -41,7 +41,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </NavigateBack>
         {response.data ? (
-          <CheckOutDetails friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile}} battle={response.data} />
+          <CheckOutDetails balance={0} friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile}} battle={response.data} />
         ) : (
           <div>Battle Not Found</div>
         )}

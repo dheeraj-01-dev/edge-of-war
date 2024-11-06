@@ -10,10 +10,19 @@ const page = async () => {
   const cookiStore = cookies();
   const userToken = (await cookiStore).get("__eow_user_token")?.value;
   const notifications = await getAllNotification({auth: userToken});
+
+  if(!userToken){
+    return (
+      <div className={styles.notification}>
+        <Header />
+      </div>
+    )
+  }
+  
   return (
     <div className={styles.notification}>
       <Header />
-      <Notifications notifications={notifications.data} />
+      <Notifications token={userToken} notifications={notifications.data} />
     </div>
   )
 }

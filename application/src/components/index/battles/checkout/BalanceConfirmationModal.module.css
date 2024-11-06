@@ -1,0 +1,155 @@
+/* 
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background-color: #fff;
+  background: var(--bg-8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.info {
+  margin: 20px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+.confirmButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.confirmButton:hover, .cancelButton:hover {
+  opacity: 0.9;
+} */
+
+
+/* BalanceConfirmationModal.module.css */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background-color: #fff;
+  background-color: var(--bg-8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.infoTable {
+  margin: 20px 0;
+  font-size: 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.remainingRow {
+  font-weight: bold;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #999;
+  margin: 10px 0;
+}
+
+.label {
+  color: #dadada;
+}
+
+.value {
+  color: #cfcfcf;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.confirmButton {
+  background-color: #4CAF50;
+  background-color: #187acf;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.confirmButton:hover, .cancelButton:hover {
+  opacity: 0.9;
+}
+
+
+/* BalanceConfirmationModal.module.css */
+
+.insufficientFunds {
+  color: hsl(4, 90%, 58%);
+  color: #777;
+  font-size: 0.9rem;
+  margin: 10px 0;
+}
+
+.confirmButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

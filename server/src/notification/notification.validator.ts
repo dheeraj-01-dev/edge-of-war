@@ -56,21 +56,22 @@ export const createFriendRequest_V = async (req: Request, res: Response, next: N
 
 
 export const acceptFriendReqest_V = async (req: Request, res: Response, next: NextFunction) => {
-  const { from, to } = req.body;
-  if (from===to) {
-    return res.status(404).json({
-      success: false,
-      error: "illigal operation !"
-    })
-  }
+  const { from } = req.body;
+  const { authorization } = req.headers;
+  // if (from===to) {
+  //   return res.status(404).json({
+  //     success: false,
+  //     error: "illigal operation !"
+  //   })
+  // }
   const schema = z.object({
-    from: z.instanceof(mongoose.Schema.ObjectId, {message: "invalid user"}),
-    to: z.instanceof(mongoose.Schema.ObjectId, {message: "invalid user"})
+    from: z.string(),
+    authorization: z.string()
   });
 
   const validSchma = schema.safeParse({
-    from: new SchemaTypes.ObjectId(from),
-    to: new SchemaTypes.ObjectId(to)
+    from,
+    authorization
   });
 
   if(validSchma.success){

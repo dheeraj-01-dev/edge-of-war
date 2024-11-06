@@ -255,7 +255,7 @@ export const getAllFriends_C = async (req, res) => {
                 $lookup: {
                     from: "users",
                     localField: "friends.allFriends",
-                    foreignField: "_id",
+                    foreignField: "userName",
                     as: "friend_details",
                 },
             },

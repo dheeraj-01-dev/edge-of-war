@@ -25,11 +25,13 @@ const ProfileSection: React.FC<profileSection> = async (
 
   if (!userToken) {
     return (
-      <div className={styles.loginContainer}>
-        <Link className={styles.loginLink} href="/login">
-          {" "}
-          Login{" "}
-        </Link>
+      <div className={styles.profile}>
+        <div className={styles.loginContainer}>
+          <Link className={styles.loginLink} href="/login">
+            {" "}
+            Login{" "}
+          </Link>
+        </div>
       </div>
     );
   }
@@ -47,11 +49,13 @@ const ProfileSection: React.FC<profileSection> = async (
     profileSrc = decodedUser.profile;
   } catch {
     return (
-      <div className={styles.loginContainer}>
-        <Link className={styles.loginLink} href="/login">
-          {" "}
-          Login{" "}
-        </Link>
+      <div className={styles.profile}>
+        <div className={styles.loginContainer}>
+          <Link className={styles.loginLink} href="/login">
+            {" "}
+            Login{" "}
+          </Link>
+        </div>
       </div>
     );
   }

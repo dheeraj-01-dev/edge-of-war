@@ -43,11 +43,11 @@ const userSchema = new Schema({
     },
     friends: {
         closeFriends: {
-            type: [{ type: Schema.ObjectId, ref: "users" }],
+            type: [{ type: String, ref: "users" }],
             validate: [closeFriendsLimit, "max no. of close friends reached"]
         },
         allFriends: {
-            type: [{ type: Schema.ObjectId, ref: "users" }],
+            type: [{ type: String, ref: "users" }],
             validate: [friendsLimit, "max no. of friends reached."]
         }
     },

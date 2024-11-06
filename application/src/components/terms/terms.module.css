@@ -1,0 +1,34 @@
+.terms {
+    padding: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+    background-color: #16202A;
+    color: #dae2eb;
+  }
+  
+  .title {
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 0.5em;
+    color: #dae2eb;
+  }
+  
+  .sectionTitle {
+    font-size: 1.8em;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #a2b0bf;
+  }
+  
+  .paragraph {
+    margin-bottom: 1em;
+    color: #dae2eb;
+  }
+  
+  .list {
+    margin-left: 20px;
+    list-style-type: disc;
+    color: #dae
+  }  

@@ -58,55 +58,134 @@ export const createFriendRequest_C = async (req: Request, res: Response) => {
   }
 };
 
-export const acceptFriendReqest_C = async (req: Request, res: Response) => {
-  const { from, to } = req.body;
+// export const acceptFriendReqest_C = async (req: Request, res: Response) => {
+//   const { authorization } = req.headers;
+//   const { from } = req.body;
+
+//   if(!authorization){
+//     return res.status(404).json({
+//       success: false,
+//       error: "unauthrized !"
+//     })
+//   }
+
+//   const session = await mongoose.startSession();
+//   await session.startTransaction();
+  
+//   try {
+//     const decodedUser : any = await jwt.verify(authorization, jwt_secret);
+//     const { userName } = decodedUser;
+  
+
+
+//     await userModel.updateOne(
+//       { userName: from },
+//       {
+//         $addToSet: {
+//           "friends.allFriends": [userName],
+//         },
+//       },
+//       { session }
+//     );
+
+//     await userModel.updateOne(
+//       { userName },
+//       {
+//         $addToSet: {
+//           "friends.allFriends": [from],
+//         },
+//       },
+//       { session }
+//     );
+
+//     const doc = await notificationModel.deleteOne({ from, to: userName }, { session });
+//     if (doc.deletedCount < 1) {
+//       await session.abortTransaction();
+//       await session.endSession();
+//       res.status(404).json({
+//         success: false,
+//         error: "request not found",
+//       });
+//       return;
+//     }
+
+//     await session.commitTransaction();
+//     await session.endSession();
+//     res.status(200).json({
+//       success: true,
+//       data: "Accepted Successfully !",
+//     });
+//   } catch (err) {
+//     await session.abortTransaction();
+//     await session.endSession();
+//     res.status(500).json({
+//       success: false,
+//       error: "unAuthorized",
+//     });
+//   }
+// };
+
+
+
+// Accepting friend request function
+export const acceptFriendRequest_C = async (req: Request, res: Response) => {
+  const { authorization } = req.headers;
+  const { from } = req.body;
+
+  if (!authorization) {
+    return res.status(401).json({
+      success: false,
+      error: "Unauthorized request!",
+    });
+  }
+
   const session = await mongoose.startSession();
-  await session.startTransaction();
+  session.startTransaction();
+
   try {
-    const doc = await notificationModel.deleteOne({ from, to }, { session });
-    if (doc.deletedCount < 1) {
+    // Verify JWT and get username
+    const decodedUser: any = jwt.verify(authorization, jwt_secret);
+    const { userName } = decodedUser;
+
+    // Update both users' friend lists in a transaction
+    await Promise.all([
+      userModel.updateOne(
+        { userName: from },
+        { $addToSet: { "friends.allFriends": userName } },
+        { session }
+      ),
+      userModel.updateOne(
+        { userName },
+        { $addToSet: { "friends.allFriends": from } },
+        { session }
+      ),
+    ]);
+
+
+    // Remove the friend request notification
+    const deleteResult = await notificationModel.deleteOne({ from, to: userName }, { session });
+    if (!deleteResult.deletedCount) {
       await session.abortTransaction();
-      await session.endSession();
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
-        error: "request not found",
+        error: "Friend request not found!",
       });
-      return;
     }
 
-    await userModel.updateOne(
-      { _id: from },
-      {
-        $addToSet: {
-          "friends.allFriends": [to],
-        },
-      },
-      { session }
-    );
-
-    await userModel.updateOne(
-      { _id: to },
-      {
-        $addToSet: {
-          "friends.allFriends": [from],
-        },
-      },
-      { session }
-    );
-
     await session.commitTransaction();
-    await session.endSession();
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: "Accepted Successfully !",
+      data: "Friend request accepted successfully!",
     });
   } catch (err) {
     await session.abortTransaction();
-    await session.endSession();
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      error: "internal server error !",
+      // error: "Authorization error or request processing failed",
+      error: err,
     });
+  } finally {
+    session.endSession();
   }
 };
 
@@ -137,27 +216,9 @@ export const getAllNotification_C = async (req: Request, res: Response) => {
         $match: {
           to: decodedUser.userName,
         },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "from",
-          foreignField: "userName",
-          as: "from",
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          to: 1,
-          n_type: 1,
-          message: 1,
-          from: {
-            userName: 1,
-          },
-        },
-      },
+      }
     ]);
+
     res.status(200).json({
       success: true,
       // data: {
