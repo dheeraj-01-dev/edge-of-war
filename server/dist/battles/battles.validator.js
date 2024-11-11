@@ -6,10 +6,9 @@ export const getSingleBattle_V = async (req, res, next) => {
     if (isValidBattle) {
         return next();
     }
-    ;
     res.status(400).json({
         success: false,
-        error: "Invalid Battle"
+        error: "Invalid Battle",
     });
 };
 export const joinBattle_V = async (req, res, next) => {
@@ -17,19 +16,21 @@ export const joinBattle_V = async (req, res, next) => {
     if (!authorization) {
         return res.status(404).json({
             success: false,
-            error: "not authorized"
+            error: "not authorized",
         });
     }
     const { battle, members } = req.body;
-    console.log(battle);
     const schema = z.object({
         battle: z.instanceof(mongoose.Types.ObjectId),
-        members: z.array(z.string()).min(1).max(4)
+        members: z
+            .array(z.string())
+            .min(1, { message: "Invalid members" })
+            .max(4, { message: "Invalid members" }),
     });
     try {
         const validSchema = schema.safeParse({
             battle: new mongoose.Types.ObjectId(battle),
-            members
+            members,
         });
         if (!validSchema.error) {
             next();
@@ -37,14 +38,14 @@ export const joinBattle_V = async (req, res, next) => {
         else {
             res.status(404).json({
                 success: false,
-                error: validSchema.error
+                error: validSchema.error.issues[0].message,
             });
         }
     }
     catch (err) {
         res.status(400).json({
             success: true,
-            error: err
+            error: err,
         });
     }
 };

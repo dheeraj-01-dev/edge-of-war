@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import styles from "./friends.module.css";
 import Link from "next/link";
+import { FriendMember } from "@/components/friends/AllFriends";
 
 type friends = {
   styleSheet?: React.CSSProperties;
@@ -9,14 +10,9 @@ type friends = {
   blurFriendState: () => void;
   members: member[];
   slots: number;
-  addMember: (newMember: member) => void;
-  removeMember: (usernameToRemove: string) => void;
+  self: member,
+  toggleMember: (newMember: member, self?:member) => void;
   friendList?: member[];
-};
-
-type selectedMember = {
-  src: string;
-  userName: string;
 };
 
 const NoFriends: React.FC = () => {
@@ -24,8 +20,7 @@ const NoFriends: React.FC = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>You have no friends yet!</h2>
       <p className={styles.message}>
-        It looks a bit quiet here.
-         Why not make some friends?
+        It looks a bit quiet here. Why not make some friends?
       </p>
       <Link href="/friends/add">
         <p className={styles.addButton}>Add Friends</p>
@@ -33,27 +28,17 @@ const NoFriends: React.FC = () => {
     </div>
   );
 };
-export const NoContest: React.FC = () => {
+export const NoContest = ({style}: {style?:React.CSSProperties}) => {
   return (
-    <div className={styles.container}>
+    <div style={style} className={styles.container}>
       <h2 className={styles.title}>You have no Contests Yet!</h2>
       <p className={styles.message}>
-      {/* It looks like there are no contests yet. */}
-        It looks a bit quiet here.
-       Why not create or join a new one?
+        {/* It looks like there are no contests yet. */}
+        It looks a bit quiet here. Why not create or join a new one?
       </p>
       <Link href="/">
         <p className={styles.addButton}>Create or Join Contest</p>
       </Link>
-    </div>
-  );
-};
-
-const FriendMembers: React.FC<selectedMember> = ({ src, userName }) => {
-  return (
-    <div>
-      <Image height={25} width={25} alt="_" src={src} />
-      <div>{userName}</div>
     </div>
   );
 };
@@ -64,12 +49,15 @@ const Friends: React.FC<friends> = ({
   blurFriendState,
   friendList,
   members,
-  slots
-  // addMember,
-  // removeMember,
+  slots,
+  toggleMember,
+  self
 }) => {
   return (
     <div style={styleSheet} className={`${parentClass} ${styles.page}`}>
+      <div onClick={blurFriendState } className={styles.applyBtn}>
+        Apply
+      </div>
       <div style={{ display: "flex", alignItems: "center" }}>
         <div
           style={{ display: "inline-block", height: 15, width: 15 }}
@@ -83,36 +71,56 @@ const Friends: React.FC<friends> = ({
           />
         </div>
         <div style={{ display: "inline-block", marginLeft: 20 }}>
-          Select Members &nbsp; <div className={`${styles.memberCount} ${slots!==members.length&&styles.redTeam}`} > [{members.length+"/"+slots}]</div>
+          Select Members &nbsp;{" "}
+          <div
+            className={`${styles.memberCount} ${
+              slots !== members.length && styles.redTeam
+            }`}
+          >
+            {" "}
+            [{members.length + "/" + slots}]
+          </div>
         </div>
       </div>
 
       <div className={styles.members}>
         {members.map((member) => {
           return (
-            <div key={member.userName} className={styles.memberContainer}>
-              <Image height={55} width={55} alt="_" src="/men.png" />
+            <div onClick={()=>{toggleMember(member)}} key={member.userName} className={styles.memberContainer}>
+              <Image className={styles.memberProfile} height={55} width={55} alt="_" src={member.profile} />
+              {self!==member&&<Image className={styles.removeImg} height={20} width={20} alt="_" src={"/icons/remove.png"} />}
               <div className={styles.userName}>{member.userName}</div>
             </div>
           );
         })}
       </div>
 
-      {friendList && friendList.length > 0 ? (
-        friendList?.map((friend: member) => {
-          return (
-            <FriendMembers
-              key={friend.userName}
-              src={friend.profile}
-              userName={friend.userName}
-            />
-          );
-        })
-      ) : (
-        <div className={styles.noFriendsTitle}>
-          <NoFriends />
-        </div>
-      )}
+      <div
+        style={{
+          marginTop: 20,
+          height: "calc(100dvh - 180px)",
+          overflow: "auto",
+        }}
+      >
+        {friendList && friendList.length > 0 ? (
+          friendList?.map((friend: member) => {
+            return (
+              <div key={friend.userName} onClick={()=>{toggleMember(friend)}}>
+                <FriendMember
+                  name={friend.name}
+                  ffUid={friend.ffUid}
+                  profile={friend.profile}
+                  userName={friend.userName}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <div className={styles.noFriendsTitle}>
+            <NoFriends />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

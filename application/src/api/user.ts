@@ -10,7 +10,7 @@ export const loginUser = async ({
   phone?: number;
   email?: string;
   password: string;
-}): Promise<responseType<string>> => {
+}): Promise<responseType<{token: string, userName: string}>> => {
   try {
     const json = await axios({
       method: "POST",

@@ -19,7 +19,7 @@ const Login = ({
     phone?: number;
     email?: string;
     password: string;
-  }) => Promise<responseType<string>>;
+  }) => Promise<responseType<{token: string, userName: string}>>;
 }) => {
   const router = useRouter();
   const [loginIdentifier, setLoginIdentifier] = useState("");
@@ -38,15 +38,19 @@ const Login = ({
     e.preventDefault();
 
     const currentDate = +new Date();
-    const response: responseType<string> = await fetchUser({
+    const response = await fetchUser({
       [loginCredential]:
         loginCredential === "phone"
           ? parseInt(loginIdentifier)
           : loginIdentifier,
       password: loginPassword,
     });
+    console.log(response)
     if (response.data) {
-      setCookie("__eow_user_token", response.data, {
+      setCookie("__eow_user_token", response.data.token, {
+        expires: new Date(currentDate + 7776000000),
+      });
+      setCookie("__eow_user_name", response.data.userName, {
         expires: new Date(currentDate + 7776000000),
       });
       // setCookie("u_state", json.data.token, {expires : new Date(currentDate+7776000000)});

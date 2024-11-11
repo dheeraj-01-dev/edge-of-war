@@ -26,7 +26,9 @@ export const loginUser_C = async (req, res) => {
         const token = jwt.sign({ name, ffUid, userName, createAt, id: _id, profile }, jwt_secret);
         res.status(200).json({
             success: true,
-            data: token
+            data: {
+                token, userName
+            }
         });
     }
     catch (err) {

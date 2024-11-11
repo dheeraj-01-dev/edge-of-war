@@ -8,6 +8,7 @@ import FriendsSearchBox from "@/components/temp/FriendSearchBox";
 import Footer from "@/components/scafFolds/footer/Footer";
 import { getAllFriends } from "@/api/user";
 import AllFriendSection from "@/components/friends/AllFriends";
+import Link from "next/link";
 
 const page = async () => {
   const cookieStore = cookies();
@@ -26,6 +27,7 @@ const page = async () => {
         </div>
       </AuthProtected>
       <div>
+        <Link href="/friends/add" className={styles.addBtn}>Add +</Link>
         <Footer />
       </div>
     </div>

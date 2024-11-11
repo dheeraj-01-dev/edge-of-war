@@ -49,12 +49,12 @@ const BattlePlayerDetails: React.FC<BattlePlayerDetailsProps> = ({ teams, slots 
       <div className={styles.teams}>
         {teams.map((team: string[], index) => (
           <div
-            key={team[0]}
+            key={index}
             className={`${styles.team} ${expandedTeamIndex === index ? styles.expanded : ""}`}
             onClick={() => toggleTeam(index)}
           >
             <div className={`${styles.teamTemplate} effectiveTeamToggleClick`}>
-              {index + 1}. &nbsp; &nbsp;{team}
+              {index + 1}. &nbsp; &nbsp;Slot {index+1}
               <Image
                 width={12}
                 height={12}

@@ -1,6 +1,6 @@
 .battle-details{
   /* margin-bottom: 100px; */
-  background-color: var(--bg-10);
+  /* background-color: var(--bg-10); */
 }
 .arrow-back{
   position: absolute;
@@ -9,14 +9,31 @@
   top: 20px;
   left: 20px;
   cursor: pointer;
-}.img{
+}.mapImg{
+  position: relative;
   overflow: hidden;
   object-fit: cover;
   max-width: max-content;
-}.img img{
+}.mapImg img{
   scale: 1.01;
   width: 100vw;
   aspect-ratio: 16/9;
+}
+
+
+
+.commentSection{
+  position: absolute;
+  top: 0;
+  display: flex;
+  padding: 15px 20px;
+  justify-content: end;
+  z-index: 1;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  background: #000;
+  background: linear-gradient(90deg, transparent, #000000cd);
 }
 
 .winners{
@@ -64,6 +81,7 @@
   border-radius: 10px;
   margin-bottom: 15px;
   background-color: #151F27;
+  background-color: var(--bg-9);
 }
 .room-id{
   padding: 10px;
@@ -109,9 +127,9 @@
     scale: 1;
     top: 50px;
     left: 50px;
-  }.img{
+  }.mapImg{
     border-radius: 10px;
-  }.img img{
+  }.mapImg img{
     width: 50vw;
   }
 
@@ -155,4 +173,14 @@
   .section2{
     margin-bottom: 110px;
   }
+}
+.myEntity{
+  padding: 10px;
+  background: var(--bg-6);
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+.myEntityTemplate{
+  font-weight: 700;
+  opacity: 0.6;
 }

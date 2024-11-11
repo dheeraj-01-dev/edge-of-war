@@ -18,6 +18,7 @@ type Params = Promise<{
 }>;
 
 const Page = async ({params}: {params: Params}) => {
+
   
   const resolvedParams = await params;
   const response = await fetchBattleData(resolvedParams.id);

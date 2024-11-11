@@ -4,8 +4,10 @@ import styles from "./styles/battleDetails.module.css";
 import Link from "next/link";
 import NavigateBack from "@/hooks/Navigate.back";
 import BattlePlayerDetails from "./BattlePlayerDetails";
+import { cookies } from "next/headers";
+import { CommentDots } from "@/components/icons/Comments";
 
-const BattleDetails = ({ battle }: { battle: battleType }) => {
+const BattleDetails = async ({ battle }: { battle: battleType }) => {
   const {
     _id,
     settings: { map, slots },
@@ -13,6 +15,24 @@ const BattleDetails = ({ battle }: { battle: battleType }) => {
     entry,
     teams,
   } = battle;
+
+  const cookiStore = cookies();
+  const userName = (await cookiStore).get("__eow_user_name")?.value;
+
+  const isJoined = (() => {
+    if (!userName) return false;
+    for (const team of teams) {
+      if (team.includes(userName)) {
+        return true;
+      }
+    }
+    return false;
+  })();
+
+  const myEntity = teams.filter((team: string[]) => {
+    if (!userName) return;
+    return team.includes(userName);
+  });
 
   return (
     <div className={styles["battle-details"]}>
@@ -26,14 +46,12 @@ const BattleDetails = ({ battle }: { battle: battleType }) => {
             alt="back"
           />
         </NavigateBack>
-        <div className={styles["img"]}>
+        <div className={styles["mapImg"]}>
           {/* <img src={`/maps/${map}.png`} alt="cover" /> */}
-          <picture>
-            {/* <source srcSet="https://example.com/hero.avif" type="image/avif" />
-            <source srcSet="https://example.com/hero.webp" type="image/webp" /> */}
-            {/* <source srcSet={`/maps/${map}.png`} type="image/webp" /> */}
-            <img src={`/maps/${map}.png`} alt="cover" />
-          </picture>
+          <img src={`/maps/${map}.png`} alt="cover" />
+          <div className={styles.commentSection}>
+            <CommentDots height={30} width={30} fill="#fff" />
+          </div>
         </div>
         <div className={styles["winners"]}>
           <div className={styles["winner-section"]}>
@@ -84,42 +102,58 @@ const BattleDetails = ({ battle }: { battle: battleType }) => {
             </div>
           </div>
         </div>
-        <div className={styles["register-btn-container"]}>
-          <div className={styles["register-btn"]}>
-            <Link href={`/battle/checkout/${_id}`}>
-              <button>Join now - {entry}</button>
-            </Link>
+        {!isJoined && (
+          <div className={styles["register-btn-container"]}>
+            <div className={styles["register-btn"]}>
+              <Link href={`/battle/checkout/${_id}`}>
+                <button>Join now - {entry}</button>
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={styles["section2"]} id="battle-details-section-2-for-pc">
-        {false && (
-          <div className={styles["room-auth"]}>
-            <div className={styles["room-id"]}>
-              Room id:{" "}
-              <span>
-                239202943{" "}
-                <Image
-                  width={15}
-                  height={15}
-                  src="/icons/copy.png"
-                  alt="copy"
-                />
-              </span>
+        {isJoined && (
+          <div>
+            <div className={styles["room-auth"]}>
+              <div className={styles["room-id"]}>
+                Room id:{" "}
+                <span>
+                  __________{" "}
+                  <Image
+                    width={15}
+                    height={15}
+                    src="/icons/copy.png"
+                    alt="copy"
+                  />
+                </span>
+              </div>
+              <div className={styles["room-pass"]}>
+                {" "}
+                Room pass:{" "}
+                <span>
+                  __________{" "}
+                  <Image
+                    width={15}
+                    height={15}
+                    src="/icons/copy.png"
+                    alt="copy"
+                  />
+                </span>{" "}
+              </div>
             </div>
-            <div className={styles["room-pass"]}>
-              {" "}
-              Room pass:{" "}
-              <span>
-                23423{" "}
-                <Image
-                  width={15}
-                  height={15}
-                  src="/icons/copy.png"
-                  alt="copy"
-                />
-              </span>{" "}
+            <div className={styles.myEntity}>
+              <div className={styles.myEntityTemplate}>Your Stats</div>
+              <div style={{ paddingLeft: 10 }}>
+                {myEntity[0].map((member: string, index: number) => {
+                  return (
+                    <div key={index} style={{ margin: 5 }}>
+                      {index + 1}. {member}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}

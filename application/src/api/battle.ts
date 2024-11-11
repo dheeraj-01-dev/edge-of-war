@@ -64,6 +64,39 @@ export const getSingleBattle = async (
   }
 };
 
+export const getRegisterdBattle = async ({token}: {token: string | undefined }) :Promise<responseType<battleType[]>> => {
+  if(!token){
+    return {
+      success: false,
+      error: "unAuthorized !"
+    }
+  }
+  try {
+    const response = await axios.get(`${domain}/battle/get/upcoming`, {
+      headers: {
+        Authorization: token
+      }
+    });
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+    // Handle any other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+}
+
 // const joinBattle = async ({battle, team, members, Authorization}: {
 //   battle: string,
 //   team: string,

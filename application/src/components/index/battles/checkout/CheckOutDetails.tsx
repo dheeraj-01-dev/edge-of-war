@@ -8,7 +8,7 @@ import BalanceConfirmationModal from "./BalanceConfirmationModal";
 type checkOutDetails = {
   battle: battleType;
   self: member;
-  balance: number
+  balance: number;
   friendList?: member[];
 };
 const slotArr = ["", "Solo", "Duo", "", "Squad"];
@@ -32,14 +32,25 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
 
   const [members, setMembers] = useState<member[]>([self]);
 
-  const addMember = (newMember: member) => {
-    setMembers((prevMembers) => [...prevMembers, newMember]);
-  };
+  const toggleMember = (newMember: member) => {
+    if (newMember === self) {
+      return;
+    }
+    setMembers((prevMembers) => {
+      const isMemberExists = prevMembers.some(
+        (member) => member.userName === newMember.userName
+      );
 
-  const removeMember = (usernameToRemove: string) => {
-    setMembers((prevMembers) =>
-      prevMembers.filter((member) => member.userName !== usernameToRemove)
-    );
+      if (isMemberExists) {
+        // Remove member if they already exist
+        return prevMembers.filter(
+          (member) => member.userName !== newMember.userName
+        );
+      } else {
+        // Add member if they do not exist
+        return [...prevMembers, newMember];
+      }
+    });
   };
 
   const activeFriendState = () => {
@@ -204,18 +215,27 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
         </div>
 
         <Friends
+        self={self}
           slots={slotArr.indexOf(teamMode)}
           friendList={friendList}
           members={members}
-          addMember={addMember}
-          removeMember={removeMember}
+          toggleMember={toggleMember}
           blurFriendState={blurFriendState}
           parentClass={`${styles.friendState} ${
             FriendState && styles.activeFriendState
           }`}
         />
 
-          {finalCheckoutState&&<BalanceConfirmationModal totalBalance={balance} entryFee={entry} onCancel={()=>{blurFinalCheckout()}} onConfirm={()=>{}} />}
+        {finalCheckoutState && (
+          <BalanceConfirmationModal
+            totalBalance={balance}
+            entryFee={entry}
+            onCancel={() => {
+              blurFinalCheckout();
+            }}
+            onConfirm={() => {}}
+          />
+        )}
       </div>
     </div>
   );

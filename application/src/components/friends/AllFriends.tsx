@@ -18,11 +18,20 @@ const NoFriends: React.FC = () => {
   );
 };
 
-const FriendMember: React.FC<member> = ({ profile, userName }) => {
+export const FriendMember: React.FC<member> = ({ profile, ffUid, userName }) => {
   return (
-    <div>
-      <Image height={25} width={25} alt="_" src={profile} />
-      <div>{userName}</div>
+    <div className={styles.memberContainer}>
+      <Image
+        className={styles.memberProfile}
+        height={50}
+        width={50}
+        alt="_"
+        src={profile}
+      />
+      <div className={styles.nameSection}>
+        <div>{userName}</div>
+        <div className={styles.ffUid}>{ffUid}</div>
+      </div>
     </div>
   );
 };
@@ -30,31 +39,28 @@ const FriendMember: React.FC<member> = ({ profile, userName }) => {
 type allFriends = {
   friends: member[] | undefined;
 };
-const AllFriendSection :React.FC<allFriends> = ({ friends }) => {
-  return(
-    <div>
-      {
-        friends && friends.length > 0 ? (
-          friends.map((friend: member) => {
-            return (
-              <FriendMember
-                name={friend.name}
-                ffUid={friend.ffUid}
-                key={friend.userName}
-                profile={friend.profile}
-                userName={friend.userName}
-              />
-            );
-          })
-        ) : (
-          <div className={styles.noFriendsTitle}>
-            <NoFriends />
-          </div>
-        )
-      }
-
+const AllFriendSection: React.FC<allFriends> = ({ friends }) => {
+  return (
+    <div className={styles.page}>
+      {friends && friends.length > 0 ? (
+        friends.map((friend: member) => {
+          return (
+            <FriendMember
+              name={friend.name}
+              ffUid={friend.ffUid}
+              key={friend.userName}
+              profile={friend.profile}
+              userName={friend.userName}
+            />
+          );
+        })
+      ) : (
+        <div className={styles.noFriendsTitle}>
+          <NoFriends />
+        </div>
+      )}
     </div>
-  )
+  );
 };
 
 export default AllFriendSection;

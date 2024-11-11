@@ -27,7 +27,7 @@ interface schema{
     minute: number,
     second: number
   },
-  entry: number,
+  entry: Number,
   winning: {
     _1: number,
     _2: number,
