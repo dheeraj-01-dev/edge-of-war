@@ -1,0 +1,6 @@
+.addMoneyTemplate{
+  display: flex;
+  align-items: center;
+  font-size: 110%;
+  padding: 10px 5px;
+}

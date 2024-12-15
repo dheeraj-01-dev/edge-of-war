@@ -4,11 +4,18 @@ import styles from "./checkOutDetails.module.css";
 import Image from "next/image";
 import Friends from "./Friends";
 import BalanceConfirmationModal from "./BalanceConfirmationModal";
+import toast from "@/scripts/toast";
+import { useRouter } from "next/navigation";
 
 type checkOutDetails = {
   battle: battleType;
   self: member;
   balance: number;
+  onConfirm: ({ battle, members, Authorization }: {
+    battle: string;
+    members: string[];
+    Authorization: string | undefined;
+}) => Promise<responseType<string>>;
   friendList?: member[];
 };
 const slotArr = ["", "Solo", "Duo", "", "Squad"];
@@ -17,9 +24,12 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
   battle,
   self,
   balance,
+  onConfirm,
   friendList,
 }) => {
+  const router = useRouter();
   const {
+    _id,
     settings: { map, gameMode, teamMode, ammo },
     battleId,
     entry,
@@ -233,7 +243,20 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
             onCancel={() => {
               blurFinalCheckout();
             }}
-            onConfirm={() => {}}
+            onConfirm={async()=>{
+              const memberString = members.map((member)=>{
+                return member.userName;
+              });
+              console.log(memberString)
+              const response = await onConfirm({battle: _id, Authorization: self.userToken, members: memberString})
+              if(response.error){
+                toast(response.error)
+              }else{
+                toast(response.data);
+                router.push("/contest");
+                router.refresh()
+              }
+            }}
           />
         )}
       </div>

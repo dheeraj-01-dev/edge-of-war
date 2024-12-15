@@ -1,6 +1,7 @@
 "use server";
 import axios from "axios";
 const domain = process.env.server_domain;
+const apikey = "123@edgeofwaresports.com"
 
 export const loginUser = async ({
   phone,
@@ -11,10 +12,17 @@ export const loginUser = async ({
   email?: string;
   password: string;
 }): Promise<responseType<{token: string, userName: string}>> => {
+  if((!phone || !email) && !password){
+    return {
+      success: false,
+      error: "Enter all fields !"
+    }
+  }
   try {
     const json = await axios({
       method: "POST",
       url: `${domain}/user/auth/login`,
+      headers: { apikey },
       data: { phone, email, password },
     });
 
@@ -27,7 +35,7 @@ export const loginUser = async ({
     if (axios.isAxiosError(error) && error.response) {
       return {
         success: error.response.data.success || false,
-        error: error.response.data.message || "An error occurred",
+        error: error.response.data.error || "An error occurred",
       };
     }
 
@@ -36,6 +44,40 @@ export const loginUser = async ({
       success: false,
       error: "An unexpected error occurred",
     };
+  }
+};
+
+export const registerUser = async ({name, ffUid, otp, ffUserName, userName, email, password, confirmPassword}: {
+  email: string,
+  otp: string,
+  password: string,
+  name: string,
+  ffUid: string,
+  ffUserName: string,
+  userName: string,
+  confirmPassword: string
+}): Promise<responseType<{token: string, userName: string}>> => {
+  try {
+    const json :responseType<{token: string, userName: string}> = await axios({
+      method: "POST",
+      url: `${domain}/user/auth/register`,
+      headers: { apikey },
+      data: {
+        name, otp: +otp,
+        "ffUid": +ffUid,
+        userName, ffUserName,
+        // "phone": parseInt(phone?phone:""),
+        email, password, confirmPassword
+      }
+    });
+    // return json.data;
+    return {
+      success: true,
+      data: json.data
+    };
+  } catch (err: any) {
+    console.log(err)
+    return err.response.data;
   }
 };
 
@@ -55,6 +97,7 @@ export const getAllFriends = async ({
       method: "GET",
       url: `${domain}/user/get-friends/all`,
       headers: {
+        apikey,
         Authorization: token,
       },
     });
@@ -85,6 +128,7 @@ export const findSingleUser = async (user: string | number | string[]) => {
   try {
     const response = await axios({
       method: "GET",
+      headers: { apikey },
       url: `${domain}/user/get/${user}`,
     });
 
@@ -114,6 +158,7 @@ export const getRandomUsers = async (): Promise<responseType<member[]>> => {
   try {
     const response = await axios({
       method: "GET",
+      headers: { apikey },
       url: `${domain}/user/get/random/sample`,
     });
 
@@ -155,6 +200,7 @@ export const getPersonalInfo = async ({
       method: "GET",
       url: `${domain}/user/auth/get`,
       headers: {
+        apikey,
         Authorization: token,
       },
     });
@@ -198,6 +244,7 @@ export const createFriendRequest = async ({
       method: "POST",
       url: `${domain}/notification/friend-request/create`,
       headers: {
+        apikey,
         Authorization: token,
       },
       data: {

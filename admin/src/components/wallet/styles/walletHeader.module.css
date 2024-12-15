@@ -1,0 +1,10 @@
+.walletHeader{
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.allTransactionBtn{
+  font-size: 80%;
+  color: #00b7ff;
+}

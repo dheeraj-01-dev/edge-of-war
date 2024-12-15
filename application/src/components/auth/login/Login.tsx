@@ -45,7 +45,7 @@ const Login = ({
           : loginIdentifier,
       password: loginPassword,
     });
-    console.log(response)
+    
     if (response.data) {
       setCookie("__eow_user_token", response.data.token, {
         expires: new Date(currentDate + 7776000000),
@@ -105,15 +105,20 @@ const Login = ({
               placeholder="password"
             />
           </div>
-          <div className={styles.submitContainer}>
-            <Link className={styles.registerLink} href={"/register"}>
-              Register?
+          <div style={{textAlign: "end", marginTop: 10}}>
+            <Link className={styles.registerLink} href={"/resetpassword"}>
+              forgot password?
             </Link>
+          </div>
+          <div className={styles.submitContainer}>
             <button type="submit" className={styles.submitButton}>
               Login
             </button>
           </div>
         </form>
+            <div style={{fontSize: "90%", marginTop: 80, textAlign: "center"}}>don't have account? 
+              <Link className={styles.registerLink} href={"/register"}> Register</Link>
+            </div>
       </div>
     </div>
   );

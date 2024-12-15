@@ -1,0 +1,36 @@
+.profileContainer{
+  display: flex;
+  align-items: flex-end;
+  margin-right: 10px;
+}
+.home{
+  height: 17px;
+  display: inline-block;
+  width: 17px;
+  border-radius: 100%;
+  margin-left: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.loginText{
+  letter-spacing: 1px;
+  margin-right: 10px;
+  color: rgb(0, 179, 255);
+  text-decoration: underline;
+}
+
+.bellIcon{
+  width: 18px;
+  display: flex;
+  align-items: flex-start;
+}
+.redDot{
+  position: relative;
+  right: 4px;
+  top: -1px;
+}
+
+.a{
+  display: flex;
+}

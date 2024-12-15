@@ -1,0 +1,131 @@
+.eventDashboardContainer {
+  /* position: relative; */
+  width: 100%;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  height: 150px;
+  background: var(--bg-7);
+}
+.manualControls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.scrollButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.3s ease;
+  animation: fadeIn 1s ease-out;
+}
+
+.posterBoard {
+  display: flex;
+  transition: transform 0.5s ease;
+  overflow-x: hidden;
+  height: 130px;
+}
+
+.imageBox {
+  min-width: 100%;
+  padding: 10px 10px 0;
+  transition: transform 0.5s ease-in-out;
+}
+
+.imgParent{
+  background: #000;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+}
+.imageBox img {
+  /* width: 100%; */
+  /* height: auto;
+  height: 120px; */
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+
+.dotsContainer {
+  /* position: absolute; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  /* pointer-events: none; */
+}
+
+.dot {
+  position: relative;
+  height: 6px;
+  width: 6px;
+  margin: 0 4px;
+  background-color: #bcb8b8;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.active {
+  /* background-color: #ffffff; */
+}
+
+.dot::before {
+  content: "";
+  position: absolute;
+  border-radius: 10px;
+  background-color: #ffffff;
+  transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+}
+
+/* Animation for the dot circle moving from one dot to another */
+.dot.active::before {
+  animation: moveDot 0.5s ease;
+  width: 8px; /* The end size of the circle */
+  height: 6px;
+}
+
+@keyframes moveDot {
+  0% {
+    transform: translateX(-14px);
+    width: 22px;
+    height: 6px;
+  }
+  100% {
+    width: 8px;
+    height: 6px;
+  }
+}
+
+.manualControls {
+  display: none;
+}
+/* Hide scroll buttons on smaller screens */
+@media (max-width: 1024px) {
+  .manualControls {
+    display: none;
+  }
+}
+@media (min-width: 800px) {
+  .eventDashboardContainer{
+    height: 200px;
+  }
+  .posterBoard{
+    height: 180px;
+  }
+  .imgParent{
+    height: 170px;
+  }
+}

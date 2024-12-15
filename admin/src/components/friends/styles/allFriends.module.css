@@ -1,0 +1,73 @@
+
+.page{
+  margin-top: 10px;
+  overflow: auto;
+  /* background: red; */
+  height: calc(100dvh - 140px);
+}
+
+/* NoFriends.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 80dvh;
+  border-radius: 10px;
+  background-color: #f0f2f5;
+  background-color: var(--bg-9);
+  /* background: inherit; */
+  color: #333;
+  color: #555;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #555;
+  color: #888;
+}
+
+.message {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #777;
+}
+
+.addButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #0070f3;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #005bb5;
+}
+
+
+
+
+
+
+.memberContainer{
+  display: flex;
+}
+
+.memberProfile{
+  border-radius: 100px;
+}
+.nameSection{
+  margin-left: 10px;
+}
+.ffUid{
+  font-size: 80%;
+  opacity: 0.8;
+}

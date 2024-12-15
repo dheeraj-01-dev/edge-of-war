@@ -7,7 +7,7 @@
 }
 .inputContainer{
   /* margin: 10px 10px 20px 10px; */
-  margin-bottom: 30px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
 }
@@ -24,15 +24,18 @@
 }
 
 .registerLink{
-  margin-left: 20px;
+  /* margin-left: 20px; */
   font-size: 90%;
   color: #03adea;
 }
 .submitButton{
-  padding: 5px 15px;
+  padding: 10px 15px;
   outline: none;
   background: none;
-  border: 1px solid white;
+  border: 2px solid white;
+  border-radius: 15px;
   color: inherit;
   float: right;
+  width: 100%;
+  margin-top: 20px;
 }

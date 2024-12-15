@@ -9,9 +9,9 @@ const battleSchema = new Schema({
         gameMode: {
             type: String,
             required: true,
-            default: "Battle Royal",
+            default: "Battle Royale",
             enum: {
-                values: ["Battle Royal", "Class Squad"],
+                values: ["Battle Royale", "Class Squad"],
                 message: "gameMode `{VALUE}` not supported!"
             }
         },
@@ -29,7 +29,7 @@ const battleSchema = new Schema({
             required: true,
             default: "2v2",
             enum: {
-                values: ["1v1", "2v2", "4v4"],
+                values: ["Solo", "Duo", "Squad"],
                 message: "teamMode `{VALUE}` not supported!"
             }
         },
@@ -73,16 +73,283 @@ const battleSchema = new Schema({
                 values: ["No", "Yes"],
                 message: "loadout `{VALUE}` not supported!"
             }
+        },
+        advanceSetting: {
+            presetMode: {
+                type: String,
+                required: true,
+                default: "Classic",
+                enum: {
+                    values: ['Classic', "Grenade", "Melee", "Sniper", "Pistol", "Hardcore Mode", "Esports Mode", "Master Mind", "Custom Preset"],
+                    message: "presetMode `{VALUE}` not supported!"
+                }
+            },
+            EP: {
+                type: String,
+                required: true,
+                default: "0",
+                enum: {
+                    values: ['0', "50", "200"],
+                    message: "EP `{VALUE}` not supported!"
+                }
+            },
+            revival: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "revival `{VALUE}` not supported!"
+                }
+            },
+            'Movement Speed': {
+                type: String,
+                required: true,
+                default: "100%",
+                enum: {
+                    values: ['100%', "50%", "125%", "200%"],
+                    message: "Movement Speed `{VALUE}` not supported!"
+                }
+            },
+            HP: {
+                type: String,
+                required: true,
+                default: "200",
+                enum: {
+                    values: ['200', "50", "500", "1"],
+                    message: "HP `{VALUE}` not supported!"
+                }
+            },
+            'Jump Height': {
+                type: String,
+                required: true,
+                default: "100%",
+                enum: {
+                    values: ['100%', "200%", "400%"],
+                    message: "Jump Height `{VALUE}` not supported!"
+                }
+            },
+            Environment: {
+                type: String,
+                required: true,
+                default: "Day",
+                enum: {
+                    values: ['Day', "Night"],
+                    message: "Environment `{VALUE}` not supported!"
+                }
+            },
+            'Auto Revival': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Auto Revival `{VALUE}` not supported!"
+                }
+            },
+            Vehicles: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Vehicles `{VALUE}` not supported!"
+                }
+            },
+            UAV: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "UAV `{VALUE}` not supported!"
+                }
+            },
+            'Generic Enemy Outfit': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Generic Enemy Outfit `{VALUE}` not supported!"
+                }
+            },
+            'Precise Aim': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Precise Aim `{VALUE}` not supported!"
+                }
+            },
+            'Gun Attributes': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Gun Attributes `{VALUE}` not supported!"
+                }
+            },
+            'Safe Zone Movin': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Safe Zone Movin `{VALUE}` not supported!"
+                }
+            },
+            'Limited Ammo': {
+                type: String,
+                required: true,
+                default: "Limited",
+                enum: {
+                    values: ['Limited', "UN-Limited"],
+                    message: "Limited Ammo `{VALUE}` not supported!"
+                }
+            },
+            Airdrop: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Airdrop `{VALUE}` not supported!"
+                }
+            },
+            'Out-Of-Zone Damage': {
+                type: String,
+                required: true,
+                default: "Standard",
+                enum: {
+                    values: ['Standard', "High"],
+                    message: "Out-Of-Zone Damage `{VALUE}` not supported!"
+                }
+            },
+            Airstrike: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Airstrike `{VALUE}` not supported!"
+                }
+            },
+            'Hide TeamMate Nickname': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Hide TeamMate Nickname `{VALUE}` not supported!"
+                }
+            },
+            'Character Skill': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Character Skill `{VALUE}` not supported!"
+                }
+            },
+            'In-Game Mission': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "In-Game Mission `{VALUE}` not supported!"
+                }
+            },
+            'Quit-Out Penalty': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Quit-Out Penalty `{VALUE}` not supported!"
+                }
+            },
+            'Fall Damage': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Fall Damage `{VALUE}` not supported!"
+                }
+            },
+            'Zone Shrink Speed': {
+                type: String,
+                required: true,
+                default: "Standard",
+                enum: {
+                    values: ['Standard', "Fast"],
+                    message: "Zone Shrink Speed `{VALUE}` not supported!"
+                }
+            },
+            'High Tier Loot Zone': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "High Tier Loot Zone `{VALUE}` not supported!"
+                }
+            },
+            Airship: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Airship `{VALUE}` not supported!"
+                }
+            },
+            'Friendly Fire': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Friendly Fire `{VALUE}` not supported!"
+                }
+            },
+            LoadOut: {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "LoadOut `{VALUE}` not supported!"
+                }
+            },
+            'In-Match Quests': {
+                type: String,
+                required: true,
+                default: "Yes",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "In-Match Quests `{VALUE}` not supported!"
+                }
+            },
+            'Only Headshot': {
+                type: String,
+                required: true,
+                default: "No",
+                enum: {
+                    values: ['Yes', "No"],
+                    message: "Only Headshot `{VALUE}` not supported!"
+                }
+            }
         }
     },
     expire: {
         id: { type: Number, required: true },
-        year: { type: Number, required: true },
-        month: { type: Number, required: true },
-        date: { type: Number, required: true },
-        hour: { type: Number, required: true },
-        minute: { type: Number, required: true },
-        second: { type: Number, required: true, default: 0 }
+        dateStr: { type: String, required: true }
     },
     entry: {
         type: Number,
@@ -99,6 +366,12 @@ const battleSchema = new Schema({
         _3: {
             type: Number,
         },
+    },
+    roomId: {
+        type: String
+    },
+    roomPass: {
+        type: String
     },
     teams: [
         {

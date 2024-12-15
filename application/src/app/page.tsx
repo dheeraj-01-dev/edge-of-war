@@ -12,6 +12,7 @@ const page = async () => {
   const userToken = (await cookieStore).get("__eow_user_token")?.value;
 
   const json :responseType<battleType[]> = await getAllBattles({token: userToken})
+  // console.log(json)
   return (
     <ScafFold>
       <div className={styles.page}>

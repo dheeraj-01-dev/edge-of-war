@@ -1,0 +1,28 @@
+.navbar{
+  background: var(--bg-7);
+  border: 2px solid var(--bg-5);
+  padding: 0px 15px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+}
+.rightComponent{
+  display: flex;
+}
+
+
+@media screen and (min-width: 800px) {
+  .navbar{
+    height: 55px;
+    padding: 0 35px;
+    background-color: var(--bg-10);
+    border: none;
+
+    /* border-bottom: 2px solid var(--bg-7); */
+    box-shadow: 2px 2px 0px var(--bg-7);
+    border-radius: 0px;
+    /* background-color: slateblue; */
+  }
+}

@@ -1,0 +1,26 @@
+.userTemplate{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.userProfileSection{
+  display: flex;
+}
+.userProfile{
+  object-fit: cover;
+  border-radius: 100px;
+  margin-right: 10px;
+}
+.userName{
+  opacity: 0.9;
+  font-size: 90%;
+}
+.uid{
+  font-size: 80%;
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+.reqBtn{
+  margin-top: -7px;
+  margin-right: 7px;
+}

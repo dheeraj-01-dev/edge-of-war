@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.userNameLable {
+  margin-left: 15px;
+  letter-spacing: 0.3px;
+  opacity: 0.9;
+}

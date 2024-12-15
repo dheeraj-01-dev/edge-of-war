@@ -1,0 +1,40 @@
+.sideNavContainer{
+  top: 0;
+  z-index: 23;
+  left: -260px;
+  /* left: 0px; */
+  width: 250px;
+  height: 100dvh;
+  position: fixed;
+  transition: linear 0.2s;
+  background-color: var(--bg-8);
+}
+.sideNavCover{
+  top: 0;
+  z-index: 2;
+  left: -110vw;
+  /* left: 0vw; */
+  width: 100dvw;
+  height: 100vh;
+  position: fixed;
+  background-color: #080b0f;
+  opacity: 0.5;
+  backdrop-filter: blur(10px);
+}
+
+
+@media screen and (min-width: 580px) {
+  .sideNavContainer{
+    left: 0;
+    /* display: none; */
+    top: 55px;
+    width: 250px;
+    padding: 0 15px;
+    height: calc(100dvh - 55px);
+    background-color: var(--bg-10);
+    border-right: 2px solid var(--bg-8);
+  }
+  .sideNavCover{
+    display: none;
+  }
+}

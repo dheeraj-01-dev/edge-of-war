@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Fill full viewport height */
+  /* background-color: #f5f5f5; Light background */
+  color: #333; /* Dark text color */
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px; /* Title size */
+  font-weight: 600; /* Bold title */
+  margin-bottom: 30px; /* Space below title */
+  text-align: center; /* Center the title */
+}
+
+.card {
+  background-color: #fff; /* White background for card */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 40px; /* Inner padding */
+  width: 100%; /* Full width */
+  max-width: 400px; /* Limit maximum width */
+  text-align: center; /* Center text in card */
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup {
+  margin-bottom: 20px; /* Space between input and button */
+}
+
+.label {
+  font-size: 16px; /* Label size */
+  margin-bottom: 8px; /* Space below label */
+  text-align: left; /* Align left for labels */
+}
+
+.input {
+  padding: 12px;
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 8px; /* More rounded corners */
+  background-color: #f9f9f9; /* Light input background */
+  color: #333; /* Dark text color */
+  font-size: 18px; /* Larger input text */
+  transition: border-color 0.3s;
+}
+
+.input::placeholder {
+  color: #aaa; /* Placeholder text color */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0070f3; /* Highlight border color on focus */
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5); /* Shadow on focus */
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items in footer */
+}
+
+.button {
+  padding: 12px 20px; /* Add horizontal padding */
+  background-color: #0070f3; /* Button color */
+  color: white;
+  border: none;
+  border-radius: 8px; /* More rounded button */
+  cursor: pointer;
+  font-size: 18px; /* Larger button text */
+  transition: background-color 0.3s, transform 0.3s;
+  width: 100%; /* Full width button */
+}
+
+.button:hover {
+  background-color: #005bb5; /* Darker shade on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.note {
+  margin-top: 10px; /* Space above note */
+  font-size: 14px; /* Smaller note text */
+  color: #666; /* Gray text color for note */
+}

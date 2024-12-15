@@ -1,0 +1,88 @@
+
+  .container {
+    padding: 20px;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); */
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    font-family: Arial, sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    color: #c8d6e6;
+    text-align: center;
+  }
+  
+  /* .section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--section-bg-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  } */
+
+  .section {
+    background-color: var(--bg-8);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    flex: 1 1 calc(33.333% - 40px);
+    /* min-width: 280px;
+    max-width: 400px; */
+    margin-bottom: 30px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: #ddd;
+  }
+  
+  .section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .formSection{
+      margin-bottom: 20px;
+      background-color: var(--section-bg-color);
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Added shadow effect */
+  }
+  
+  .sectionTitle {
+    font-size: 1.5em;
+    margin-bottom: 0.8em;
+    color: var(--section-title-color);
+  }
+  
+  .paragraph {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  
+  .link {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  .faqItemContainer {
+    margin-bottom: 10px;
+  }
+  
+  .faqQuestion {
+    cursor: pointer;
+    font-size: 1em;
+    list-style: square;
+    color: var(--accent-color);
+  }
+  
+  .faqAnswer {
+    padding-top: 5px;
+  }
+  

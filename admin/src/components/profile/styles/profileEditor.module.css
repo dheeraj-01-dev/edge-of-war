@@ -1,0 +1,106 @@
+.ProfileEditor {
+  height: 100dvh;
+  width: 100dvw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  z-index: 1;
+  padding: 10px 15px;
+  background: var(--bg-9);
+  overflow-y: scroll;
+}
+.editors {
+  margin-top: 25px;
+  margin-left: 15px;
+}
+.editor {
+  display: flex;
+  /* margin-bottom: 23px; */
+  margin: 50px 10px;
+}
+.editorValue {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--bg-6);
+}
+.editorPng {
+  opacity: 0.7;
+  margin-top: 7px;
+  margin-right: 10px;
+}
+.inputLables {
+  margin-left: 10px;
+  color: #d7d7d7;
+  opacity: 0.5;
+  font-size: 80%;
+}
+.inputs {
+  width: 100%;
+  display: block;
+  border: none;
+  color: #d7d7d7;
+  padding: 5px 0;
+  margin-left: 10px;
+  font-size: 90%;
+}
+
+.editorBtn {
+  margin-right: 20px;
+  margin-top: 7px;
+  opacity: 0.7;
+}
+
+.updatableInputBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100dvw;
+  background: #00000085;
+  display: grid;
+  place-items: center;
+}
+.updatableInfo {
+  display: flex;
+}
+.updatableContainer {
+  width: 90dvw;
+  padding: 15px;
+  /* height: 150px; */
+  background: var(--bg-7);
+}
+.editableInput {
+  resize: none;
+  padding: 5px;
+  border: none;
+  outline: none;
+  color: #d7d7d7;
+  margin-top: 10px;
+  margin-left: 10px;
+  background: inherit;
+  width: calc(100% - 10px);
+  border-bottom: 2px solid var(--bg-1);
+}
+.demo {
+  block-size: auto;
+}
+.updateChangesBtn {
+  text-align: end;
+  margin-top: 20px;
+}
+.updateChangesBtn button {
+  border: none;
+  padding: 5px 15px;
+  margin-left: 10px;
+  background: var(--bg-10);
+  background: #0f1010;
+}
+
+.hide {
+  display: none !important;
+}
+.hide2 {
+  scale: 0;
+}

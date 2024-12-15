@@ -3,9 +3,59 @@ import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import { userModel } from "./user.model.js";
+import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
+import { otpModel } from "../auth/auth.model.js";
 config();
 const jwt_secret = process.env.JWT_SECRET_STR ||
     "MAI_HU_DON_MAI_HU_DON....MUJHE_ROKEGA_KON>?SKLDFJ2934N23MNR09DNMIUAE90UNDAKFIH9OA8U90U9&*_+_89JH898'ASDF";
+export const registerUser = async (req, res) => {
+    const { name, otp, userName, phone, email, ffUid, ffUserName, password, confirmPassword } = req.body;
+    try {
+        if (password !== confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                error: `password and confirmPassword doesn't matched!`,
+            });
+        }
+        const verified = await verifyEmailAndOtpLocally({ email, otp });
+        if (!verified.success) {
+            return res.status(400).json({
+                success: false,
+                error: `Invalid Otp !`,
+            });
+        }
+        ;
+        await otpModel.deleteMany({ email, otp });
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const user = await userModel.create({
+            ffUid,
+            ffUserName,
+            name,
+            userName,
+            phone,
+            email,
+            password: hashedPassword,
+        });
+        const { _id, createAt } = user;
+        const token = jwt.sign({ name, userName, ffUid, _id, createAt }, jwt_secret);
+        res.status(200).json({
+            success: true,
+            data: {
+                token,
+                _id,
+                profile: "/icons/user.png",
+                userName,
+            },
+        });
+    }
+    catch (err) {
+        const key = Object.keys(err.keyValue)[0];
+        res.status(400).json({
+            success: false,
+            error: `${key} already exist!`,
+        });
+    }
+};
 export const loginUser_C = async (req, res) => {
     const { phone, email, password } = req.body;
     try {
@@ -14,14 +64,14 @@ export const loginUser_C = async (req, res) => {
         if (!user) {
             return res
                 .status(404)
-                .json({ success: false, message: "please sign up first." });
+                .json({ success: false, error: "please sign up first." });
         }
         const { _id, name, ffUid, userName, createAt, profile } = user;
         const passMatch = await bcrypt.compare(password, user.password);
         if (!passMatch) {
             return res
                 .status(404)
-                .json({ success: false, message: "password doesn't matched!" });
+                .json({ success: false, error: "password doesn't matched!" });
         }
         const token = jwt.sign({ name, ffUid, userName, createAt, id: _id, profile }, jwt_secret);
         res.status(200).json({
@@ -34,7 +84,7 @@ export const loginUser_C = async (req, res) => {
     catch (err) {
         res.status(500).json({
             success: false,
-            message: err.message,
+            error: err.message,
         });
     }
 };

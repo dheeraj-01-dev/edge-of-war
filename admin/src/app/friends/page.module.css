@@ -1,0 +1,19 @@
+.newConversation{
+  height: 100dvh;
+  width: 100dvw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding:  15px;
+}
+
+.addBtn{
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid #00b1f7;
+  width: max-content;
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  background: var(--bg-3);
+}

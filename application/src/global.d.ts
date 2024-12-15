@@ -51,6 +51,7 @@ type member = {
   ffUid: number;
   profile: string;
   userName: string;
+  userToken?: string
 };
 
 type getFriendsApi = {

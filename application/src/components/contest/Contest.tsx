@@ -55,7 +55,7 @@ const Contest: React.FC<contestType> = ({
         <div
           className={`${styles.upcoming} ${page === 1 && styles.upcomingPage}`}
         >
-          {upcomingBattles ? (
+          {upcomingBattles&&upcomingBattles?.length!==0 ? (
             <UpcomingBattle battles={upcomingBattles} />
           ) : (
             <NotAvailableTemplate

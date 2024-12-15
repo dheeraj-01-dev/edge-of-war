@@ -1,0 +1,6 @@
+.mobileContainer{
+    height: 100%;
+    width: 370px;
+    background: var(--bg-7);
+    border-radius: 20px;
+}

@@ -1,0 +1,32 @@
+.container{
+  position: relative;
+}
+.balanceBox{
+  background: #000;
+  /* background: var(--bg-7);
+  background: none; */
+  /* border: 2px solid var(--bg-1); */
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  padding: 10px 30px;
+}
+.balance{
+  font-size: 140%;
+}.balance span{
+  font-size: 80%;
+  opacity: 0.8;
+}
+.addBtn{
+  border: none;
+  border: 2px solid var(--bg-7);
+  padding: 5px 25px;
+  border-radius: 100px;
+  background: none;
+  position: absolute;
+  right: 20px;
+  bottom: 7px;
+  background: var(--bg-10);
+}

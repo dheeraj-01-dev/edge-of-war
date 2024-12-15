@@ -22,9 +22,9 @@ const Footer = () => {
       {/* <Link href="/tournament">
         <Image className={`${tournament&&styles.active}`} height={21} width={23} alt='' src="/icons/trophy-a7.png" />
       </Link> */}
-      <Link href="/leaderboard">
+      {/* <Link href="/leaderboard">
         <Image className={`${leaderboard&&styles.active}`} height={23} width={23} alt='' src="/icons/poll-a7.png" />
-      </Link>
+      </Link> */}
       <Link href="/">
         <Image className={`${home&&styles.active}`} height={23} width={23} alt='' src="/icons/home-a7.png" />
       </Link>

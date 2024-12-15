@@ -1,0 +1,39 @@
+.profileSection{
+  display: flex;
+  padding-left: 20px;
+  justify-content: space-between;
+}
+.profileSection img{
+  opacity: 0.9;
+}
+
+.profilePic{
+  border-radius: 100%;
+  object-fit: cover;
+}.uid{
+  font-size: 65%;
+  opacity: 0.8;
+  margin-top: 2px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}.exp{
+  text-align: center;
+  font-size: 60%;
+}
+
+.infoContainer{
+  margin-left: 20px;
+  margin-top: -4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+
+.likes{
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin-right: 27px;
+}
