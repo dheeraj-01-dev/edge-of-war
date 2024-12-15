@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import twilio from "twilio";
 import "dotenv/config";
 import { otpModel } from "./auth.model.js";
 import { userModel } from "../users/user.model.js";
