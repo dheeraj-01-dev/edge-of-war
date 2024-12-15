@@ -124,31 +124,8 @@ const verifyEmailAndOtpLocally = async ({ email, otp, }) => {
     }
 };
 const sendSms = async (req, res) => {
-    // try {
-    //     const accountSid = "ACf8d8cc767bd4a413b1fe8037abb85bfe";
-    //     const authToken = "673edfdd2ff5f9ea38ebebeab6a7621b";
-    //     const client = twilio(accountSid, authToken);
-    //     client.verify.v2
-    //         .services("VAc7b5e4e4c0cdeb0a5e5575408cfbba34")
-    //         .verifications.create({ to: "+918235681352", channel: "sms" })
-    //         .then((verification) => console.log(verification.sid));
-    // }
-    // catch (err) {
-    //     console.log(err);
-    // }
 };
 const sendWhatsapp = async (req, res) => {
-    // const accountSid = "ACf8d8cc767bd4a413b1fe8037abb85bfe";
-    // const authToken = "673edfdd2ff5f9ea38ebebeab6a7621b";
-    // const client = twilio(accountSid, authToken);
-    // client.messages
-    //     .create({
-    //     from: "whatsapp:+14155238886",
-    //     contentSid: "HX229f5a04fd0510ce1b071852155d3e75",
-    //     contentVariables: '{"1":"409173"}',
-    //     to: "whatsapp:+919910756792",
-    // })
-    //     .then((message) => console.log(message.sid));
 };
 export { sendMail, sendSms, sendWhatsapp, sendVerificationMailForSignUp, verifyEmailAndOtp, verifyEmailAndOtpLocally, };
 //# sourceMappingURL=auth.controller.js.map
