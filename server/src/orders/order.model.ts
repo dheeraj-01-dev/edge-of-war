@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { model, mongo, Schema } from "mongoose";
 
 const orderSchema = new Schema({
     battle: {
@@ -6,10 +6,24 @@ const orderSchema = new Schema({
         ref: "battles",
         required: true
     },
+    status: {
+        type: String,
+        required: true,
+        default: "unpaid",
+        enum: {
+            values: ["unpaid", "paid"],
+            message: "status `{VALUE}` not supported"
+        }
+    },
     createBy: {
         type: String,
         ref: "users",
         required: true
+    },
+    userId: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'users'
     },
     members: {
         type: Array<string>,

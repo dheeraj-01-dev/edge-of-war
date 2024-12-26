@@ -4,10 +4,35 @@ import Link from "next/link";
 import toast from "@/scripts/toast";
 
 import TextField from "@mui/material/TextField";
+import { Dispatch, SetStateAction } from 'react';
 
 // SignupPage1.tsx
 
-const SignupPage1 = ({ formData, setFormData, onNext }: any) => {
+const SignupPage1 = ({ formData, setFormData, onNext } : {
+  formData: {
+    name: string;
+    ffUid: string;
+    ffUserName: string;
+    phone: string;
+    email: string;
+    otp: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+},
+  setFormData:  Dispatch<SetStateAction<{
+    name: string;
+    ffUid: string;
+    ffUserName: string;
+    phone: string;
+    email: string;
+    otp: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+}>>,
+  onNext: ()=>void
+}) => {
   const handleNext = () => {
     if (formData.name && formData.ffUid && formData.ffUserName) {
       onNext();
@@ -28,7 +53,7 @@ const SignupPage1 = ({ formData, setFormData, onNext }: any) => {
             fullWidth
             margin="normal"
             value={formData.name}
-            onChange={(e :any) => setFormData({ ...formData, name: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
         </div>
         <div className={styles.formGroup}>
@@ -39,7 +64,7 @@ const SignupPage1 = ({ formData, setFormData, onNext }: any) => {
             fullWidth
             margin="normal"
             value={formData.ffUid}
-            onChange={(e :any) =>
+            onChange={(e) =>
               setFormData({ ...formData, ffUid: e.target.value })
             }
             InputProps={{
@@ -64,7 +89,7 @@ const SignupPage1 = ({ formData, setFormData, onNext }: any) => {
             fullWidth
             margin="normal"
             value={formData.ffUserName}
-            onChange={(e :any) =>
+            onChange={(e) =>
               setFormData({ ...formData, ffUserName: e.target.value })
             }
           />

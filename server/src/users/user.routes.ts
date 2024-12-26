@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { findUser_V, getAllFriends_V, getPersonalInfo_V, loginUser_V, validateRegistration } from "./user.validator.js";
-import { findUser_C, getAllFriends_C, getPersonalInfo_C, getSampleUsers_C, loginUser_C, registerUser } from "./user.controller.js";
+import { findUser_C, forgotPassword_C, getAllFriends_C, getPersonalInfo_C, getSampleUsers_C, loginUser_C, registerUser } from "./user.controller.js";
 
 const userRouter = Router();
 
@@ -10,6 +10,7 @@ userRouter.get("/get/:user", findUser_V, findUser_C)
 userRouter.get("/auth/get", getPersonalInfo_V, getPersonalInfo_C)
 userRouter.get("/get-friends/all",getAllFriends_V, getAllFriends_C)
 userRouter.get("/get/random/sample", getSampleUsers_C)
+userRouter.post("/forgotpassword", forgotPassword_C)
 // userRouter.get("/auth/get/:user", getSingleUser)
 // userRouter.put("/auth/recover", resetPass)
 // userRouter.put("/auth/update/:user", updateUserData)

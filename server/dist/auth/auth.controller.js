@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 import "dotenv/config";
 import { otpModel } from "./auth.model.js";
-import { userModel } from "../users/user.model.js";
 const sendMail = async (req, res) => {
     let transporter = nodemailer.createTransport({
         host: "smtpout.secureserver.net",
@@ -29,26 +28,17 @@ const sendVerificationMailForSignUp = async (req, res) => {
     const { email } = req.body;
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
-        const user = await userModel.findOne({ email });
-        if (user) {
-            res.status(400).json({
-                success: false,
-                error: "user already exist",
-            });
-        }
         await otpModel.deleteMany({ email });
         await otpModel.create({
             email,
             otp,
         });
         let transporter = nodemailer.createTransport({
-            host: "mail.edgeofwaresports.com",
-            port: 465,
-            secure: true,
+            service: 'gmail',
             auth: {
-                user: "mail@edgeofwaresports.com",
-                pass: "#Ggnfy57h",
-            },
+                user: 'mr.oops2090@gmail.com',
+                pass: 'hprq geji orhz enni'
+            }
         });
         let mailOptions = {
             from: "Edge Of War<mail@edgeofwaresports.com>",

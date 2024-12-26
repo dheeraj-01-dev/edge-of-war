@@ -3,10 +3,10 @@ import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { userModel } from "./user.model.js";
+import { passwordResetModel, userModel } from "./user.model.js";
 import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 import { otpModel } from "../auth/auth.model.js";
-import { error } from "console";
+import nodemailer from "nodemailer";
 // import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 // import { otpModel } from "../auth/auth.model.js";
 
@@ -14,7 +14,7 @@ config();
 
 const jwt_secret =
   process.env.JWT_SECRET_STR ||
-  "MAI_HU_DON_MAI_HU_DON....MUJHE_ROKEGA_KON>?SKLDFJ2934N23MNR09DNMIUAE90UNDAKFIH9OA8U90U9&*_+_89JH898'ASDF";
+  "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
 
 export const registerUser = async (req: Request, res: Response) => {
   const { name, otp, userName, phone, email, ffUid, ffUserName, password, confirmPassword } = req.body;
@@ -404,3 +404,79 @@ export const getSampleUsers_C = async (req: Request, res: Response) => {
   }
 
 };
+
+
+export const forgotPassword_C = async ( req: Request, res: Response )=>{
+  const { email } = req.body;
+  if(!email){
+    return res.status(404).json({
+      success: false, 
+      error: "Invalid Mail"
+    })
+  }
+  try {
+    const user = await userModel.findOne({ email });
+    if(!user){
+      return res.status(400).json({
+        success: false,
+        error: "user not found"
+      })
+    };
+    await passwordResetModel.create({
+      email,
+    });
+    const token = await jwt.sign({
+      email
+    }, jwt_secret);
+
+    const link = `https://domain.com/reset-password/${token}`
+
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',  // or you can configure with other services or custom SMTP
+          auth: {
+            user: 'mr.oops2090@gmail.com',
+            pass: 'hprq geji orhz enni'
+          }
+    
+          // host: "mail.edgeofwaresports.com",
+          // port: 465, // Use 587 if you're using TLS
+          // secure: true, // true for 465, false for 587
+          // auth: {
+          //   user: "mail@edgeofwaresports.com", // your GoDaddy email
+          //   pass: "#Ggnfy57h", // your GoDaddy email password
+          // },
+        });
+    
+        // Send email
+        let mailOptions = {
+          from: "Edge Of War<mail@edgeofwaresports.com>",
+          to: email,
+          subject: "Password Reset Link",
+          // text: `Your verification code is ${otp}`,
+          html: `
+          <div>
+            <p>Your password reset Link is below valid for last 10 min</p>
+            <div>
+              <a href="${link}" >${link}</a>
+            </div>
+          </div>
+        `,
+        };
+    
+        transporter.sendMail(mailOptions, (error: any, info: any) => {
+          if (error) {
+            return console.log(error);
+          }
+          res.status(200).json({
+            success: true,
+            data: info,
+          });
+        });
+
+  } catch {
+    res.status(500).json({
+      success: false,
+      error: "Something went Wrong"
+    })
+  }
+}

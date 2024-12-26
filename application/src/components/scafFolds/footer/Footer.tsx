@@ -9,19 +9,19 @@ import { usePathname } from 'next/navigation'
 const Footer = () => {
   const pathname = usePathname();
 
-  let home, contest, leaderboard, friends;
+  let home, contest, tournament, friends;
   if(pathname==="/"){home=true}
   if(pathname==="/contest"){contest=true}
-  // if(pathname==="/tournament"){tournament=true}
-  if(pathname==="/leaderboard"){leaderboard=true}
+  if(pathname==="/tournament"){tournament=true}
+  // if(pathname==="/leaderboard"){leaderboard=true}
   if(pathname==="/friends"){friends=true}
 
   
   return (
     <div className={styles.footerContainer}>
-      {/* <Link href="/tournament">
+      <Link href="/tournament">
         <Image className={`${tournament&&styles.active}`} height={21} width={23} alt='' src="/icons/trophy-a7.png" />
-      </Link> */}
+      </Link>
       {/* <Link href="/leaderboard">
         <Image className={`${leaderboard&&styles.active}`} height={23} width={23} alt='' src="/icons/poll-a7.png" />
       </Link> */}

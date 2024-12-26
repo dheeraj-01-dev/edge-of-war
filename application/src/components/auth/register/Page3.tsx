@@ -1,8 +1,7 @@
 // SignupPage3.tsx
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 // import styles from './SignupPage.module.css';
 import styles from './style/signupFlow.module.css'
-import toast from "@/scripts/toast";
 import { TextField } from "@mui/material";
 
 
@@ -13,7 +12,32 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // SignupPage3.tsx
-const SignupPage3 = ({ formData, setFormData, onFinish, onPrevious }: any) => {
+const SignupPage3 = ({ formData, setFormData, onFinish, onPrevious }: {
+  formData: {
+    name: string;
+    ffUid: string;
+    ffUserName: string;
+    phone: string;
+    email: string;
+    otp: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+},
+  setFormData:  Dispatch<SetStateAction<{
+    name: string;
+    ffUid: string;
+    ffUserName: string;
+    phone: string;
+    email: string;
+    otp: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+}>>,
+  onFinish: ()=>void,
+  onPrevious: ()=>void
+}) => {
 
   const register = () => {
     onFinish();
@@ -42,7 +66,7 @@ const SignupPage3 = ({ formData, setFormData, onFinish, onPrevious }: any) => {
             fullWidth
             margin="normal"
             value={formData.userName}
-            onChange={(e :any) =>
+            onChange={(e) =>
               setFormData({ ...formData, userName: e.target.value })
             }
           />
@@ -55,7 +79,7 @@ const SignupPage3 = ({ formData, setFormData, onFinish, onPrevious }: any) => {
             fullWidth
             margin="normal"
             value={formData.password}
-            onChange={(e :any)=>setFormData({ ...formData, password: e.target.value })}
+            onChange={(e)=>setFormData({ ...formData, password: e.target.value })}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -75,7 +99,7 @@ const SignupPage3 = ({ formData, setFormData, onFinish, onPrevious }: any) => {
             fullWidth
             margin="normal"
             value={formData.confirmPassword}
-            onChange={(e :any)=>setFormData({ ...formData, confirmPassword: e.target.value })}
+            onChange={(e)=>setFormData({ ...formData, confirmPassword: e.target.value })}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

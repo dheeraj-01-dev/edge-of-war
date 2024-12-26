@@ -29,6 +29,7 @@ const ProfileSection: React.FC<profileSection> = async (
         <div className={styles.loginContainer}>
           <Link className={styles.loginLink} href="/login">
             {" "}
+            <Image height={20} width={20} alt="" src={"/icons/welcome-back.png"} />
             Login{" "}
           </Link>
         </div>
@@ -53,6 +54,7 @@ const ProfileSection: React.FC<profileSection> = async (
         <div className={styles.loginContainer}>
           <Link className={styles.loginLink} href="/login">
             {" "}
+            <Image height={20} width={20} alt="" src={"/icons/welcome-back.png"} />
             Login{" "}
           </Link>
         </div>
@@ -78,6 +80,7 @@ const ProfileSection: React.FC<profileSection> = async (
         <div className={styles.loginContainer}>
           <Link className={styles.loginLink} href="/login">
             {" "}
+            <Image height={20} width={20} alt="" src={"/icons/welcome-back.png"} />
             Login{" "}
           </Link>
         </div>

@@ -15,6 +15,14 @@ const userSchema = new Schema({
         type: String,
         required: [true, "please enter your name...."],
     },
+    status: {
+        type: String,
+        default: "pending",
+        enum: {
+            values: ["pending", "verified", "rejected"],
+            message: "status `{VALUE}` not supported!"
+        }
+    },
     ffUid: {
         type: Number,
         required: [true, "please enter your free fire uid...."]
@@ -57,4 +65,11 @@ const userSchema = new Schema({
     }
 }, { timestamps: true });
 export const userModel = model("users", userSchema);
+const passwordResetSchema = new Schema({
+    email: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
+export const passwordResetModel = model("passwordResets", passwordResetSchema);
 //# sourceMappingURL=user.model.js.map

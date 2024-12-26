@@ -1,22 +1,21 @@
 type battleType = {
   _id?: string;
   battleId?: number;
+  status: string;
+  auth: {
+    roomId: string | number | undefined,
+    roomPass: stirng | number | undefined
+  },
   settings: {
-    gameMode: "Battle Royale" | "Clash Squad";
-    advanceOption: any;
-    map:
-      | "BERMUDA"
-      | "PURGATORY"
-      | "KALAHARI"
-      | "ALPINE"
-      | "NEXTERA"
-      | "BERMUDA REMASTER";
-    teamMode: "Solo" | "Duo" | "Squad";
+    gameMode: string;
+    advanceSetting: any;
+    map: string;
+    teamMode: string;
     slots: number;
-    ammo: "Limited" | "UN-Limited";
-    gunAttributes: "Yes" | "No";
-    characterSkill: "Yes" | "No";
-    loadout: "Yes" | "No";
+    ammo: string;
+    gunAttributes: string;
+    characterSkill: string;
+    loadout: string;
   };
   expire: {
     id: number;

@@ -6,6 +6,7 @@ import NavigateBack from "@/hooks/Navigate.back";
 import Image from "next/image";
 import BattleDetails from "@/components/index/battles/BattleDetails";
 import { getSingleBattle } from "@/api/battle";
+import { cookies } from "next/headers";
 
 // Fetching data function for server components
 async function fetchBattleData(id: string): Promise<responseType<battleType>> {
@@ -19,6 +20,9 @@ type Params = Promise<{
 
 const Page = async ({params}: {params: Params}) => {
 
+
+  const cookiStore = cookies();
+  const userName = (await cookiStore).get("__eow_user_name")?.value;
   
   const resolvedParams = await params;
   const response = await fetchBattleData(resolvedParams.id);
@@ -50,7 +54,7 @@ const Page = async ({params}: {params: Params}) => {
 
   return (
     <div className={styles["battle-details"]}>
-      <BattleDetails battle={response.data} />
+      <BattleDetails userName={userName} battle={response.data} />
     </div>
   );
 };

@@ -24,11 +24,13 @@ const UserProfile = ({
             alt=""
             src={profile}
           />
-          <div className={styles.exp}>Exp. 78</div>
+          <div className={styles.exp}>Exp. 01</div>
         </div>
         <div className={styles.infoContainer}>
           <div>
-            <div className={styles.name}>{name}</div>
+            <div style={{display: "flex", alignItems: "center"}} className={styles.name}>{name}&nbsp; &nbsp;
+              <Image height={15} width={15} alt="L" src="/icons/pending-yellow.png" />
+            </div>
             <div className={styles.uid}>{uid}</div>
           </div>
           <div className={styles.socialMedia}>
@@ -58,8 +60,21 @@ const UserProfile = ({
         </div>
       </div>
       <div className={styles.likes}>
-        <Image height={15} width={15} alt="L" src="/icons/like.png" />
-        <div>&nbsp;9834&nbsp; &nbsp;</div>
+        {/* <div style={{display: "flex", alignItems: "center", color: "#ffff00"}}>
+          pending &nbsp;
+          <Image height={15} width={15} alt="L" src="/icons/pending-yellow.png" />
+        </div> */}
+        {/* <div style={{display: "flex", alignItems: "center", color: "#00D566"}}>
+          verified &nbsp;
+          <Image height={15} width={15} alt="L" src="/icons/verified.png" />
+        </div> */}
+        {/* <div style={{display: "flex", alignItems: "center", color: "#E94444"}}>
+          rejected &nbsp;
+          <Image height={15} width={15} alt="L" src="/icons/rejected.png" />
+        </div> */}
+        
+        {/* <Image height={15} width={15} alt="L" src="/icons/like.png" />
+        <div>&nbsp;9834&nbsp; &nbsp;</div> */}
         {/* <Image height={15} width={15} alt='L' src="/icons/dislike.png" />
           <div>&nbsp;984</div> */}
       </div>

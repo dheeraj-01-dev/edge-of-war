@@ -1,0 +1,38 @@
+.label{
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+.select{
+    margin-left: 10px;
+    padding: 4px 15px;
+    background: var(--bg-10);
+    border: 1px solid var(--bg-1);
+    color: aliceblue;
+}
+
+.keyValuePairs{
+    display: grid;
+    /* background: #000; */
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.container{
+    position: relative;
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--bg-7);
+    border: 2px solid var(--bg-1);
+    border-radius: 20px;
+}
+.shader{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: none;
+}

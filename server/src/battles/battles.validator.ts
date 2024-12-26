@@ -33,7 +33,6 @@ export const joinBattle_V = async (
     });
   }
   const { battle, members } = req.body;
-  console.log(req.body)
 
   const schema = z.object({
     battle: z.instanceof(mongoose.Types.ObjectId),
@@ -44,7 +43,7 @@ export const joinBattle_V = async (
   });
 
   try {
-    console.log(battle);
+    // console.log(battle);
     const validSchema = schema.safeParse({
       battle: new mongoose.Types.ObjectId(battle),
       members,
@@ -59,10 +58,10 @@ export const joinBattle_V = async (
       });
     }
   } catch (err: any) {
-    console.log(err);
+    // console.log(err);
     res.status(400).json({
       success: false,
-      error: err,
+      error: err
     });
   }
 };

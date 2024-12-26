@@ -68,7 +68,7 @@ const Login = ({
   return (
     <div className={styles.login}>
       <div className={styles.loginChild}>
-        <div className={styles.loginTitle}>LOGIN</div>
+        <div className={styles.loginTitle}>Login</div>
         <form method="post" onSubmit={handleLogin}>
           <div className={styles.inputContainer}>
             <Image src="/icons/user.png" height={20} width={20} alt="user" />
@@ -81,7 +81,7 @@ const Login = ({
               }}
               id="loginIdentifier"
               type="text"
-              placeholder="phone or email"
+              placeholder="email"
             />
           </div>
           <div className={styles.inputContainer}>
@@ -106,7 +106,7 @@ const Login = ({
             />
           </div>
           <div style={{textAlign: "end", marginTop: 10}}>
-            <Link className={styles.registerLink} href={"/resetpassword"}>
+            <Link className={styles.registerLink} href={"/forgotpassword"}>
               forgot password?
             </Link>
           </div>
@@ -116,7 +116,7 @@ const Login = ({
             </button>
           </div>
         </form>
-            <div style={{fontSize: "90%", marginTop: 80, textAlign: "center"}}>don't have account? 
+            <div style={{fontSize: "90%", marginTop: 90, textAlign: "center"}}>don't have account? 
               <Link className={styles.registerLink} href={"/register"}> Register</Link>
             </div>
       </div>

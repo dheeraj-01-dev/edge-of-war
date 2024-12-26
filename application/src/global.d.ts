@@ -1,6 +1,11 @@
 type battleType = {
   _id: string;
   battleId: number;
+  status: string,
+  auth?: {
+    roomId: string,
+    roomPass: string
+  }
   settings: {
     gameMode: "Battle Royale" | "Clash Squad";
     map:
@@ -16,6 +21,99 @@ type battleType = {
     gunAttributes: "Yes" | "No";
     characterSkill: "Yes" | "No";
     loadout: "Yes" | "No";
+    advanceSetting: {
+      "Battle Royale": {
+        "presetMode": string,
+        "revival": string,
+        "HP": string,
+        "EP": string,
+        "Movement Speed": string,
+        "Jump Height": string,
+
+        "Environment": string,
+        "Limited Ammo": string,
+        "Fall Damage": string,
+        "Auto Revival": string,
+        "Airdrop": string,
+        "Zone Shrink Speed": string,
+        "Vehicles": string,
+        "Out-Of-Zone Damage": string,
+        "High Tier Loot Zone": string,
+        "UAV": string,
+        "Airstrike": string,
+        "Airship": string,
+        "Generic Enemy Outfit": string,
+        "Hide TeamMate Nickname": string,
+        "Friendly Fire": string,
+        "Precise Aim": string,
+        "Character Skill": string,
+        "LoadOut": string,
+        "Gun Attributes": string,
+        "In-Game Mission": string,
+        "In-Match Quests": string,
+        "Safe Zone Movin": string,
+        "Quit-Out Penalty": string,
+        "Only Headshot": string
+      },
+      "Clash Squad": {
+
+        "presetMode": string,
+        "Rounds": string,
+        "Default Coin": string,
+        "Special Mode": string,
+        "Special Airdrop": string,
+        "HP": string,
+        "EP": string,
+        "Movement Speed": string,
+        "Jump Height": string,
+
+        "Environment": string,
+        "Limited Ammo": string,
+        "Fall Damage": string,
+        "Airdrop": string,
+        "High Tier Loot Zone": string,
+        "Generic Enemy Outfit": string,
+        "Hide TeamMate Nickname": string,
+        "Friendly Fire": string,
+        "Precise Aim": string,
+        "Character Skill": string,
+        "LoadOut": string,
+        "Gun Attributes": string,
+        "In-Match Quests": string,
+        "Quit-Out Penalty": string,
+        "Only Headshot": string
+      },
+      "presetMode": string,
+      "EP": string,
+      "revival": string,
+      "Movement Speed": string,
+      "HP": "200",
+      "Jump Height": string,
+      "Environment": string,
+      "Auto Revival": string,
+      "Vehicles": string,
+      "UAV": string,
+      "Generic Enemy Outfit": string,
+      "Precise Aim": string,
+      "Gun Attributes": string,
+      "Safe Zone Movin": string,
+      "Limited Ammo": string,
+      "Airdrop": string,
+      "Out-Of-Zone Damage": string,
+      "Airstrike": string,
+      "Hide TeamMate Nickname": string,
+      "Character Skill": string,
+      "In-Game Mission": string,
+      "Quit-Out Penalty": string,
+      "Fall Damage": string,
+      "Zone Shrink Speed": string,
+      "High Tier Loot Zone": string,
+      "Airship": string,
+      "Friendly Fire": string,
+      "LoadOut": string,
+      "In-Match Quests": string,
+      "Only Headshot": string
+    }
   };
   expire: {
     id: number;

@@ -73,7 +73,7 @@ const PasswordSecurity: React.FC<passwordSecurityProps> = ({style}) => {
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Change Password</h3>
         <div className={styles.formGroup}>
-          <label htmlFor="currentPassword" className={styles.label}>Current Password</label>
+          {/* <label htmlFor="currentPassword" className={styles.label}>Current Password</label> */}
           <div className={styles.passwordInputWrapper}>
             <input
               type={showCurrentPassword ? "text" : "password"}
@@ -99,7 +99,7 @@ const PasswordSecurity: React.FC<passwordSecurityProps> = ({style}) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="newPassword" className={styles.label}>New Password</label>
+          {/* <label htmlFor="newPassword" className={styles.label}>New Password</label> */}
           <div className={styles.passwordInputWrapper}>
             <input
               type={showNewPassword ? "text" : "password"}
@@ -125,7 +125,7 @@ const PasswordSecurity: React.FC<passwordSecurityProps> = ({style}) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="confirmPassword" className={styles.label}>Confirm New Password</label>
+          {/* <label htmlFor="confirmPassword" className={styles.label}>Confirm New Password</label> */}
           <div className={styles.passwordInputWrapper}>
             <input
               type={showConfirmPassword ? "text" : "password"}

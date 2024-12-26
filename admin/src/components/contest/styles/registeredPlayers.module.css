@@ -1,0 +1,33 @@
+
+.container{
+    margin-top: 20px;
+    border: 2px solid var(--bg-1);
+    border-radius: 20px;
+    padding: 20px;
+    background: var(--bg-7);
+    min-height: 400px;
+    margin-bottom: 50px;
+}
+.header{
+    font-weight: 700;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+.players{
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+}
+.team{
+    /* padding: 10px; */
+    height: fit-content;
+    border: 2px solid var(--bg-1);
+}
+.slotLabel{
+    padding: 10px;
+    background: #000;
+}
+.member{
+    padding: 10px;
+    background: var(--bg-10);
+}

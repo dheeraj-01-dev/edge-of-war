@@ -9,10 +9,11 @@ const page = async () => {
   const token = (await cookieStore).get("__eow_user_token")?.value;
 
   const response = await getRegisterdBattle({ token });
+  
 
   return (
     <ScafFold>
-      <Contest completedBattles={undefined} upcomingBattles={response.data} />
+      <Contest completedBattles={undefined} upcomingBattles={response.data?.battles} />
     </ScafFold>
   );
 };

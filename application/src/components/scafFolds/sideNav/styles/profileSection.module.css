@@ -53,7 +53,9 @@
 
 .loginLink{
   padding: 5px 20px;
-  border: 2px solid rgb(8, 91, 136);
+  /* border: 2px solid rgb(8, 91, 136); */
+  color: rgb(0, 166, 255);
+  text-decoration: underline;
 }
 
 @media screen and (min-width: 680px) {

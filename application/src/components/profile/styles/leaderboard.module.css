@@ -1,0 +1,15 @@
+.label{
+    margin-top: 35px;
+    padding: 0 30px 0 10px;
+    font-family: monospace;
+    font-size: larger;
+    font-weight: 700;
+    opacity: 0.7;
+}
+.container{
+    height: 120px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 1px 20px;
+    background: var(--bg-7);
+}

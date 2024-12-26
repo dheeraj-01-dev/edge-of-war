@@ -1,0 +1,32 @@
+
+
+.room-auth{
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #151F27;
+    background-color: var(--bg-9);
+  }
+  .room-id{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }.room-auth span{
+    color: #89c2e9;
+  }
+  .room-pass{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+.myEntity{
+    padding: 10px;
+    background: var(--bg-6);
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  .myEntityTemplate{
+    font-weight: 700;
+    opacity: 0.6;
+  }

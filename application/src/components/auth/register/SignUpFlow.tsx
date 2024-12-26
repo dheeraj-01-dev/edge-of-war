@@ -30,25 +30,28 @@ const SignupFlow = () => {
   const handleNext = () => setStep(step + 1);
   const handlePrevious = () => setStep(step - 1);
 
-  const handleFinish = async () => { 
-    // Final submission to backend
-    const json = await registerUser(formData)
-    console.log(json)
-    alert("Signup completed! " + JSON.stringify(formData));
+  // const handleFinish = async () => { 
+  //   // Final submission to backend
+  //   const json = await registerUser(formData)
+  //   console.log(json)
+  //   alert("Signup completed! " + JSON.stringify(formData));
 
 
-  };
+  // };
 
 
   const handleRegister = async ()=>{
 
     const currentDate = +new Date();
-    const response :responseType<any> = await registerUser(formData);
+    const response :responseType<{
+      token: string,
+      userName: string,
+    }> = await registerUser(formData);
     if(response.success){
-      setCookie("__eow_user_token", response.data.token, {
+      setCookie("__eow_user_token", response.data?.token, {
         expires: new Date(currentDate + 7776000000),
       });
-      setCookie("__eow_user_name", response.data.userName, {
+      setCookie("__eow_user_name", response.data?.userName, {
         expires: new Date(currentDate + 7776000000),
       });
       // setCookie("u_state", response.data.token, {expires : new Date(currentDate+7776000000)});

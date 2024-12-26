@@ -269,7 +269,10 @@ export const getRegisteredBattle_C = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      data,
+      data: {
+        length: data.length,
+        battles: data
+      }
     });
   } catch (err) {
     res.status(400).json({
@@ -305,12 +308,12 @@ export const createBattleOrder = async (req: Request, res: Response) => {
     const { userName } = decodedUser;
 
     const userDetails = await userModel.findOne({userName});
-    if(!userDetails){
 
-    return res.status(400).json({
-      success: false,
-      error: "unAuthorized !",
-    });
+    if(!userDetails){
+      return res.status(400).json({
+        success: false,
+        error: "unAuthorized user!",
+      });
     };
 
     const isAlreadyJoined = await orderModel.aggregate([
@@ -382,26 +385,44 @@ export const createBattleOrder = async (req: Request, res: Response) => {
         { session }
       );
 
-      await orderModel.create([{
+      const order = await orderModel.create([{
         battle: battle,
         createBy: userName,
+        userId: userDetails._id,
         members: [updatedMember]
-      }], { session })
+      }], { session });
 
+      
       await session.commitTransaction();
       await session.endSession();
-
-      res.status(200).json({
-        success: true,
-        data: "Join successfully",
+      
+      const response = await fetch(`http://127.0.0.1:5000/transaction/create/${order[0]._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: "123@edgeofwaresports.com"
+        },
+        body: JSON.stringify({
+          status: "debited",
+          type: "contest fee",
+          value: battleInfo.entry
+        })
       });
-    } catch (err) {
+      const data = await response.json();
+      if(!data.success){
+        throw new Error(data.error);
+      }
+      
+      return res.status(200).json({
+        success: true,
+        data: data.data,
+      });
+    } catch (err :any) {
       await session.abortTransaction();
       await session.endSession();
-
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
-        error: err,
+        error: err.message || "something went wrong"
       });
     }
   } catch (error) {
@@ -409,5 +430,69 @@ export const createBattleOrder = async (req: Request, res: Response) => {
       success: false,
       error: "unAuthorized !",
     });
+  }
+};
+
+export const getUpcomingBattles_C = async (req: Request, res: Response) => {
+  try {
+    const battles = await battleModel.aggregate([{
+      $match: {
+        status: "upcoming"
+      }
+    }]);
+    res.status(200).json({
+      success: true,
+      data: {
+        length: battles.length,
+        battles
+      }
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error
+    })
+  }
+}
+export const getLiveBattles_C = async (req: Request, res: Response) => {
+  try {
+    const battles = await battleModel.aggregate([{
+      $match: {
+        status: "live"
+      }
+    }]);
+    res.status(200).json({
+      success: true,
+      data: {
+        length: battles.length,
+        battles
+      }
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error
+    })
+  }
+}
+export const getCompletedBattles_C = async (req: Request, res: Response) => {
+  try {
+    const battles = await battleModel.aggregate([{
+      $match: {
+        status: "completed"
+      }
+    }]);
+    res.status(200).json({
+      success: true,
+      data: {
+        length: battles.length,
+        battles
+      }
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error
+    })
   }
 }

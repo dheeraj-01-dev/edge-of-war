@@ -5,6 +5,15 @@ const battleSchema = new Schema({
         required: true,
         unique: true,
     },
+    status: {
+        type: String,
+        required: true,
+        default: "upcoming",
+        enum: {
+            values: ["upcoming", "live", "completed"],
+            message: "status `{VALUE}` not supported!"
+        }
+    },
     settings: {
         gameMode: {
             type: String,
@@ -347,6 +356,16 @@ const battleSchema = new Schema({
             }
         }
     },
+    auth: {
+        type: {
+            roomId: {
+                type: Number,
+            },
+            roomPass: {
+                type: String
+            }
+        }
+    },
     expire: {
         id: { type: Number, required: true },
         dateStr: { type: String, required: true }
@@ -367,6 +386,12 @@ const battleSchema = new Schema({
             type: Number,
         },
     },
+    positions: [
+        {
+            type: (Array),
+            ref: "users"
+        }
+    ],
     roomId: {
         type: String
     },

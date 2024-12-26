@@ -10,8 +10,8 @@ import {
 const authRouter = Router();
 
 authRouter.post("/send/mail", sendMail);
-authRouter.post("/send/verificationMail", sendVerificationMailForSignUp);
-authRouter.post("/verifyEmailAndOtp", verifyEmailAndOtp);
+authRouter.post("/send/verificationmail", sendVerificationMailForSignUp);
+authRouter.post("/verifyemailandotp", verifyEmailAndOtp);
 authRouter.post("/send/sms", sendSms);
 authRouter.post("/send/whatsapp", sendWhatsapp);
 

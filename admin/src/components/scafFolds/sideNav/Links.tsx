@@ -24,9 +24,23 @@ const links = [
     height: 20,
   },
   {
+    text: "Users",
+    src: "/icons/user.png",
+    href: "/users",
+    width: 20,
+    height: 20,
+  },
+  {
     text: "Contest",
     src: "/icons/cart-a7.png",
     href: "/contest",
+    width: 20,
+    height: 20,
+  },
+  {
+    text: "Distribute Prizes",
+    src: "/icons/apps.png",
+    href: "/distribute-prizes",
     width: 20,
     height: 20,
   },

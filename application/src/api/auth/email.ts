@@ -14,9 +14,16 @@ const sendVerificationEmail = async ({email}: {email: string}) => {
       }
     });
     return json.data;
-  } catch (err:any) {
-    console.log(err)
-    return err.response.data
+  } catch (err) {
+    
+    // Defining the error type as AxiosError
+    if (axios.isAxiosError(err)) {
+      // console.log(err.response?.data); // you can access the response here
+      return err.response?.data; // return the response data in case of an error
+    } else {
+      console.log('Unexpected error:', err); // in case of an unexpected error (non-Axios error)
+      return { error: 'Unexpected error occurred' };
+    }
   }
 };
 
@@ -31,8 +38,16 @@ const verifyEmailAndOtp = async ({email, otp}: {email: string, otp: number | str
       }
     });
     return json.data;
-  } catch (err:any) {
-    return err.response.data
+  } catch (err) {
+    // return err.response.data
+    // Defining the error type as AxiosError
+    if (axios.isAxiosError(err)) {
+      // console.log(err.response?.data); // you can access the response here
+      return err.response?.data; // return the response data in case of an error
+    } else {
+      console.log('Unexpected error:', err); // in case of an unexpected error (non-Axios error)
+      return { error: 'Unexpected error occurred' };
+    }
   }
 }
 

@@ -1,0 +1,10 @@
+.container{
+    padding: 15px;
+    border: 3px solid var(--bg-7);
+    background: #000;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}

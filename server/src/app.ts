@@ -9,6 +9,8 @@ import notificatonRouter from './notification/notification.routes.js';
 import validateapikey from './middlewares/apikeyvalidator.js';
 import adminRouter from './admin/admin.routes.js';
 import { authRouter } from './auth/auth.routes.js';
+import { transactionRouter } from './transactions/transactions.routes.js';
+import paymentRouter from './payment/payment.routes.js';
 
 const app = express();
 app.use(cors());
@@ -30,6 +32,8 @@ app.use("/user", userRouter)
 app.use("/notification", notificatonRouter)
 app.use("/admin", adminRouter)
 app.use("/auth", authRouter)
+app.use("/transaction", transactionRouter)
+app.use("/payments", paymentRouter)
 
 app.all('*', (req, res)=>{
   res.status(404).json({

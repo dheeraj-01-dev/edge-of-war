@@ -8,6 +8,11 @@ interface team{
 
 interface schema{
   battleId: number,
+  status: string,
+  auth: {
+    roomId: number,
+    roomPass: string
+  },
   settings:{
     gameMode: "Battle Royal"|"Clash Squad",
     map: "BERMUDA"|"PURGATORY"|"KALAHARI"|"ALPINE"|"NEXTERA"|"BERMUDA REMASTER",
@@ -60,6 +65,7 @@ interface schema{
     _2: number,
     _3: number
   },
+  positions: string[][],
   roomId: {
     type: number | string,
   },
@@ -74,6 +80,15 @@ const battleSchema = new Schema<schema>({
     type: Number,
     required: true,
     unique: true,
+  },
+  status: {
+    type: String,
+    required: true,
+    default: "upcoming",
+    enum: {
+      values: ["upcoming", "live", "completed"],
+      message: "status `{VALUE}` not supported!"
+    }
   },
   settings: {
     gameMode: {
@@ -417,6 +432,16 @@ const battleSchema = new Schema<schema>({
       }
     }
   },
+  auth: {
+    type: {
+      roomId: {
+        type: Number,
+      },
+      roomPass: {
+        type: String
+      }
+    }
+  },
   expire: {
     id: {type: Number, required: true},
     dateStr: {type: String, required: true}
@@ -437,6 +462,12 @@ const battleSchema = new Schema<schema>({
       type: Number,
     },
   },
+  positions: [
+    {
+      type: Array<string>,
+      ref: "users"
+    }
+  ],
   roomId: {
     type: String
   },

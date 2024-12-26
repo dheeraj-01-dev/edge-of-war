@@ -100,7 +100,86 @@ export const getRegisterdBattle = async ({token}: {token: string | undefined }) 
       error: "An unexpected error occurred",
     };
   }
-}
+};
+
+export const getUpcomingBattles = async () : Promise<responseType<{length: number, battles: battleType}>> => {
+  try {
+    const response = await axios.get(`${domain}/battle/get/upcoming`, {
+      headers: {
+        apikey
+      }
+    });
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+    // Handle any other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+};
+export const getLiveBattles = async () : Promise<responseType<{length: number, battles: battleType}>> => {
+  try {
+    const response = await axios.get(`${domain}/battle/get/live`, {
+      headers: {
+        apikey
+      }
+    });
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+    // Handle any other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+};
+export const getCompletedBattles = async () : Promise<responseType<{length: number, battles: battleType}>> => {
+  try {
+    const response = await axios.get(`${domain}/battle/get/completed`, {
+      headers: {
+        apikey,
+      }
+    });
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+    // Handle any other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+};
 
 // const joinBattle = async ({battle, team, members, Authorization}: {
 //   battle: string,

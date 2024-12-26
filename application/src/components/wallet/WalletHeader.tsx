@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './styles/walletHeader.module.css'
 import NavigateBack from '@/hooks/Navigate.back'
 import { ArrowLeftIcon } from '../icons/ArrowLeft'
+import Link from 'next/link'
 
 const WalletHeader = () => {
   return (
@@ -12,7 +13,11 @@ const WalletHeader = () => {
         </NavigateBack>
           &nbsp;&nbsp; Wallet
       </div>
-      <div className={styles.allTransactionBtn}>All transactions</div>
+      <div className={styles.allTransactionBtn}>
+        <Link href="/transactions" >
+          All transactions
+        </Link>
+      </div>
     </div>
   )
 }

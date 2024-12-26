@@ -52,13 +52,24 @@
   padding: 0 10px;
 }
 
+.entryBox{
+  display: flex;
+  justify-content: center;
+  /* background: darkolivegreen; */
+}
+
 .battleMap{
   /* background: rebeccapurple; */
 }
 
+.idPass{
+  font-size: 80%;
+  text-align: start;
+}
 .idPass span{
   display: inline-block;
-  min-width: 50px;
+  min-width: 40px;
+  font-size: 110%;
   /* background: darkolivegreen; */
 }
 
@@ -111,6 +122,13 @@
   /* margin: 4px 10px 10px; */
 }
 
+/* .footer{
+  margin-top: 15px;
+  font-size: 80%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+} */
 .battleCardCount{
   font-size: 70%;
 }

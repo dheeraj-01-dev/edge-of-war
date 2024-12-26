@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import { boolean } from "zod";
 
 const friendsLimit = (val :any)=>{
   return val.length <=200;
@@ -11,6 +12,7 @@ interface schema{
   balance: Number,
   name: string,
   ffUid: Number,
+  status: string,
   ffUserName: string,
   profile: string,
   userName: string,
@@ -36,6 +38,14 @@ const userSchema = new Schema<schema>({
   name: {
     type: String,
     required: [true, "please enter your name...."],
+  },
+  status: {
+    type: String,
+    default: "pending",
+    enum: {
+      values: ["pending", "verified", "rejected"],
+      message: "status `{VALUE}` not supported!"
+    }
   },
   ffUid: {
     type: Number,
@@ -85,3 +95,13 @@ const userSchema = new Schema<schema>({
 }, {timestamps: true});
 
 export const userModel = model("users", userSchema)
+
+
+const passwordResetSchema = new Schema({
+  email: {
+    type: String, 
+    required: true
+  }
+}, { timestamps: true });
+
+export const passwordResetModel = model("passwordResets", passwordResetSchema);

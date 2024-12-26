@@ -13,7 +13,7 @@ const page = async () => {
 
 
   const json :responseType<battleType[]> = await getAllBattles({token: adminToken});
-  console.log(json)
+  
   return (
     <ScafFold>
       <div className={styles.page}>

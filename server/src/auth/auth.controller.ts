@@ -77,13 +77,13 @@ const sendVerificationMailForSignUp = async (req: Request, res: Response) => {
 
   // return
   try {
-    const user = await userModel.findOne({ email });
-    if (user) {
-      res.status(400).json({
-        success: false,
-        error: "user already exist",
-      });
-    }
+    // const user = await userModel.findOne({ email });
+    // if (user) {
+    //   res.status(400).json({
+    //     success: false,
+    //     error: "user already exist",
+    //   });
+    // }
     await otpModel.deleteMany({ email });
     await otpModel.create({
       email,
@@ -92,19 +92,19 @@ const sendVerificationMailForSignUp = async (req: Request, res: Response) => {
 
     // Create a transporter
     let transporter = nodemailer.createTransport({
-      // service: 'gmail',  // or you can configure with other services or custom SMTP
-      // auth: {
-      //   user: 'mr.oops2090@gmail.com',
-      //   pass: 'hprq geji orhz enni'
-      // }
-
-      host: "mail.edgeofwaresports.com",
-      port: 465, // Use 587 if you're using TLS
-      secure: true, // true for 465, false for 587
+      service: 'gmail',  // or you can configure with other services or custom SMTP
       auth: {
-        user: "mail@edgeofwaresports.com", // your GoDaddy email
-        pass: "#Ggnfy57h", // your GoDaddy email password
-      },
+        user: 'mr.oops2090@gmail.com',
+        pass: 'hprq geji orhz enni'
+      }
+
+      // host: "mail.edgeofwaresports.com",
+      // port: 465, // Use 587 if you're using TLS
+      // secure: true, // true for 465, false for 587
+      // auth: {
+      //   user: "mail@edgeofwaresports.com", // your GoDaddy email
+      //   pass: "#Ggnfy57h", // your GoDaddy email password
+      // },
     });
 
     // Send email

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import battleModel from "../../battles/battles.model.js";
+import { error } from "console";
 
 export const createBattleController = async (req:Request, res: Response) => {
     req.body.battleId = 101
@@ -51,4 +52,49 @@ export const getRegisteredBattle = async (req: Request, res: Response) => {
             error
         })
     }
-}
+};
+
+export const hostBattle_C = async (req: Request, res: Response) => {
+    const { battle } = req.params;
+    const { roomId, roomPass } = req.body;
+
+    try {
+        try {
+            const data = await battleModel.findOne({_id: battle});
+            if(!data){
+                return res.status(404).json({
+                    success: false,
+                    error: "Battle Not Found !"
+                });
+            };
+            const { auth } = data;
+            if(auth.roomId || auth.roomPass){
+                return res.status(400).json({
+                    success: false,
+                    error: "Already Hosted!"
+                })
+            };
+        } catch (error) {
+            return res.status(404).json({
+                success: false,
+                error: "Battle Not Found !"
+            })
+        }
+        await battleModel.findOneAndUpdate({_id: battle}, {
+            auth: {
+                roomId, roomPass
+            },
+            status: "live"
+        }, { returnOriginal: false });
+        
+        res.status(200).json({
+            success: true,
+            data: "updated Successfully"
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error
+        })
+    }
+};

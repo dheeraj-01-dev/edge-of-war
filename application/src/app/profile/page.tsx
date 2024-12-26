@@ -9,6 +9,9 @@ import Balance from "@/components/profile/Balance";
 import PersonalInfo from "@/components/profile/PersonalInfo";
 import PasswordSecurity from "@/components/profile/PasswordAndSequrity";
 import { getPersonalInfo } from "@/api/user";
+import Leaderboard from "@/components/profile/Leaderboard";
+import Logout from "@/components/profile/Logout";
+import { ConfirmationDialogProvider } from "@/components/ConfirmDialog/ConfirmDialog";
 
 const page = async () => {
   const cookieStore = cookies();
@@ -39,6 +42,7 @@ const page = async () => {
           {/* <SocialMedia /> */}
           <Balance balance={balance} style={{ marginTop: 35 }} />
         </div>
+        <Leaderboard />
         <div className={styles.section2}>
           <PersonalInfo
             style={{ marginTop: 35 }}
@@ -49,6 +53,9 @@ const page = async () => {
           />
         </div>
         <PasswordSecurity style={{ marginTop: 35 }} />
+        <ConfirmationDialogProvider>
+          <Logout />
+        </ConfirmationDialogProvider>
       </div>
     </AuthProtected>
   );

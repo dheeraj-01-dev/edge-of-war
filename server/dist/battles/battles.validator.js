@@ -20,7 +20,6 @@ export const joinBattle_V = async (req, res, next) => {
         });
     }
     const { battle, members } = req.body;
-    console.log(req.body);
     const schema = z.object({
         battle: z.instanceof(mongoose.Types.ObjectId),
         members: z
@@ -29,7 +28,6 @@ export const joinBattle_V = async (req, res, next) => {
             .max(4, { message: "Invalid members" }),
     });
     try {
-        console.log(battle);
         const validSchema = schema.safeParse({
             battle: new mongoose.Types.ObjectId(battle),
             members,
@@ -45,10 +43,9 @@ export const joinBattle_V = async (req, res, next) => {
         }
     }
     catch (err) {
-        console.log(err);
         res.status(400).json({
             success: false,
-            error: err,
+            error: err
         });
     }
 };

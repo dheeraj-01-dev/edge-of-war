@@ -6,11 +6,23 @@ import NotAvailableTemplate from "../temp/NotAvailableTemplate";
 import UpcomingBattle from "./UpcomingBattle";
 
 interface contestType {
+  onHost: ({ apikey, authorization, roomId, roomPass, battle }: {
+    apikey: string | undefined;
+    authorization: string | undefined;
+    roomId: string | number | undefined;
+    roomPass: string | number | undefined;
+    battle: string | undefined;
+}) => Promise<responseType<string>>;
   upcomingBattles: battleType[] | undefined;
   completedBattles: battleType[] | undefined;
+  authorization: string | undefined,
+  apikey: string | undefined
 }
 
 const Contest: React.FC<contestType> = ({
+  onHost,
+  authorization,
+  apikey,
   upcomingBattles,
   completedBattles,
 }) => {
@@ -29,6 +41,11 @@ const Contest: React.FC<contestType> = ({
       setPage(0);
     },
   });
+
+  const handleHost = async ({ roomId, roomPass, battle }: {roomId: string|number|undefined, roomPass: string|number|undefined, battle: string|undefined}) => {
+    const res = await onHost({authorization, apikey, roomId, roomPass, battle});
+    return res;
+  }
 
   return (
     <div className={styles.contestContainer} id="pageContainer">
@@ -56,7 +73,7 @@ const Contest: React.FC<contestType> = ({
           className={`${styles.upcoming} ${page === 1 && styles.upcomingPage}`}
         >
           {upcomingBattles ? (
-            <UpcomingBattle battles={upcomingBattles} />
+            <UpcomingBattle handleHost={handleHost} battles={upcomingBattles} />
           ) : (
             <NotAvailableTemplate
               style={{ height: "calc(100% - 20px)", background: "none" }}

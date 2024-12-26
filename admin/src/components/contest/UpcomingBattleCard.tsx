@@ -48,32 +48,6 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
   const [rmi, setRmi] = useState("")
   const [rsec, setRsec] = useState("")
 
-  // function getTimeDifference(date1 :any, date2 :any) {
-  //   const diffInMs = Math.abs(date2 - date1);
-
-  //   const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  //   const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-  //   const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-
-  //   return { days, hours, minutes, seconds };
-  // }
-
-  // function getTimeDifference(date1 :any, date2 :any) {
-  //   const diffInMs = date2 - date1;
-
-  //   if (diffInMs <= 0) {
-  //     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  //   }
-
-  //   const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  //   const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-  //   const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-
-  //   return { days, hours, minutes, seconds };
-  // }
-
   function getTimeDifference(date1 :number, date2 :number) {
     const diffInMs = date2 - date1;
 
@@ -108,7 +82,7 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
           <div className={styles.timeCountDown}>{`${rhr}:${rmi}:${rsec}`}</div>
         </header>
 
-        <Link href={`/battle/${_id}`}>
+        <Link href={""}>
           <div className={styles.infoContainer}>
             <div className={styles.battleMap}>
               <Image

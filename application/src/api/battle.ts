@@ -104,7 +104,10 @@ export const getSingleBattle = async (
   }
 };
 
-export const getRegisterdBattle = async ({token}: {token: string | undefined }) :Promise<responseType<battleType[]>> => {
+export const getRegisterdBattle = async ({token}: {token: string | undefined }) :Promise<responseType<{
+  lenght: number,
+  battles: battleType[]
+}>> => {
   if(!token){
     return {
       success: false,
@@ -112,7 +115,7 @@ export const getRegisterdBattle = async ({token}: {token: string | undefined }) 
     }
   }
   try {
-    const response = await axios.get(`${domain}/battle/get/upcoming`, {
+    const response = await axios.get(`${domain}/battle/get/registeredbattle`, {
       headers: {
         apikey,
         Authorization: token
@@ -185,23 +188,31 @@ export const joinBattle = async ({battle, members, Authorization}: {
   }
 };
 
-const fetchUpcomingBattles = async ( authorization: string | undefined ) => {
-  if(!authorization){
-    return {
-      success: false,
-      error: "unathorized!"
-    }
-  }
-  try {
-    const json = await axios({
-      method: "GET",
-      url: `${domain}/battle/get/upcoming`,
-      headers: {
-        Authorization: authorization
-      }
-    });
-    return json.data;
-  } catch (err:any) {
-    return err.response.data
-  }
-}
+// const fetchUpcomingBattles = async ( authorization: string | undefined ) => {
+//   if(!authorization){
+//     return {
+//       success: false,
+//       error: "unathorized!"
+//     }
+//   }
+//   try {
+//     const json = await axios({
+//       method: "GET",
+//       url: `${domain}/battle/get/upcoming`,
+//       headers: {
+//         Authorization: authorization
+//       }
+//     });
+//     return json.data;
+//   } catch (err) {
+//     return err.response.data
+    // Defining the error type as AxiosError
+    // if (axios.isAxiosError(err)) {
+    //   // console.log(err.response?.data); // you can access the response here
+    //   return err.response?.data; // return the response data in case of an error
+    // } else {
+    //   console.log('Unexpected error:', err); // in case of an unexpected error (non-Axios error)
+    //   return { message: 'Unexpected error occurred' };
+    // }
+//   }
+// }

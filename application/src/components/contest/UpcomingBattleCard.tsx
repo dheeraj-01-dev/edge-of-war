@@ -6,39 +6,15 @@ import Link from "next/link";
 
 interface battleCardProps {
   isLogin?: boolean;
-  battle?: battleType;
+  battle: battleType;
   style?: React.CSSProperties;
 }
 
 const UpcomingBattleCard: React.FC<battleCardProps> = ({
-  battle = {
-    _id: "00",
-    battleId: "00",
-    settings: {
-      gameMode: "GameMode",
-      map: "MAP",
-      teamMode: "teamMode",
-      slots: 0,
-      ammo: "ammo",
-      gunAttributes: "gunAttributes",
-      characterSkill: "characterSkill",
-      loadout: "loadout",
-    },
-    expire: {
-      id: 0,
-      dateStr: "choose one",
-    },
-    entry: 0,
-    winning: {
-      _1: 0,
-      _2: 0,
-      _3: 0,
-    },
-    teams: [],
-  },
+  battle, 
   style: parentStyle,
 }) => {
-  const { _id, settings, battleId, expire, winning, teams } = battle;
+  const { _id, settings, battleId, expire, winning, teams, status, entry } = battle;
   const { _1 } = winning;
   const { dateStr, id } = expire;
   const { gameMode, map, teamMode, ammo, slots } = settings;
@@ -105,7 +81,13 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
           <div className={styles.title}>
             {gameMode}&nbsp; [{map}]
           </div>
-          <div className={styles.timeCountDown}>{`${rhr}:${rmi}:${rsec}`}</div>
+          {
+            status==="live"?<div style={{color: "yellow"}}>
+              <span style={{display: "inline-block", background: "yellow", height: 9, width: 9, borderRadius: 100}}></span>
+              &nbsp; Live
+            </div>:
+            <div className={styles.timeCountDown}>{`${rhr}:${rmi}:${rsec}`}</div> 
+          }
         </header>
 
         <Link href={`/battle/${_id}`}>
@@ -154,16 +136,16 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
           </div>
 
           <div className={styles.dealBox}>
-            <div className={styles.idPass}>
-              <div>
-                <span>id: </span>__________
+            <div className={styles.entryBox}>
+              {/* <div>
+                <span>id: </span>{auth?.roomId}&nbsp;&nbsp;
+                {auth&&<Image height={10} width={10} src={"/icons/copy.png"} alt="" />}
               </div>
               <div>
-                <span>pass: </span>__________
-              </div>
-              {/* <Link href={`/battle/checkout/${_id}`}>
-              <div className={styles.entryBtn}>Join now - {entry}</div>
-            </Link> */}
+                <span>pass: </span>{auth?.roomPass}&nbsp;&nbsp;
+                {auth&&<Image height={10} width={10} src={"/icons/copy.png"} alt="" />}
+              </div> */}
+              <div className={styles.entryBtn}>Entry fee - {entry===0?"Free":entry}</div>
             </div>
             <div className={styles.prizes}>
               <Image
@@ -175,6 +157,11 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
               &nbsp;&nbsp;{_1}-/
             </div>
           </div>
+          {/* <footer className={styles.footer}>
+            <div>Note: room id and password shown in the detail section</div>
+            <span>Room Id: ____________</span>
+            <span>Room Pass: ____________</span>
+          </footer> */}
           <footer className={styles.footer}>
             <span className={styles.battleCardCount}>
               {teams.length}/{slots}

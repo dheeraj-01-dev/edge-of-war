@@ -1,5 +1,5 @@
 // SignupPage2.tsx
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 // import styles from './SignupPage.module.css';
 import styles from './style/signupFlow.module.css'
 import toast from "@/scripts/toast";
@@ -7,13 +7,38 @@ import { TextField } from "@mui/material";
 import { sendVerificationEmail, verifyEmailAndOtp } from "@/api/auth/email";
 
 // SignupPage2.tsx
-const SignupPage2 = ({ formData, setFormData, onNext, onPrevious }: any) => {
+const SignupPage2 = ({ formData, setFormData, onNext, onPrevious } : {
+  formData: {
+    name: string;
+    ffUid: string;
+    ffUserName: string;
+    phone: string;
+    email: string;
+    otp: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+},
+  setFormData:  Dispatch<SetStateAction<{
+    name: string;
+    ffUid: string;
+    ffUserName: string;
+    phone: string;
+    email: string;
+    otp: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+}>>,
+  onNext: ()=>void
+  onPrevious: ()=>void
+}) => {
   const [otpSent, setOtpSent] = useState(false);
 
   const handleSendOtp = async () => {
     if (formData.email) {
       // API call to send OTP
-      const json :responseType<any> = await sendVerificationEmail({email: formData.email});
+      const json :responseType<string> = await sendVerificationEmail({email: formData.email});
       if(!json.success){
         return toast(json.error)
       }
@@ -27,7 +52,7 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious }: any) => {
   const handleVerifyOtp = async () => {
     if (formData.otp) {
       // Verify OTP with backend
-      const data :responseType<any> = await verifyEmailAndOtp({email: formData.email, otp: +formData.otp})
+      const data :responseType<string> = await verifyEmailAndOtp({email: formData.email, otp: +formData.otp})
       if(data.success){
         onNext()
       }else{
@@ -51,7 +76,7 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious }: any) => {
             fullWidth
             margin="normal"
             value={formData.email}
-            onChange={(e :any) =>
+            onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
           />
@@ -64,7 +89,7 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious }: any) => {
             fullWidth
             margin="normal"
             value={formData.otp}
-            onChange={(e :any) => setFormData({ ...formData, otp: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, otp: e.target.value })}
             InputProps={{
               inputProps: {
                 sx: {
