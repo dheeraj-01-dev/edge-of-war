@@ -1,6 +1,4 @@
-.page {
-    height: calc(100% - 40px);
-    display: grid;
-    place-items: center;
-  }
-  
+
+.page{
+  padding: 15px;
+}

@@ -3,8 +3,8 @@ import styles from './style/signupFlow.module.css'
 import Link from "next/link";
 import toast from "@/scripts/toast";
 
-import TextField from "@mui/material/TextField";
 import { Dispatch, SetStateAction } from 'react';
+import Image from 'next/image';
 
 // SignupPage1.tsx
 
@@ -44,63 +44,49 @@ const SignupPage1 = ({ formData, setFormData, onNext } : {
   return (
     <div className={styles.signupPage}>
       <div>
-        <div className={styles.title}>Sign Up</div>
+        <div className={styles.title}>Register</div>
 
-        <div className={styles.formGroup}>
-          <TextField
-            label="Full Name"
-            variant="outlined" // or "filled" for a different style
-            fullWidth
-            margin="normal"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <TextField
-            label="Free Fire Uid"
-            type="number"
-            variant="outlined" // or "filled" for a different style
-            fullWidth
-            margin="normal"
-            value={formData.ffUid}
-            onChange={(e) =>
-              setFormData({ ...formData, ffUid: e.target.value })
-            }
-            InputProps={{
-              inputProps: {
-                sx: {
-                  "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
-                  "&": {
-                    "MozAppearance": "textfield", // Firefox
-                  },
-                },
-              },
-            }}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <TextField
-            label="Free Fire Username"
-            variant="outlined" // or "filled" for a different style
-            fullWidth
-            margin="normal"
-            value={formData.ffUserName}
-            onChange={(e) =>
-              setFormData({ ...formData, ffUserName: e.target.value })
-            }
-          />
-        </div>
+
+        <div className={styles.inputContainer}>
+            <Image src="/icons/user.png" height={20} width={20} alt="user" />
+            <input
+              spellCheck={false}
+              autoCorrect="off"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value.trim() })}
+              type="text"
+              placeholder="Full Name"
+            />
+          </div>
+        <div className={styles.inputContainer}>
+            <Image src="/icons/id-card.png" height={20} width={20} alt="ffuid" />
+            <input
+              spellCheck={false}
+              autoCorrect="off"
+              value={formData.ffUid}
+              onChange={(e) => setFormData({ ...formData, ffUid: e.target.value.trim() })}
+              type="tel"
+              placeholder="Free Fire UID"
+            />
+          </div>
+        <div className={styles.inputContainer}>
+            <Image src="/icons/id-card.png" height={20} width={20} alt="ffusername" />
+            <input
+              spellCheck={false}
+              autoCorrect="off"
+              value={formData.ffUserName}
+              onChange={(e) => setFormData({ ...formData, ffUserName: e.target.value.trim() })}
+              type="text"
+              placeholder="Free Fire userName"
+            />
+          </div>
         
         <button className={styles.button} onClick={handleNext}>
           Next
         </button>
-        <button className={styles.loginButton}>
-          <Link href="/login">Login?</Link>
-        </button>
+        <div className={styles.loginLink}>
+          have an account? <Link href="/login">Login</Link>
+        </div>
       </div>
     </div>
   );

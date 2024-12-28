@@ -64,7 +64,7 @@ export const hostBattle_C = async (req, res) => {
             }
             ;
             const { auth } = data;
-            if (auth.roomId || auth.roomPass) {
+            if (auth?.roomId || auth?.roomPass) {
                 return res.status(400).json({
                     success: false,
                     error: "Already Hosted!"
@@ -73,6 +73,7 @@ export const hostBattle_C = async (req, res) => {
             ;
         }
         catch (error) {
+            console.log(error);
             return res.status(404).json({
                 success: false,
                 error: "Battle Not Found !"

@@ -11,15 +11,17 @@ const transactionSchema = new Schema ({
     },
     orderId: {
         type: mongoose.Types.ObjectId,
-        required: true,
-        unique: true,
         ref: "orders"
+    },
+    razorpayPaymentId: {
+        type: mongoose.Types.ObjectId,
+        ref: "razorpayOrders"
     },
     type: {
         type: String,
         required: true,
         enum: {
-            values: ["withdrawal", "top up", "contest fee", "winning prize"],
+            values: ["withdrawal", "top-up", "contest fee", "winning prize"],
             message: "type `{VALUE}` does not support"
         }
     },
@@ -31,7 +33,7 @@ const transactionSchema = new Schema ({
         type: Number,
         required: true
     },
-    balance: {
+    currentBalance: {
         type: Number,
         required: true,
     }

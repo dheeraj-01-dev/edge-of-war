@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 // import styles from './SignupPage.module.css';
 import styles from './style/signupFlow.module.css'
 import toast from "@/scripts/toast";
-import { TextField } from "@mui/material";
 import { sendVerificationEmail, verifyEmailAndOtp } from "@/api/auth/email";
+import Image from "next/image";
 
 // SignupPage2.tsx
 const SignupPage2 = ({ formData, setFormData, onNext, onPrevious } : {
@@ -68,43 +68,28 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious } : {
     <div className={styles.signupPage}>
       <div>
         <div className={styles.title}>Verify Email</div>
-        <div className={styles.formGroup}>
-          <TextField
-            label="Email"
-            type="email"
-            variant="outlined" // or "filled" for a different style
-            fullWidth
-            margin="normal"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <TextField
-            label="OTP"
-            type="number"
-            variant="outlined" // or "filled" for a different style
-            fullWidth
-            margin="normal"
-            value={formData.otp}
-            onChange={(e) => setFormData({ ...formData, otp: e.target.value })}
-            InputProps={{
-              inputProps: {
-                sx: {
-                  "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button":
-                    {
-                      display: "none",
-                    },
-                  "&": {
-                    "MozAppearance": "textfield", // Firefox
-                  },
-                },
-              },
-            }}
-          />
-        </div>
+        <div className={styles.inputContainer}>
+            <Image src="/icons/email.png" height={20} width={20} alt="ffuid" />
+            <input
+              spellCheck={false}
+              autoCorrect="off"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value.trim() })}
+              type="email"
+              placeholder="Email"
+            />
+          </div>
+        <div className={styles.inputContainer}>
+            <Image src="/icons/password.png" height={20} width={25} alt="ffuid" />
+            <input
+              spellCheck={false}
+              autoCorrect="off"
+              value={formData.otp}
+              onChange={(e) => setFormData({ ...formData, otp: e.target.value.trim() })}
+              type="tel"
+              placeholder="OTP"
+            />
+          </div>
         {!otpSent ? (
           <button className={styles.button} onClick={handleSendOtp}>
             Send OTP
@@ -114,9 +99,12 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious } : {
             Verify OTP
           </button>
         )}
-        <button className={styles.backButton} onClick={onPrevious}>
-          Back
-        </button>
+        <div style={{marginTop: 110}}>
+          <div className={styles.backButton} onClick={onPrevious}>
+            <Image src="/icons/back-blue.png" height={20} width={20} alt="__" />
+            &nbsp; &nbsp;Back
+          </div>
+        </div>
       </div>
     </div>
   );

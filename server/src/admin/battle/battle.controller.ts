@@ -61,6 +61,7 @@ export const hostBattle_C = async (req: Request, res: Response) => {
     try {
         try {
             const data = await battleModel.findOne({_id: battle});
+            
             if(!data){
                 return res.status(404).json({
                     success: false,
@@ -68,13 +69,14 @@ export const hostBattle_C = async (req: Request, res: Response) => {
                 });
             };
             const { auth } = data;
-            if(auth.roomId || auth.roomPass){
+            if(auth?.roomId || auth?.roomPass){
                 return res.status(400).json({
                     success: false,
                     error: "Already Hosted!"
                 })
             };
         } catch (error) {
+            console.log(error)
             return res.status(404).json({
                 success: false,
                 error: "Battle Not Found !"

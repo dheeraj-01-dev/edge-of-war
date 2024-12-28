@@ -440,7 +440,8 @@ const battleSchema = new Schema<schema>({
       roomPass: {
         type: String
       }
-    }
+    },
+    _id: false
   },
   expire: {
     id: {type: Number, required: true},
@@ -468,12 +469,6 @@ const battleSchema = new Schema<schema>({
       ref: "users"
     }
   ],
-  roomId: {
-    type: String
-  },
-  roomPass: {
-    type: String
-  },
   teams: [
     { 
       type: Array<string>,

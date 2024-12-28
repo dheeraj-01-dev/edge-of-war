@@ -6,16 +6,20 @@ import CheckOutDetails from "@/components/index/battles/checkout/CheckOutDetails
 import { getSingleBattle, joinBattle } from "@/api/battle";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { getAllFriends } from "@/api/user";
+import { getAllFriends, getPersonalInfo } from "@/api/user";
 import AuthProtected from "@/components/auth/AuthProtected";
+
 
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const cookieStore = cookies();
   const userToken = (await cookieStore).get("__eow_user_token")?.value;
+
+
+    const { data } = await getPersonalInfo({ token: userToken });
   
   // Check if userToken exists and decode it
-  if (!userToken) {
+  if (!userToken || !data) {
     return <AuthProtected isLoggedIn={false}><div></div></AuthProtected>;
   }
   
@@ -42,7 +46,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </NavigateBack>
         {response.data ? (
-          <CheckOutDetails onConfirm={joinBattle} balance={0} friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile, userToken}} battle={response.data} />
+          <CheckOutDetails onConfirm={joinBattle} balance={data.balance} friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile, userToken}} battle={response.data} />
         ) : (
           <div>Battle Not Found</div>
         )}

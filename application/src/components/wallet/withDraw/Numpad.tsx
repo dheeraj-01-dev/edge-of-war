@@ -1,23 +1,23 @@
 "use client"
 import { useState, useEffect, useRef } from 'react';
-import styles from './styles/numpad.module.css'
+import styles from './numpad.module.css'
 import toast from '@/scripts/toast';
-import { useRouter } from 'next/navigation';
 // window.Razorpay
 
 interface numpad {
   buttonTemplate ?: string,
   Withdraw ?: boolean,
+  balance: number,
   authorization: string | undefined
 }
 
 
-const Numpad :React.FC<numpad> = ({ buttonTemplate = "Template", Withdraw = false, authorization }) => {
+const Numpad :React.FC<numpad> = ({ buttonTemplate = "Template", Withdraw = false, balance }) => {
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const deleteTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   // Handle button click (numbers or dot)
   const handleButtonClick = (value: string) => {
@@ -64,81 +64,94 @@ const Numpad :React.FC<numpad> = ({ buttonTemplate = "Template", Withdraw = fals
   // const inputWidth = `${Math.max(inputValue.length, 1)}ch`;
 
 
-  async function payNow() {
+//   async function payNow() {
 
-    if(+inputValue<10){
-      return toast("amount must be greater than 10")
+//     if(+inputValue<10){
+//       return toast("amount must be greater than 10")
+//     }
+
+//     if(!authorization){
+//       return toast("unAuthorized")
+//     }
+//     try {
+//       const fetchRes = await fetch("/api/payment/create/add-money", {
+//         method: "POST",
+//         headers: {
+//           authorization,
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           amount: +inputValue
+//         })
+//       });
+//       const res = await fetchRes.json();
+//       if(res.error){
+//         return toast(res.error)
+//       }
+//       if(res.success){
+//         // @ts-expect-error response type any
+//         res.data.handler = async function (response) {
+//           try {
+//               const fetchData = await fetch('/api/payment/razorpayhandler/success', {
+//               method: 'POST',
+//               body: JSON.stringify({response}),
+//               headers: {
+//                 authorization,
+//                 'Content-Type': 'application/json',
+//               },
+//           });
+//           const fetchRes = await fetchData.json();
+//           if(fetchRes.success){
+//             toast(fetchRes.data)
+//             router.push("/profile")
+//             return
+//           }
+//           toast(fetchRes.error)
+//           } catch (error) {
+//             // @ts-expect-error response type any
+//             toast(error.message?error.message:error)
+//           }
+//         };
+//         const rzp = new window.Razorpay(res.data);
+//         // @ts-expect-error response type any
+//         rzp.on("payment.failed", async function (response) {
+//           try {
+//               const fetchData = await fetch('/api/payment/razorpayhandler/failed', {
+//               method: 'POST',
+//               body: JSON.stringify({response}),
+//               headers: {
+//                 authorization,
+//               },
+//           });
+//           const fetchRes = await fetchData.json();
+//           if(fetchRes.success){
+//             return toast(fetchRes.data)
+//           }
+//           toast(fetchRes.error)
+//           } catch (error) {
+//             // @ts-expect-error response type any
+//             toast(error.message?error.message:error)
+//           }
+//         });
+//         rzp.open();
+//       }
+//     } catch (error) {
+//       // @ts-expect-error response type any
+//       toast(error.message?error.message:error)
+//     }
+//   }
+
+  async function withDrawNow() {
+    if(!inputValue){
+      return toast("withdrawable blance required")
+    }
+    
+    if(+inputValue>=balance){
+      return toast("withdrawable blance exceed")
     }
 
-    if(!authorization){
-      return toast("unAuthorized")
-    }
-    try {
-      const fetchRes = await fetch("/api/payment/create/add-money", {
-        method: "POST",
-        headers: {
-          authorization,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: +inputValue
-        })
-      });
-      const res = await fetchRes.json();
-      if(res.error){
-        return toast(res.error)
-      }
-      if(res.success){
-        // @ts-expect-error response type any
-        res.data.handler = async function (response) {
-          try {
-              const fetchData = await fetch('/api/payment/razorpayhandler/success', {
-              method: 'POST',
-              body: JSON.stringify({response}),
-              headers: {
-                authorization,
-                'Content-Type': 'application/json',
-              },
-          });
-          const fetchRes = await fetchData.json();
-          if(fetchRes.success){
-            toast(fetchRes.data)
-            router.push("/profile")
-            return
-          }
-          toast(fetchRes.error)
-          } catch (error) {
-            // @ts-expect-error response type any
-            toast(error.message?error.message:error)
-          }
-        };
-        const rzp = new window.Razorpay(res.data);
-        // @ts-expect-error response type any
-        rzp.on("payment.failed", async function (response) {
-          try {
-              const fetchData = await fetch('/api/payment/razorpayhandler/failed', {
-              method: 'POST',
-              body: JSON.stringify({response}),
-              headers: {
-                authorization,
-              },
-          });
-          const fetchRes = await fetchData.json();
-          if(fetchRes.success){
-            return toast(fetchRes.data)
-          }
-          toast(fetchRes.error)
-          } catch (error) {
-            // @ts-expect-error response type any
-            toast(error.message?error.message:error)
-          }
-        });
-        rzp.open();
-      }
-    } catch (error) {
-      // @ts-expect-error response type any
-      toast(error.message?error.message:error)
-    }
+    toast("working")
+    
   }
 
   return (
@@ -180,7 +193,7 @@ const Numpad :React.FC<numpad> = ({ buttonTemplate = "Template", Withdraw = fals
             x
           </button>
         </div>
-        <button onClick={payNow} className={`${styles.clearButton} ${inputValue&&styles.addMoneyBtnActive} ${Withdraw&&styles.withDrawBtn}`}>{buttonTemplate}</button>
+        <button onClick={withDrawNow} className={`${styles.clearButton} ${inputValue&&+inputValue<=balance&&styles.addMoneyBtnActive} ${Withdraw&&styles.withDrawBtn}`}>{buttonTemplate}</button>
       </div>
     </div>
   );

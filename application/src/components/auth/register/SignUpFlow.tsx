@@ -1,7 +1,6 @@
 // SignupFlow.tsx
 "use client"
 import { useState } from 'react';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { setCookie } from 'cookies-next'
 import toast from '@/scripts/toast';
 import { useRouter } from 'next/navigation';
@@ -66,55 +65,17 @@ const SignupFlow = () => {
     };
   }
 
-  const theme = createTheme({
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '& .MuiInputBase-input': {
-              color: '#fff', // Input text color
-            },
-            '& .MuiInputBase-input.Mui-error': {
-              color: '#fff', // Input text color
-            },
-            '& .MuiInputLabel-root': {
-              color: 'gray', // Label color
-            },
-            '& .MuiInputLabel-root.Mui-focused': {
-              color: 'white', // Label color
-            },
-          },
-        },
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'gray', // Default outline color
-            },
-            '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'white', // Outline color on hover
-            },
-            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'gray', // Outline color on focus
-            },
-            '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'red', // Outline color in error state
-            },
-          },
-        },
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={theme}>
-      <div>
+      <div style={{
+        height: "85dvh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
         {step === 1 && <SignupPage1 formData={formData} setFormData={setFormData} onNext={handleNext} />}
         {step === 2 && <SignupPage2 formData={formData} setFormData={setFormData} onNext={handleNext} onPrevious={handlePrevious} />}
         {step === 3 && <SignupPage3 formData={formData} setFormData={setFormData} onFinish={handleRegister} onPrevious={handlePrevious} />}
       </div>
-    </ThemeProvider>
   );
 };
 
