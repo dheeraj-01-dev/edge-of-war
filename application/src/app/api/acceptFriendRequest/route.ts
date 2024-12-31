@@ -18,10 +18,11 @@ export async function POST(req: NextRequest) {
     const response = await acceptFriendRequest({from, token});
 
     console.log(response)
+
     // console.log(response)
     return NextResponse.json(response, { status: 200 });
-  } catch {
-    // console.log(error)
+  } catch(error) {
+    console.log(error)
     return NextResponse.json({ error: "Failed to find user" }, { status: 500 });
   }
 }
