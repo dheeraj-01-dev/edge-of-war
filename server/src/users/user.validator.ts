@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import z from 'zod';
 
 const validateRegistration = (req:Request, res:Response, next:NextFunction)=>{
@@ -21,7 +20,7 @@ const validateRegistration = (req:Request, res:Response, next:NextFunction)=>{
   };
   res.status(400).json({
     success: false,
-    message: validReq.error?.issues[0].message
+    error: validReq.error?.issues[0].message
   })
   
 };
@@ -33,7 +32,7 @@ export const loginUser_V = (req: Request, res: Response, next: NextFunction)=>{
   if(!email&&!phone){
     return res.status(400).json({
       sucess: false,
-      message:"phone or email required!"
+      error:"phone or email required!"
     })
   };
   const schema = z.object({
@@ -48,7 +47,7 @@ export const loginUser_V = (req: Request, res: Response, next: NextFunction)=>{
   
   res.status(400).json({
     success: false,
-    message: validReq.error?.issues[0].message
+    error: validReq.error?.issues[0].message
   })
 };
 
@@ -77,6 +76,8 @@ export const getPersonalInfo_V = async (req: Request, res: Response, next: NextF
     })
   }
 }
+
+
 export const findUser_V = async (req: Request, res: Response, next: NextFunction) => {
   next()
 };

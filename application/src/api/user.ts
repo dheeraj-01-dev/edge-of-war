@@ -79,10 +79,10 @@ export const registerUser = async ({name, ffUid, otp, ffUserName, userName, emai
   } catch (err) {
     // Defining the error type as AxiosError
     if (axios.isAxiosError(err)) {
-      console.log(err.response?.data); // you can access the response here
+      // console.log(err.response?.data); // you can access the response here
       return err.response?.data; // return the response data in case of an error
     } else {
-      console.log('Unexpected error:', err); // in case of an unexpected error (non-Axios error)
+      // console.log('Unexpected error:', err); // in case of an unexpected error (non-Axios error)
       return { success: false, error: 'Unexpected error occurred' };
     }
   }

@@ -17,7 +17,7 @@ const validateRegistration = (req, res, next) => {
     ;
     res.status(400).json({
         success: false,
-        message: validReq.error?.issues[0].message
+        error: validReq.error?.issues[0].message
     });
 };
 export const loginUser_V = (req, res, next) => {
@@ -25,7 +25,7 @@ export const loginUser_V = (req, res, next) => {
     if (!email && !phone) {
         return res.status(400).json({
             sucess: false,
-            message: "phone or email required!"
+            error: "phone or email required!"
         });
     }
     ;
@@ -41,7 +41,7 @@ export const loginUser_V = (req, res, next) => {
     ;
     res.status(400).json({
         success: false,
-        message: validReq.error?.issues[0].message
+        error: validReq.error?.issues[0].message
     });
 };
 export const getPersonalInfo_V = async (req, res, next) => {
