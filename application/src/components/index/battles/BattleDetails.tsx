@@ -375,6 +375,9 @@ const BattleDetails = ({ battle, userName }: { battle: battleType, userName: str
             <CommentDots height={30} width={30} fill="#fff" />
           </div>
         </div>
+        <div style={{color: "red", fontSize: "80%", padding: "10px 10px 0 10px"}}>
+          Note:- No teamUp and cheat allowed between matches
+        </div>
 
         <div className={styles["winners"]}>
           <div className={styles["winner-section"]}>
