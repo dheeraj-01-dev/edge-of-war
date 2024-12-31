@@ -21,7 +21,6 @@ export const registerUser = async (req: Request, res: Response) => {
     name,
     otp,
     userName,
-    phone,
     email,
     ffUid,
     ffUserName,
@@ -52,23 +51,29 @@ export const registerUser = async (req: Request, res: Response) => {
       ffUserName,
       name,
       userName,
-      phone,
       email,
       password: hashedPassword,
     });
 
     const { _id, createAt } = user;
     const token = jwt.sign(
-      { name, userName, ffUid, _id, createAt },
+      {
+        name,
+        ffUid,
+        userName,
+        ffUserName,
+        email,
+        createAt,
+        id: _id,
+        profile: "/men.png",
+      },
       jwt_secret
     );
     res.status(200).json({
       success: true,
       data: {
         token,
-        _id,
-        profile: "/icons/user.png",
-        userName,
+        userName
       },
     });
   } catch (err: any) {
@@ -93,7 +98,7 @@ export const loginUser_C = async (req: any, res: any) => {
         .json({ success: false, error: "please sign up first." });
     }
 
-    const { _id, name, ffUid, userName, createAt, profile } = user;
+    const { _id, name, ffUid, userName, createAt, profile, ffUserName } = user;
 
     const passMatch = await bcrypt.compare(password, user.password);
     if (!passMatch) {
@@ -103,7 +108,16 @@ export const loginUser_C = async (req: any, res: any) => {
     }
 
     const token = jwt.sign(
-      { name, ffUid, userName, createAt, id: _id, profile },
+      {
+        name,
+        ffUid,
+        userName,
+        createAt,
+        id: _id,
+        profile: "/men.png",
+        email,
+        ffUserName,
+      },
       jwt_secret
     );
     res.status(200).json({

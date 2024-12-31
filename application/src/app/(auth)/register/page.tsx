@@ -4,7 +4,7 @@ import styles from './page.module.css'
 import SignupFlow from '@/components/auth/register/SignUpFlow'
 import Titles from '@/components/temp/Titles'
 
-const page = () => {
+const page = async () => {
   return (
     <div className={styles.page}>
       <Titles title='Register' />

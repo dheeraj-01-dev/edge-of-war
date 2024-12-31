@@ -38,7 +38,7 @@ export const loginUser = async ({
         error: error.response.data.error || "An error occurred",
       };
     }
-    console.log(error)
+    // console.log(error)
 
     // Handle unknown other error types
     return {
@@ -59,7 +59,7 @@ export const registerUser = async ({name, ffUid, otp, ffUserName, userName, emai
   confirmPassword: string
 }): Promise<responseType<{token: string, userName: string}>> => {
   try {
-    const json :responseType<{token: string, userName: string}> = await axios({
+    const json = await axios({
       method: "POST",
       url: `${domain}/user/auth/register`,
       headers: { apikey },
@@ -72,10 +72,7 @@ export const registerUser = async ({name, ffUid, otp, ffUserName, userName, emai
       }
     });
     // return json.data;
-    return {
-      success: true,
-      data: json.data
-    };
+    return json.data;
   } catch (err) {
     // Defining the error type as AxiosError
     if (axios.isAxiosError(err)) {

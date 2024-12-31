@@ -9,7 +9,7 @@ const userSchema = new Schema({
     balance: {
         type: Number,
         required: true,
-        default: 0
+        default: 0,
     },
     name: {
         type: String,
@@ -20,55 +20,52 @@ const userSchema = new Schema({
         default: "pending",
         enum: {
             values: ["pending", "verified", "rejected"],
-            message: "status `{VALUE}` not supported!"
-        }
+            message: "status `{VALUE}` not supported!",
+        },
     },
     ffUid: {
         type: Number,
-        required: [true, "please enter your free fire uid...."]
+        required: [true, "please enter your free fire uid...."],
     },
     ffUserName: {
         type: String,
-        required: [true, "please enter your free fire userName...."]
+        required: [true, "please enter your free fire userName...."],
     },
     profile: {
         type: String,
-        default: "http://127.0.0.1:3000/banner/default-banner.jpg"
-    },
-    phone: {
-        type: Number,
+        default: "http://127.0.0.1:3000/banner/default-banner.jpg",
     },
     userName: {
         type: String,
         required: [true, "please choose a username for your account...."],
-        unique: true
+        unique: true,
     },
     email: {
         type: String,
         unique: true,
-        required: [true, "please enter your email...."]
+        required: [true, "please enter your email...."],
     },
     friends: {
         closeFriends: {
             type: [{ type: String, ref: "users" }],
-            validate: [closeFriendsLimit, "max no. of close friends reached"]
+            validate: [closeFriendsLimit, "max no. of close friends reached"],
         },
         allFriends: {
             type: [{ type: String, ref: "users" }],
-            validate: [friendsLimit, "max no. of friends reached."]
-        }
+            validate: [friendsLimit, "max no. of friends reached."],
+        },
     },
     password: {
         type: String,
-        required: [true, "please choose a password...."]
-    }
+        required: [true, "please choose a password...."],
+    },
 }, { timestamps: true });
 export const userModel = model("users", userSchema);
 const passwordResetSchema = new Schema({
     email: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 }, { timestamps: true });
 export const passwordResetModel = model("passwordResets", passwordResetSchema);
 //# sourceMappingURL=user.model.js.map

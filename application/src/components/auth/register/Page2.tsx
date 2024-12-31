@@ -37,7 +37,8 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious } : {
 
   const handleSendOtp = async () => {
     if (formData.email) {
-      toast("otp sending......please wait.")
+      toast("otp sending......please wait.");
+      setFormData({ ...formData, otp: "" })
       // API call to send OTP
       const json :responseType<string> = await sendVerificationEmail({email: formData.email});
       if(!json.success){

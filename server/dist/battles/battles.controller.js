@@ -8,7 +8,7 @@ export const getAllBattles = async (req, res) => {
     const { authorization } = req.headers;
     const currentTime = new Date().getTime();
     try {
-        if (authorization && jwt_secret) {
+        if (authorization && jwt_secret && authorization !== "undefined") {
             let decodedToken;
             try {
                 decodedToken = jwt.verify(authorization, jwt_secret);

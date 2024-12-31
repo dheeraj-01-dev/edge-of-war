@@ -43,14 +43,15 @@ const SignupFlow = () => {
 
     const currentDate = +new Date();
     const response :responseType<{
-      token: string,
-      userName: string,
-    }> = await registerUser(formData);
-    if(response.success){
-      setCookie("__eow_user_token", response.data?.token, {
+                      token: string,
+                      userName: string,
+                    }> = await registerUser(formData);
+    console.log(response)
+    if(response.data){
+      setCookie("__eow_user_token", response.data.token, {
         expires: new Date(currentDate + 7776000000),
       });
-      setCookie("__eow_user_name", response.data?.userName, {
+      setCookie("__eow_user_name", response.data.userName, {
         expires: new Date(currentDate + 7776000000),
       });
       // setCookie("u_state", response.data.token, {expires : new Date(currentDate+7776000000)});

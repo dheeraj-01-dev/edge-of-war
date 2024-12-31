@@ -10,7 +10,7 @@ config();
 const jwt_secret = process.env.JWT_SECRET_STR ||
     "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
 export const registerUser = async (req, res) => {
-    const { name, otp, userName, phone, email, ffUid, ffUserName, password, confirmPassword, } = req.body;
+    const { name, otp, userName, email, ffUid, ffUserName, password, confirmPassword, } = req.body;
     try {
         if (password !== confirmPassword) {
             return res.status(400).json({
@@ -32,19 +32,25 @@ export const registerUser = async (req, res) => {
             ffUserName,
             name,
             userName,
-            phone,
             email,
             password: hashedPassword,
         });
         const { _id, createAt } = user;
-        const token = jwt.sign({ name, userName, ffUid, _id, createAt }, jwt_secret);
+        const token = jwt.sign({
+            name,
+            ffUid,
+            userName,
+            ffUserName,
+            email,
+            createAt,
+            id: _id,
+            profile: "/men.png",
+        }, jwt_secret);
         res.status(200).json({
             success: true,
             data: {
                 token,
-                _id,
-                profile: "/icons/user.png",
-                userName,
+                userName
             },
         });
     }
@@ -66,14 +72,23 @@ export const loginUser_C = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: "please sign up first." });
         }
-        const { _id, name, ffUid, userName, createAt, profile } = user;
+        const { _id, name, ffUid, userName, createAt, profile, ffUserName } = user;
         const passMatch = await bcrypt.compare(password, user.password);
         if (!passMatch) {
             return res
                 .status(404)
                 .json({ success: false, error: "password doesn't matched!" });
         }
-        const token = jwt.sign({ name, ffUid, userName, createAt, id: _id, profile }, jwt_secret);
+        const token = jwt.sign({
+            name,
+            ffUid,
+            userName,
+            createAt,
+            id: _id,
+            profile: "/men.png",
+            email,
+            ffUserName,
+        }, jwt_secret);
         res.status(200).json({
             success: true,
             data: {

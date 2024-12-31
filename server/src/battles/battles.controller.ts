@@ -14,7 +14,8 @@ export const getAllBattles = async (req: Request, res: Response) => {
 
   try {
     // const battle = await battleModel.find();
-    if (authorization && jwt_secret) {
+    if (authorization && jwt_secret && authorization !== "undefined") {
+      
       let decodedToken:  any;
       try {
         decodedToken = jwt.verify(authorization, jwt_secret);
