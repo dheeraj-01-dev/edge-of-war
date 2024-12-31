@@ -10,7 +10,7 @@ config();
 const jwt_secret = process.env.JWT_SECRET_STR ||
     "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
 export const registerUser = async (req, res) => {
-    const { name, otp, userName, phone, email, ffUid, ffUserName, password, confirmPassword } = req.body;
+    const { name, otp, userName, phone, email, ffUid, ffUserName, password, confirmPassword, } = req.body;
     try {
         if (password !== confirmPassword) {
             return res.status(400).json({
@@ -25,7 +25,6 @@ export const registerUser = async (req, res) => {
                 error: `Invalid Otp !`,
             });
         }
-        ;
         await otpModel.deleteMany({ email, otp });
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = await userModel.create({
@@ -78,8 +77,9 @@ export const loginUser_C = async (req, res) => {
         res.status(200).json({
             success: true,
             data: {
-                token, userName
-            }
+                token,
+                userName,
+            },
         });
     }
     catch (err) {
@@ -94,7 +94,7 @@ export const getPersonalInfo_C = async (req, res) => {
     if (!authorization) {
         return res.status(400).json({
             success: false,
-            error: "unauthorized"
+            error: "unauthorized",
         });
     }
     try {
@@ -105,10 +105,9 @@ export const getPersonalInfo_C = async (req, res) => {
         catch (error) {
             return res.status(400).json({
                 success: false,
-                error: "unauthorized"
+                error: "unauthorized",
             });
         }
-        ;
         const { id } = decodedToken;
         const persnolInfo = await userModel.aggregate([
             {
@@ -167,7 +166,7 @@ export const findUser_C = async (req, res) => {
         if (userFound.length) {
             return res.status(200).json({
                 success: true,
-                data: userFound
+                data: userFound,
             });
         }
         res.status(400).json({
@@ -282,7 +281,7 @@ export const getAllFriends_C = async (req, res) => {
     if (!authorization) {
         return res.status(400).json({
             success: false,
-            error: "unauthorized"
+            error: "unauthorized",
         });
     }
     try {
@@ -293,10 +292,9 @@ export const getAllFriends_C = async (req, res) => {
         catch (error) {
             return res.status(400).json({
                 success: false,
-                error: "unauthorized"
+                error: "unauthorized",
             });
         }
-        ;
         const { id } = decodedToken;
         const friends = await userModel.aggregate([
             {
@@ -325,7 +323,7 @@ export const getAllFriends_C = async (req, res) => {
             success: true,
             data: {
                 length: friends[0].friend_details.length,
-                friends: friends[0].friend_details
+                friends: friends[0].friend_details,
             },
         });
     }
@@ -355,13 +353,13 @@ export const getSampleUsers_C = async (req, res) => {
         ]);
         res.status(200).json({
             success: true,
-            data: samples
+            data: samples,
         });
     }
     catch (err) {
         res.status(500).json({
             success: false,
-            error: "something went wrong !"
+            error: "something went wrong !",
         });
     }
 };
@@ -370,7 +368,7 @@ export const forgotPassword_C = async (req, res) => {
     if (!email) {
         return res.status(404).json({
             success: false,
-            error: "Invalid Mail"
+            error: "Invalid Mail",
         });
     }
     try {
@@ -378,23 +376,22 @@ export const forgotPassword_C = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 success: false,
-                error: "user not found"
+                error: "user not found",
             });
         }
-        ;
         await passwordResetModel.create({
             email,
         });
         const token = await jwt.sign({
-            email
+            email,
         }, jwt_secret);
         const link = `https://domain.com/reset-password/${token}`;
         let transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service: "gmail",
             auth: {
-                user: 'mr.oops2090@gmail.com',
-                pass: 'hprq geji orhz enni'
-            }
+                user: "mr.oops2090@gmail.com",
+                pass: "hprq geji orhz enni",
+            },
         });
         let mailOptions = {
             from: "Edge Of War<mail@edgeofwaresports.com>",
@@ -422,7 +419,7 @@ export const forgotPassword_C = async (req, res) => {
     catch {
         res.status(500).json({
             success: false,
-            error: "Something went Wrong"
+            error: "Something went Wrong",
         });
     }
 };

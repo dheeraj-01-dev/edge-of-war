@@ -25,12 +25,12 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, children }) => {
 const Support: React.FC = () => {
 //   return (
 //     <div className={styles.container}>
-//       <h1 className={styles.title}>Battleroya.com Support Page</h1>
+//       <h1 className={styles.title}>edge of eSports.com Support Page</h1>
 
 //       <section className={styles.section}>
-//         <h2 className={styles.sectionTitle}>Welcome to Battleroya Support!</h2>
+//         <h2 className={styles.sectionTitle}>Welcome to edge of eSports Support!</h2>
 //         <p className={styles.paragraph}>
-//           At Battleroya, we are committed to providing top-notch support to our community of gamers.
+//           At edge of eSports, we are committed to providing top-notch support to our community of gamers.
 //           Whether you need help with your account, have questions about tournaments, or want to report an issue,
 //           our support team is here to assist you.
 //         </p>
@@ -52,7 +52,7 @@ const Support: React.FC = () => {
 //         </FAQItem>
 //         <FAQItem question="How do I delete my account?">
 //           <p className={styles.paragraph}>
-//             To delete your account, please contact our support team directly at support@battleroya.com.
+//             To delete your account, please contact our support team directly at support@edge of eSports.com.
 //           </p>
 //         </FAQItem>
 //         {/* Add more FAQItems as needed */}
@@ -61,7 +61,7 @@ const Support: React.FC = () => {
 //       <section className={styles.section}>
 //         <h2 className={styles.sectionTitle}>Contact Support</h2>
 //         <p className={styles.paragraph}>
-//           Email: <Link href="mailto:support@battleroya.com" className={styles.link}>support@battleroya.com</Link>
+//           Email: <Link href="mailto:support@edge of eSports.com" className={styles.link}>support@edge of eSports.com</Link>
 //         </p>
 //         <p className={styles.paragraph}>Live Chat: Available for real-time assistance (Feature to be integrated)</p>
 //         <p className={styles.paragraph}>
@@ -124,19 +124,19 @@ const Support: React.FC = () => {
 //         <p className={styles.paragraph}>
 //           <Link href="/terms" className={styles.link}>Terms of Service</Link> | <Link href="/privacy" className={styles.link}>Privacy Policy</Link>
 //         </p>
-//         <p className={styles.paragraph}>&copy; 2024 Battleroya.com. All rights reserved.</p>
+//         <p className={styles.paragraph}>&copy; 2024 edge of eSports.com. All rights reserved.</p>
 //       </footer>
 //     </div>
 //   );
     return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Battleroya.com Support Page</h1>
+      <h1 className={styles.title}>edge of eSports</h1>
 
       {/* Introduction */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Welcome to Battleroya Support!</h2>
+        <h2 className={styles.sectionTitle}>Welcome to edge of eSports Support!</h2>
         <p className={styles.paragraph}>
-          At Battleroya, we are committed to providing top-notch support to our community of gamers.
+          At edge of eSports, we are committed to providing top-notch support to our community of gamers.
           Whether you need help with your account, have questions about tournaments, or want to report an issue,
           our support team is here to assist you.
         </p>
@@ -152,7 +152,7 @@ const Support: React.FC = () => {
           <p className={styles.paragraph}>You can change your email address in your account settings under 'Profile Information'.</p>
         </FAQItem>
         <FAQItem question="How do I delete my account?">
-          <p className={styles.paragraph}>To delete your account, please contact our support team directly at support@battleroya.com.</p>
+          <p className={styles.paragraph}>To delete your account, please contact our support team directly at support@edge of eSports.com.</p>
         </FAQItem>
         {/* Add more FAQItems as needed */}
       </section>
@@ -160,7 +160,7 @@ const Support: React.FC = () => {
       {/* Contact Support */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Contact Support</h2>
-        <p className={styles.paragraph}>Email: <Link href="mailto:support@battleroya.com" className={styles.link}>support@battleroya.com</Link></p>
+        <p className={styles.paragraph}>Email: <Link href="mailto:edgeofesports@gmail.com" className={styles.link}>edgeofesports@gmail.com</Link></p>
         <p className={styles.paragraph}>Live Chat: Available for real-time assistance (Feature to be integrated)</p>
         <p className={styles.paragraph}>Submit a Ticket: Fill out the <Link href="#ticket-form" className={styles.link}>support ticket form</Link> below.</p>
       </section>
@@ -209,7 +209,7 @@ const Support: React.FC = () => {
         <p className={styles.paragraph}>
           <Link href="/terms" className={styles.link}>Terms of Service</Link> | <Link href="/privacy" className={styles.link}>Privacy Policy</Link>
         </p>
-        <p className={styles.paragraph}>&copy; 2024 Battleroya.com. All rights reserved.</p>
+        <p className={styles.paragraph}>&copy; 2024 edge of eSports.com. All rights reserved.</p>
       </footer>
     </div>
   );

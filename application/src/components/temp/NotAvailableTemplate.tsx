@@ -8,13 +8,15 @@ interface notAvailbleTemplateType {
   message?: string;
   href?: string;
   linkText?: string
+  button?: boolean
 }
 
 const NotAvailableTemplate: React.FC<notAvailbleTemplateType> = ({ style,
   title = "You have no Contests Yet!",
   href = "/",
   message = "It looks a bit quiet here. Why not create or join a new one?",
-  linkText = "Create or Join Contest"
+  linkText = "Create or Join Contest",
+  button = true
  }) => {
   return (
     <div style={style} className={styles.container}>
@@ -22,9 +24,9 @@ const NotAvailableTemplate: React.FC<notAvailbleTemplateType> = ({ style,
       <p className={styles.message}>
         {message}
       </p>
-      <Link href={href}>
+      {button&&<Link href={href}>
         <p className={styles.addButton}>{linkText}</p>
-      </Link>
+      </Link>}
     </div>
   );
 };

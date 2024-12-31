@@ -9,12 +9,12 @@ const posterImages = [
   { src: "/icons/insert-picture-icon.png", alt: "Event 1" },
   { src: "/icons/insert-picture-icon.png", alt: "Event 2" },
   { src: "/icons/insert-picture-icon.png", alt: "Event 3" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
+  // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
+  // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
+  // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
+  // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
+  // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
+  // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
 ];
 
 const EventDashboard: React.FC = () => {
@@ -125,7 +125,7 @@ const EventDashboard: React.FC = () => {
             <div className={styles.imgParent}>
               {/* <img src={poster.src} alt={poster.alt} /> */}
               <Image height={40} width={40} src={poster.src} alt={poster.alt} />
-              Image {index + 1}
+              {poster.alt}
             </div>
           </div>
         ))}

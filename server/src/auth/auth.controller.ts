@@ -93,9 +93,13 @@ const sendVerificationMailForSignUp = async (req: Request, res: Response) => {
     // Create a transporter
     let transporter = nodemailer.createTransport({
       service: 'gmail',  // or you can configure with other services or custom SMTP
+      // auth: {
+      //   user: 'mr.oops2090@gmail.com',
+      //   pass: 'hprq geji orhz enni'
+      // }
       auth: {
-        user: 'mr.oops2090@gmail.com',
-        pass: 'hprq geji orhz enni'
+        user: 'edgeofesports@gmail.com',
+        pass: 'bqfj gbci xlgi esid'
       }
 
       // host: "mail.edgeofwaresports.com",
@@ -109,7 +113,7 @@ const sendVerificationMailForSignUp = async (req: Request, res: Response) => {
 
     // Send email
     let mailOptions = {
-      from: "Edge Of War<mail@edgeofwaresports.com>",
+      from: "Edge Of Esports<mail@edgeofesports.com>",
       to: email,
       subject: "Verification Code",
       // text: `Your verification code is ${otp}`,

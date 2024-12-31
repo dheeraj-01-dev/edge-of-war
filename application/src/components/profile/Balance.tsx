@@ -4,7 +4,8 @@ import Link from 'next/link'
 
 const Balance = ({style, balance}: {style: React.CSSProperties, balance: number}) => {
 
-  const updatedBalance = balance.toString().split(".")
+  const updatedBalance = balance.toString().split(".");
+
   return (
     <div className={styles.container}>
       <Link href="/wallet" style={style} className={styles.balanceBox}>

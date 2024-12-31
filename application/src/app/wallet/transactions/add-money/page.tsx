@@ -18,7 +18,7 @@ const page = async () => {
       )
     }
   
-    const updatedBalance = `${response.data.balance}`.split(".")
+    const updatedBalance = `${(Math.round(response.data.balance * 100) / 100)}`.split(".")
     
   return (
     <div style={{padding: 10}}>

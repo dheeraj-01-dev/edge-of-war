@@ -27,7 +27,7 @@ const page = async () => {
       </div>
     );
   }
-  const { balance, name, ffUid, email, profile, userName } = response.data;
+  const { balance, name, ffUid, email, profile, userName, ffUserName } = response.data;
   return (
     <AuthProtected isLoggedIn={token ? true : false}>
       <div className={styles.profile}>
@@ -40,9 +40,9 @@ const page = async () => {
             profile={profile}
           />
           {/* <SocialMedia /> */}
-          <Balance balance={balance} style={{ marginTop: 35 }} />
+          <Balance balance={(Math.round(balance * 100) / 100)} style={{ marginTop: 35 }} />
         </div>
-        <Leaderboard />
+        <Leaderboard ffUid={ffUid} ffusername={ffUserName} />
         <div className={styles.section2}>
           <PersonalInfo
             style={{ marginTop: 35 }}

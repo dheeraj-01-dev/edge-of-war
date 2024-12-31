@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await acceptFriendRequest({from, token});
+
+    console.log(response)
     // console.log(response)
     return NextResponse.json(response, { status: 200 });
   } catch {

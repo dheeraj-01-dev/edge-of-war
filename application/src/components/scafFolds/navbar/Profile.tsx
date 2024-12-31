@@ -2,12 +2,17 @@ import React from 'react'
 import styles from './styles/profile.module.css'
 import Link from 'next/link'
 import Image from 'next/image'
+import { cookies } from 'next/headers'
+import { getAllNotification } from '@/api/notification'
 
 type profile = {
   isLogin :boolean
 }
 
 const Profile :React.FC<profile> = async ({isLogin}) => {
+  const cookiStore = cookies();
+  const userToken = (await cookiStore).get("__eow_user_token")?.value;
+  const notifications = await getAllNotification({auth: userToken});
   
   return(
     isLogin?
@@ -15,7 +20,10 @@ const Profile :React.FC<profile> = async ({isLogin}) => {
       <div className={styles.home}>
         <Link href={"/notification"} className={styles.bellIcon}>
           <Image width={18} height={18} alt="profile" src="/icons/bell.png" />
-          <Image className={styles.redDot} width={5} height={5} alt="profile" src="/icons/square.png" />
+          {
+            notifications.data.length>0&&
+            <Image className={styles.redDot} width={5} height={5} alt="profile" src="/icons/square.png" />
+          }
           {/* <BellIcon width={20} height={20} fill='#fff' /> */}
         </Link>
       </div>

@@ -36,12 +36,12 @@ const sendVerificationMailForSignUp = async (req, res) => {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'mr.oops2090@gmail.com',
-                pass: 'hprq geji orhz enni'
+                user: 'edgeofesports@gmail.com',
+                pass: 'bqfj gbci xlgi esid'
             }
         });
         let mailOptions = {
-            from: "Edge Of War<mail@edgeofwaresports.com>",
+            from: "Edge Of Esports<mail@edgeofesports.com>",
             to: email,
             subject: "Verification Code",
             html: `

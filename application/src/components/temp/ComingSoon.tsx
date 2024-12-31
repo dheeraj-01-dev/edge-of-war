@@ -47,19 +47,19 @@ const ComingSoon: React.FC = () => {
         
         <div className={styles.countdown}>
           <div className={styles.timeUnit}>
-            <span className={styles.number}>{timeRemaining.days}</span>
+            <span className={styles.number}>{false&&timeRemaining.days}--</span>
             <span className={styles.label}>Days</span>
           </div>
           <div className={styles.timeUnit}>
-            <span className={styles.number}>{timeRemaining.hours}</span>
+            <span className={styles.number}>{false&&timeRemaining.hours}--</span>
             <span className={styles.label}>Hours</span>
           </div>
           <div className={styles.timeUnit}>
-            <span className={styles.number}>{timeRemaining.minutes}</span>
+            <span className={styles.number}>{false&&timeRemaining.minutes}--</span>
             <span className={styles.label}>Minutes</span>
           </div>
           <div className={styles.timeUnit}>
-            <span className={styles.number}>{timeRemaining.seconds}</span>
+            <span className={styles.number}>{false&&timeRemaining.seconds}--</span>
             <span className={styles.label}>Seconds</span>
           </div>
         </div>

@@ -17,24 +17,34 @@ const jwt_secret =
   "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { name, otp, userName, phone, email, ffUid, ffUserName, password, confirmPassword } = req.body;
+  const {
+    name,
+    otp,
+    userName,
+    phone,
+    email,
+    ffUid,
+    ffUserName,
+    password,
+    confirmPassword,
+  } = req.body;
 
   try {
-    if(password!==confirmPassword){
+    if (password !== confirmPassword) {
       return res.status(400).json({
         success: false,
         error: `password and confirmPassword doesn't matched!`,
       });
     }
-    const verified = await verifyEmailAndOtpLocally({email, otp});
-    if(!verified.success){
+    const verified = await verifyEmailAndOtpLocally({ email, otp });
+    if (!verified.success) {
       return res.status(400).json({
         success: false,
         error: `Invalid Otp !`,
-      })
-    };
+      });
+    }
 
-    await otpModel.deleteMany({email, otp});
+    await otpModel.deleteMany({ email, otp });
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await userModel.create({
@@ -99,8 +109,9 @@ export const loginUser_C = async (req: any, res: any) => {
     res.status(200).json({
       success: true,
       data: {
-        token, userName
-      }
+        token,
+        userName,
+      },
     });
   } catch (err: any) {
     res.status(500).json({
@@ -113,23 +124,23 @@ export const loginUser_C = async (req: any, res: any) => {
 export const getPersonalInfo_C = async (req: Request, res: Response) => {
   const { authorization } = req.headers;
 
-  if(!authorization){
+  if (!authorization) {
     return res.status(400).json({
       success: false,
-      error: "unauthorized"
-    })
+      error: "unauthorized",
+    });
   }
 
   try {
-    let decodedToken :any;
+    let decodedToken: any;
     try {
-      decodedToken = jwt.verify(authorization, jwt_secret)
+      decodedToken = jwt.verify(authorization, jwt_secret);
     } catch (error) {
       return res.status(400).json({
         success: false,
-        error: "unauthorized"
-      })
-    };
+        error: "unauthorized",
+      });
+    }
     const { id } = decodedToken;
     const persnolInfo = await userModel.aggregate([
       {
@@ -189,7 +200,7 @@ export const findUser_C = async (req: Request, res: Response) => {
     if (userFound.length) {
       return res.status(200).json({
         success: true,
-        data: userFound
+        data: userFound,
       });
     }
     res.status(400).json({
@@ -315,26 +326,26 @@ export const updateUserData = async (req: any, res: any) => {
 };
 
 export const getAllFriends_C = async (req: Request, res: Response) => {
-   
   const { authorization } = req.headers;
 
-  if(!authorization){return res.status(400).json({
-    success: false,
-    error: "unauthorized"
-  })}
+  if (!authorization) {
+    return res.status(400).json({
+      success: false,
+      error: "unauthorized",
+    });
+  }
 
   try {
-    let decodedToken :any;
+    let decodedToken: any;
     try {
-      decodedToken = jwt.verify(authorization, jwt_secret)
-      
+      decodedToken = jwt.verify(authorization, jwt_secret);
     } catch (error) {
       return res.status(400).json({
         success: false,
-        error: "unauthorized"
-      })
-    };
-    
+        error: "unauthorized",
+      });
+    }
+
     const { id } = decodedToken;
     const friends = await userModel.aggregate([
       {
@@ -363,7 +374,7 @@ export const getAllFriends_C = async (req: Request, res: Response) => {
       success: true,
       data: {
         length: friends[0].friend_details.length,
-        friends: friends[0].friend_details
+        friends: friends[0].friend_details,
       },
     });
   } catch (err) {
@@ -393,67 +404,67 @@ export const getSampleUsers_C = async (req: Request, res: Response) => {
     ]);
     res.status(200).json({
       success: true,
-      data: samples
-    })
-    
+      data: samples,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
-      error: "something went wrong !"
-    })
+      error: "something went wrong !",
+    });
   }
-
 };
 
-
-export const forgotPassword_C = async ( req: Request, res: Response )=>{
+export const forgotPassword_C = async (req: Request, res: Response) => {
   const { email } = req.body;
-  if(!email){
+  if (!email) {
     return res.status(404).json({
-      success: false, 
-      error: "Invalid Mail"
-    })
+      success: false,
+      error: "Invalid Mail",
+    });
   }
   try {
     const user = await userModel.findOne({ email });
-    if(!user){
+    if (!user) {
       return res.status(400).json({
         success: false,
-        error: "user not found"
-      })
-    };
+        error: "user not found",
+      });
+    }
     await passwordResetModel.create({
       email,
     });
-    const token = await jwt.sign({
-      email
-    }, jwt_secret);
+    const token = await jwt.sign(
+      {
+        email,
+      },
+      jwt_secret
+    );
 
-    const link = `https://domain.com/reset-password/${token}`
+    const link = `https://domain.com/reset-password/${token}`;
 
-        let transporter = nodemailer.createTransport({
-          service: 'gmail',  // or you can configure with other services or custom SMTP
-          auth: {
-            user: 'mr.oops2090@gmail.com',
-            pass: 'hprq geji orhz enni'
-          }
-    
-          // host: "mail.edgeofwaresports.com",
-          // port: 465, // Use 587 if you're using TLS
-          // secure: true, // true for 465, false for 587
-          // auth: {
-          //   user: "mail@edgeofwaresports.com", // your GoDaddy email
-          //   pass: "#Ggnfy57h", // your GoDaddy email password
-          // },
-        });
-    
-        // Send email
-        let mailOptions = {
-          from: "Edge Of War<mail@edgeofwaresports.com>",
-          to: email,
-          subject: "Password Reset Link",
-          // text: `Your verification code is ${otp}`,
-          html: `
+    let transporter = nodemailer.createTransport({
+      service: "gmail", // or you can configure with other services or custom SMTP
+      auth: {
+        user: "mr.oops2090@gmail.com",
+        pass: "hprq geji orhz enni",
+      },
+
+      // host: "mail.edgeofwaresports.com",
+      // port: 465, // Use 587 if you're using TLS
+      // secure: true, // true for 465, false for 587
+      // auth: {
+      //   user: "mail@edgeofwaresports.com", // your GoDaddy email
+      //   pass: "#Ggnfy57h", // your GoDaddy email password
+      // },
+    });
+
+    // Send email
+    let mailOptions = {
+      from: "Edge Of War<mail@edgeofwaresports.com>",
+      to: email,
+      subject: "Password Reset Link",
+      // text: `Your verification code is ${otp}`,
+      html: `
           <div>
             <p>Your password reset Link is below valid for last 10 min</p>
             <div>
@@ -461,22 +472,21 @@ export const forgotPassword_C = async ( req: Request, res: Response )=>{
             </div>
           </div>
         `,
-        };
-    
-        transporter.sendMail(mailOptions, (error: any, info: any) => {
-          if (error) {
-            return console.log(error);
-          }
-          res.status(200).json({
-            success: true,
-            data: info,
-          });
-        });
+    };
 
+    transporter.sendMail(mailOptions, (error: any, info: any) => {
+      if (error) {
+        return console.log(error);
+      }
+      res.status(200).json({
+        success: true,
+        data: info,
+      });
+    });
   } catch {
     res.status(500).json({
       success: false,
-      error: "Something went Wrong"
-    })
+      error: "Something went Wrong",
+    });
   }
-}
+};

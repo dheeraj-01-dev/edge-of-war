@@ -4,29 +4,8 @@ import styles from "./styles/notifications.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "@/scripts/toast";
+import { useRouter } from "next/navigation";
 
-const acceptFunction = async ({
-  from,
-  token = "",
-}: {
-  from: string | undefined;
-  token: string;
-}) => {
-  const res = await fetch("/api/acceptFriendRequest", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: token, // Include the token
-    },
-    body: JSON.stringify({ from }), // Include any required data in the body
-  });
-
-  const data = await res.json();
-  
-  if(data.data){
-    toast(data.data)
-  }
-};
 
 const Notifications = ({
   notifications,
@@ -35,6 +14,37 @@ const Notifications = ({
   token: string
   notifications: notification[];
 }) => {
+
+  const router = useRouter();
+  
+  const acceptFunction = async ({
+    from,
+    token = "",
+  }: {
+    from: string | undefined;
+    token: string;
+  }) => {
+
+    const res = await fetch("/api/acceptFriendRequest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token, // Include the token
+      },
+      body: JSON.stringify({ from }), // Include any required data in the body
+    });
+  
+    const data = await res.json();
+    
+    if(data.data){
+      toast(data.data)
+      router.push("/friends");
+      router.refresh();
+    }
+    if(data.error){
+      toast(data.error)
+    }
+  };
   return (
     <div className={styles.notificationContainer}>
       {notifications.length < 1 && <div>No new Notfication !</div>}

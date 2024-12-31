@@ -16,7 +16,7 @@ interface PersonalInfoProps {
   style ?: React.CSSProperties;
 }
 
-const PersonalInfo: React.FC<PersonalInfoProps> = ({ name, ffUid, email, userName, style }) => {
+const PersonalInfo: React.FC<PersonalInfoProps> = ({ name, email, userName, style }) => {
   // const [editorOpen, setEditorOpen] = useState(false);
 
   // const profile = { name, ffUid, phone, email, userName };
@@ -28,7 +28,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ name, ffUid, email, userNam
   // Create the editor array using map for cleaner code
   const editorArray = [
     { name: "Name", value: name, png: "user" },
-    { name: "FF Uid", value: ffUid, png: "evaluation" },
+    // { name: "FF Uid", value: ffUid, png: "evaluation" },
     { name: "User Name", value: userName, png: "job" },
     // { name: "Phone", value: phone, png: "support" },
     { name: "Email", value: email, png: "email" },

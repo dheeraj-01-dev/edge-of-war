@@ -6,7 +6,6 @@ const UserProfile = ({
   style,
   name,
   uid,
-  profile,
 }: {
   style?: React.CSSProperties;
   name: string;
@@ -22,7 +21,7 @@ const UserProfile = ({
             width={60}
             height={60}
             alt=""
-            src={profile}
+            src={"/men.png"}
           />
           <div className={styles.exp}>Exp. 01</div>
         </div>

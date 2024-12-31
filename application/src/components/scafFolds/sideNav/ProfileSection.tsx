@@ -38,8 +38,8 @@ const ProfileSection: React.FC<profileSection> = async (
   }
   let name,
     userName,
-    ffUid,
-    profileSrc = "";
+    ffUid;
+    
   try {
     const decodedUser = decode(
       userToken as unknown as string
@@ -47,7 +47,7 @@ const ProfileSection: React.FC<profileSection> = async (
     name = decodedUser.name;
     userName = decodedUser.userName;
     ffUid = decodedUser.ffUid;
-    profileSrc = decodedUser.profile;
+    // profileSrc = decodedUser.profile;
   } catch {
     return (
       <div className={styles.profile}>
@@ -68,7 +68,7 @@ const ProfileSection: React.FC<profileSection> = async (
       {name ? (
         <Link href="/profile" className={styles.linkContainer}>
           <div className={styles.profilePic}>
-            <Image unoptimized height={60} width={60} alt="" src={profileSrc} />
+            <Image unoptimized height={60} width={60} alt="" src={"/men.png"} />
             {/* <img src="/men.png" alt="" /> */}
           </div>
           <div className={styles.identity}>

@@ -36,7 +36,7 @@
     background-color: var(--bg-8);
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 6px 12px rgba(0, 204, 255, 0.751);
+    /* box-shadow: 0 6px 12px rgba(0, 204, 255, 0.751); */
     padding: 30px;
     flex: 1 1 calc(33.333% - 40px);
     /* min-width: 280px;

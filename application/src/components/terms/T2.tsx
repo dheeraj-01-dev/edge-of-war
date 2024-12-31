@@ -9,7 +9,7 @@ const Terms: React.FC = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Introduction</h2>
         <p className={styles.paragraph}>
-          Welcome to Battleroya.com! By accessing or using our website and
+          Welcome to edgeofesports.com! By accessing or using our website and
           services, you agree to comply with and be bound by the following terms
           and conditions. Please read them carefully.
         </p>
@@ -19,7 +19,7 @@ const Terms: React.FC = () => {
         <h2 className={styles.sectionTitle}>Definitions</h2>
         <ul className={styles.list}>
           <li>
-            <strong>"Website"</strong> refers to Battleroya.com.
+            <strong>"Website"</strong> refers to edgeofesports.com.
           </li>
           <li>
             <strong>"Services"</strong> refers to all features, content, and
@@ -46,7 +46,7 @@ const Terms: React.FC = () => {
         </p>
         <p className={styles.paragraph}>
           <strong>Eligibility:</strong> You must be at least 13 years old to
-          create an account on Battleroya.com. If you are under 18, you must
+          create an account on edgeofesports.com. If you are under 18, you must
           have permission from a parent or guardian to use our services.
         </p>
         <p className={styles.paragraph}>
@@ -103,7 +103,7 @@ const Terms: React.FC = () => {
         </p>
         <p className={styles.paragraph}>
           <strong>Prizes:</strong> Prizes, if any, will be awarded as specified
-          in the tournament details. Battleroya.com reserves the right to
+          in the tournament details. edgeofesports.com reserves the right to
           substitute prizes of equal value if necessary.
         </p>
       </section>
@@ -115,14 +115,14 @@ const Terms: React.FC = () => {
         <p className={styles.paragraph}>
           <strong>User-Generated Content:</strong> By submitting content to the
           website (such as forum posts, comments, or uploads), you grant
-          Battleroya.com a non-exclusive, royalty-free, worldwide license to
+          edgeofesports.com a non-exclusive, royalty-free, worldwide license to
           use, reproduce, modify, and distribute your content in connection with
           our services.
         </p>
         <p className={styles.paragraph}>
           <strong>Website Content:</strong> All content on the website,
           including text, graphics, logos, and software, is the property of
-          Battleroya.com or its content suppliers and is protected by
+          edgeofesports.com or its content suppliers and is protected by
           intellectual property laws. You may not use, copy, or distribute any
           content from the website without our express permission.
         </p>
@@ -142,12 +142,12 @@ const Terms: React.FC = () => {
         <p className={styles.paragraph}>
           <strong>Disclaimer:</strong> The website and services are provided "as
           is" and "as available," without any warranties of any kind, either
-          express or implied. Battleroya.com does not warrant that the website
+          express or implied. edgeofesports.com does not warrant that the website
           will be uninterrupted, error-free, or free from viruses or other
           harmful components.
         </p>
         <p className={styles.paragraph}>
-          <strong>Liability:</strong> In no event shall Battleroya.com, its
+          <strong>Liability:</strong> In no event shall edgeofesports.com, its
           affiliates, or its licensors be liable for any indirect, incidental,
           special, consequential, or punitive damages arising from your use of
           the website or services, even if we have been advised of the
@@ -158,7 +158,7 @@ const Terms: React.FC = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Indemnification</h2>
         <p className={styles.paragraph}>
-          You agree to indemnify, defend, and hold harmless Battleroya.com, its
+          You agree to indemnify, defend, and hold harmless edgeofesports.com, its
           affiliates, and its licensors from and against any and all claims,
           liabilities, damages, losses, and expenses, including reasonable
           attorney's fees, arising out of or in any way connected with your use
@@ -170,7 +170,7 @@ const Terms: React.FC = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Modifications to Terms</h2>
         <p className={styles.paragraph}>
-          Battleroya.com reserves the right to modify these terms and conditions
+          edgeofesports.com reserves the right to modify these terms and conditions
           at any time. We will notify users of any significant changes by
           posting the updated terms on the website. Your continued use of the
           website after any such changes constitutes your acceptance of the new
@@ -206,7 +206,7 @@ const Terms: React.FC = () => {
         </p>
         <p className={styles.paragraph}>
           <strong>Entire Agreement:</strong> These terms constitute the entire
-          agreement between you and Battleroya.com regarding your use of the
+          agreement between you and edgeofesports.com regarding your use of the
           website.
         </p>
       </section>

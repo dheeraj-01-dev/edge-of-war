@@ -77,7 +77,7 @@ const P2 = () => {
           <h2 className={styles.sectionTitle}>Contact Us</h2>
           <p className={styles.text}>
             If you have any questions about this Privacy Policy, please contact
-            us at support@battleroya.com.
+            us at edgeofesports@gmail.com.
           </p>
         </section>
       </div>

@@ -11,6 +11,7 @@ const jwt_secret =
 export const createFriendRequest_V = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   const { to } = req.body;
+  
   if(!authorization || !to){
     return res.status(404).json({
       success: false,

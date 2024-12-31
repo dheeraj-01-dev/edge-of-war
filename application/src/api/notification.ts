@@ -20,6 +20,7 @@ export const getAllNotification = async ({
       url: `${domain}/notification/all`,
       headers: {
         Authorization: auth,
+        apikey: "123@edgeofwaresports.com"
       },
     });
 
@@ -66,6 +67,7 @@ export const acceptFriendRequest = async ({
       url: `${domain}/notification/friend-request/accept`,
       headers: {
         Authorization: token,
+        apikey: "123@edgeofwaresports.com"
       },
       data: { from },
     });

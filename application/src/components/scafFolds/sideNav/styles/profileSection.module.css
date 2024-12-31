@@ -27,7 +27,7 @@
   width: 60px;
   object-fit: cover;
   border-radius: 100px;
-  background: black;
+  /* background: black; */
 }
 .identity{
   margin-top: 3px;

@@ -38,7 +38,7 @@ const UpcomingBattle: React.FC<upcomingBattleType> = ({ battles, handleHost }) =
               <AdvanceOptions advanceOption={focusedBattle.settings.advanceSetting} />
             </div>
             <div>
-              <Positions teams={focusedBattle.teams} />
+              <Positions battle={focusedBattle._id} teams={focusedBattle.teams} />
             </div>
             <div>
               <RegisteredPlayers slots={focusedBattle.settings.slots} teams={focusedBattle.teams} />

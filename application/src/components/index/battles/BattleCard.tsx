@@ -108,6 +108,7 @@ const BattleCard: React.FC<battleCardProps> = ({
           <div className={styles.title}>
             {gameMode}&nbsp; [{map}]
           </div>
+          <div style={{color: "yellow"}}>survival</div>
           {/* <div className={styles.timeCountDown}>{`${rday}:${rhr}:${rmi}:${rsec}`}</div> */}
         </header>
 

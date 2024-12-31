@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import battleModel from "../../battles/battles.model.js";
-import { error } from "console";
 
 export const createBattleController = async (req:Request, res: Response) => {
     req.body.battleId = 101
@@ -15,7 +14,7 @@ export const createBattleController = async (req:Request, res: Response) => {
                 $limit: 1
             }
         ]);
-        data.battleId = (lastDocument[0]?.battleId)+1;
+        data.battleId = (lastDocument[0]?.battleId)+1||101;
         const battleCreated = await battleModel.create(data)
         res.status(200).json({
             success: true,
@@ -100,3 +99,28 @@ export const hostBattle_C = async (req: Request, res: Response) => {
         })
     }
 };
+
+export const publishPositions_C = async (req: Request, res: Response) => {
+    const { battle, positions } = req.body;
+    if(!(battle&&positions)){
+        return res.status(400).json({
+            success: false,
+            error: "Invalid Pased data"
+        })
+    }
+    try {
+        const updatedBattle = await battleModel.findOneAndUpdate({ _id: battle }, {
+            positions
+        }, { returnOriginal: false });
+
+        return res.status(200).json({
+            success: true,
+            data: updatedBattle
+        })
+    } catch (error :any) {
+        return res.status(500).json({
+            success: false,
+            error: error.message?error.message:error
+        })
+    }
+}

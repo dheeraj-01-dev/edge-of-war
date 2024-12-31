@@ -38,6 +38,7 @@ export const loginUser = async ({
         error: error.response.data.error || "An error occurred",
       };
     }
+    console.log(error)
 
     // Handle unknown other error types
     return {
