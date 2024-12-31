@@ -53,7 +53,7 @@ const SignupPage1 = ({ formData, setFormData, onNext } : {
               spellCheck={false}
               autoCorrect="off"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value.trim() })}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               type="text"
               placeholder="Full Name"
             />

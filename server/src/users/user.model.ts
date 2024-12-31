@@ -61,7 +61,6 @@ const userSchema = new Schema<schema>({
   },
   phone: {
     type: Number,
-    unique: true,
     // required: [true, "Please enter your phone number...."],
   },
   userName: {

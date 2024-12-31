@@ -64,7 +64,7 @@ export const registerUser = async ({name, ffUid, otp, ffUserName, userName, emai
       url: `${domain}/user/auth/register`,
       headers: { apikey },
       data: {
-        name, otp: +otp,
+        name: name.trim(), otp: +otp,
         "ffUid": +ffUid,
         userName, ffUserName,
         // "phone": parseInt(phone?phone:""),

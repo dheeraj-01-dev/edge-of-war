@@ -91,6 +91,7 @@ const SignupPage2 = ({ formData, setFormData, onNext, onPrevious } : {
               placeholder="OTP"
             />
           </div>
+          <div onClick={()=>{handleSendOtp()}} style={{color: "skyblue", marginTop: 10, textAlign: "end", marginBottom: -15}}>resend otp?</div>
         {!otpSent ? (
           <button className={styles.button} onClick={handleSendOtp}>
             Send OTP

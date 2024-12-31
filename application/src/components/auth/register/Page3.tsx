@@ -53,6 +53,9 @@ const SignupPage3 = ({ formData, setFormData, onFinish, onPrevious }: {
             <input
               spellCheck={false}
               autoCorrect="off"
+              style={{
+                textTransform: "lowercase"
+              }}
               value={formData.userName}
               onChange={(e) => setFormData({ ...formData, userName: e.target.value.trim() })}
               type="text"
