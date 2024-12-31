@@ -13,7 +13,7 @@ const SignupFlow = () => {
 
   const router = useRouter();
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
     ffUid: '',
