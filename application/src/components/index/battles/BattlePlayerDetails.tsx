@@ -15,6 +15,8 @@ const BattlePlayerDetails: React.FC<BattlePlayerDetailsProps> = ({ teams, slots 
   const playerDivRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
+
+
   const togglePlayer = () => {
     setIsOpen((prev) => !prev);
 

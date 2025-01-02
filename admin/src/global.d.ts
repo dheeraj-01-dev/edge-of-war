@@ -28,6 +28,7 @@ type battleType = {
     _3: number;
   };
   teams: string[][];
+  positions: string[][] | undefined;
 };
 
 type responseType<T> = {

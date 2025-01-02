@@ -398,7 +398,13 @@ const battleSchema = new Schema({
             type: (Array),
             ref: "users",
         }
-    ]
+    ],
+    teamswithUserName: [
+        {
+            type: (Array),
+            ref: "users",
+        }
+    ],
 }, { timestamps: true });
 const battleModel = model("battles", battleSchema);
 export default battleModel;

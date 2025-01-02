@@ -23,6 +23,7 @@ const Page = async ({params}: {params: Params}) => {
 
   const cookiStore = cookies();
   const userName = (await cookiStore).get("__eow_user_name")?.value;
+  const userToken = (await cookiStore).get("__eow_user_token")?.value;
   
   const resolvedParams = await params;
   const response = await fetchBattleData(resolvedParams.id);
@@ -50,11 +51,11 @@ const Page = async ({params}: {params: Params}) => {
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className={styles["battle-details"]}>
-      <BattleDetails userName={userName} battle={response.data} />
+      <BattleDetails userToken={userToken} userName={userName} battle={response.data} />
     </div>
   );
 };

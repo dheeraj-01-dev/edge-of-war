@@ -51,6 +51,7 @@ const AllFriendSection: React.FC<allFriends> = ({ friends }) => {
               key={friend.userName}
               profile={friend.profile}
               userName={friend.userName}
+              ffUserName={friend.ffUserName}
             />
           );
         })

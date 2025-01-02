@@ -31,6 +31,7 @@ export const loginUser = async ({
       data: json.data.data,
     };
   } catch (error: unknown) {
+    // console.log(error)
     // Check if the error is an AxiosError and has a response property
     if (axios.isAxiosError(error) && error.response) {
       return {

@@ -33,9 +33,10 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     return <AuthProtected isLoggedIn={false}><div></div></AuthProtected>;
   }
   
-  const { userName, profile, name, ffUid } = decodedUserToken;
+  const { userName, profile, name, ffUid, ffUserName } = decodedUserToken;
   const { id } = await params;
   const response: responseType<battleType> = await getSingleBattle(id);
+
   
   return (
     <AuthProtected isLoggedIn={true}>
@@ -46,7 +47,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </NavigateBack>
         {response.data ? (
-          <CheckOutDetails onConfirm={joinBattle} balance={data.balance} friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile, userToken}} battle={response.data} />
+          <CheckOutDetails onConfirm={joinBattle} balance={data.balance} friendList={jsonResponse.data?.friends} self={{userName, ffUid, name, profile, userToken, ffUserName}} battle={response.data} />
         ) : (
           <div>Battle Not Found</div>
         )}

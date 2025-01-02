@@ -72,7 +72,8 @@ interface schema{
   roomPass: {
     type: number | string
   }
-  teams: Array<team>
+  teams: Array<team>,
+  teamswithUserName: Array<team>
 }
 
 const battleSchema = new Schema<schema>({
@@ -474,7 +475,13 @@ const battleSchema = new Schema<schema>({
       type: Array<string>,
       ref: "users",
     }
-  ]
+  ],
+  teamswithUserName: [
+    { 
+      type: Array<string>,
+      ref: "users",
+    }
+  ],
 }, { timestamps: true })
 
 const battleModel = model("battles", battleSchema);

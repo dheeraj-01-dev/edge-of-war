@@ -52,6 +52,15 @@ export const getAllBattles = async (req: Request, res: Response) => {
                   },
                 },
               },
+              {
+                teamswithUserName: {
+                  $elemMatch: {
+                    $elemMatch: {
+                      $eq: userName,
+                    },
+                  },
+                },
+              },
             ],
           },
         },
@@ -257,15 +266,42 @@ export const getRegisteredBattle_C = async (req: Request, res: Response) => {
     const data = await battleModel.aggregate([
       {
         $match: {
-          teams: {
-            $elemMatch: {
+          $or: [
+            {teams: {
               $elemMatch: {
-                $eq: userName,
+                $elemMatch: {
+                  $eq: userName,
+                },
               },
-            },
-          },
+            }},
+            {teamswithUserName: {
+              $elemMatch: {
+                $elemMatch: {
+                  $eq: userName,
+                },
+              },
+            }},
+          ]
         },
       },
+      // {
+      //   $match: {
+      //     teams: {
+      //       $elemMatch: {
+      //         $elemMatch: {
+      //           $eq: userName,
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
+      {
+        $match: {
+          $nor: [
+            { status: "completed" }
+          ]
+        }
+      }
     ]);
 
     res.status(200).json({
@@ -286,7 +322,8 @@ export const getRegisteredBattle_C = async (req: Request, res: Response) => {
 export const createBattleOrder = async (req: Request, res: Response) => {
   
   const { authorization } = req.headers;
-  const { battle, members } = req.body;
+  const { battle, members, UserNameMembers } = req.body;
+
 
   if (!authorization) {
     return res.status(400).json({
@@ -306,7 +343,7 @@ export const createBattleOrder = async (req: Request, res: Response) => {
 
   try {
     const decodedUser: any = jwt.verify(authorization, jwt_secret);
-    const { userName } = decodedUser;
+    const { userName, ffUserName } = decodedUser;
 
     const userDetails = await userModel.findOne({userName});
 
@@ -327,7 +364,7 @@ export const createBattleOrder = async (req: Request, res: Response) => {
             {
               createBy: userName
             }
-            ]
+          ]
         }
       }
     ]);
@@ -349,9 +386,15 @@ export const createBattleOrder = async (req: Request, res: Response) => {
 
 
     const memberSet = new Set(members);
-    memberSet.add(userName);
+    memberSet.add(ffUserName);
 
     const updatedMember = Array.from(memberSet);
+
+    const UserNameMemberSet = new Set(UserNameMembers);
+    UserNameMemberSet.add(userName);
+
+    const updatedUserNameMembers = Array.from(UserNameMemberSet);
+
     const {
       settings: { slots },
     } = battleInfo;
@@ -366,10 +409,13 @@ export const createBattleOrder = async (req: Request, res: Response) => {
     session.startTransaction();
 
     try {
-      const battleup = await battleModel.updateOne(
+      const battleupdate = await battleModel.updateOne(
         { _id: battle },
         {
-          $addToSet: { teams: updatedMember },
+          $addToSet: { 
+            teams: updatedMember,
+            teamswithUserName: updatedUserNameMembers
+          }
         },
         { session, raw: false }
       );
@@ -378,13 +424,13 @@ export const createBattleOrder = async (req: Request, res: Response) => {
       //   $addToSet: { upcomingContest: { battle, leader: authorization, members }}
       // }, {session, raw: false});
 
-      await userModel.updateOne(
-        { userName },
-        {
-          $inc: { balance: -battleInfo.entry },
-        },
-        { session }
-      );
+      // await userModel.updateOne(
+      //   { userName },
+      //   {
+      //     $inc: { balance: -battleInfo.entry },
+      //   },
+      //   { session }
+      // );
 
       const order = await orderModel.create([{
         battle: battle,
@@ -396,28 +442,38 @@ export const createBattleOrder = async (req: Request, res: Response) => {
       
       await session.commitTransaction();
       await session.endSession();
-      
-      const response = await fetch(`http://127.0.0.1:5000/transaction/create/${order[0]._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: "123@edgeofwaresports.com"
-        },
-        body: JSON.stringify({
-          status: "debited",
-          type: "contest fee",
-          value: battleInfo.entry
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/transaction/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: "123@edgeofwaresports.com"
+          },
+          body: JSON.stringify({
+            status: "debited",
+            orderId: order[0]._id,
+            type: "contest fee",
+            value: battleInfo.entry
+          })
+        });
+        const data = await response.json();
+        if(!data.success){
+          throw new Error(data.error);
+        }
+        return res.status(200).json({
+          success: true,
+          data: data.data,
+        });
+        
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+          success: false,
+          error: "error creating transaction"
         })
-      });
-      const data = await response.json();
-      if(!data.success){
-        throw new Error(data.error);
       }
       
-      return res.status(200).json({
-        success: true,
-        data: data.data,
-      });
+      
     } catch (err :any) {
       await session.abortTransaction();
       await session.endSession();

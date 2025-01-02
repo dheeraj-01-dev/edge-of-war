@@ -11,9 +11,10 @@ type checkOutDetails = {
   battle: battleType;
   self: member;
   balance: number;
-  onConfirm: ({ battle, members, Authorization }: {
+  onConfirm: ({ battle, members, Authorization, UserNameMembers }: {
     battle: string;
     members: string[];
+    UserNameMembers: string[];
     Authorization: string | undefined;
 }) => Promise<responseType<string>>;
   friendList?: member[];
@@ -200,7 +201,7 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
             {members.map((member: member, index: number) => {
               return (
                 <div key={member.userName} className={styles.member}>
-                  {index + 1}. &nbsp; &nbsp;{member.userName}
+                  {index + 1}. &nbsp; &nbsp;{member.ffUserName}
                   {self.userName === member.userName && (
                     <div className={styles.selfMemberTemplate}>[You]</div>
                   )}
@@ -245,10 +246,13 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
             }}
             onConfirm={async()=>{
               const memberString = members.map((member)=>{
+                return member.ffUserName;
+              });
+              const UserNameMemberString = members.map((member)=>{
                 return member.userName;
               });
-              console.log(memberString)
-              const response = await onConfirm({battle: _id, Authorization: self.userToken, members: memberString})
+              
+              const response = await onConfirm({battle: _id, Authorization: self.userToken, members: memberString, UserNameMembers: UserNameMemberString})
               if(response.error){
                 toast(response.error)
               }else{

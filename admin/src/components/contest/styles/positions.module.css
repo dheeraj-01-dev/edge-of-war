@@ -13,6 +13,7 @@
 .slotsContainer{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
 }
 .teamSlot{
     border: 2px solid var(--bg-1);

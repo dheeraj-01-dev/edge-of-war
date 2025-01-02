@@ -45,6 +45,15 @@ export const getAllBattles = async (req, res) => {
                                     },
                                 },
                             },
+                            {
+                                teamswithUserName: {
+                                    $elemMatch: {
+                                        $elemMatch: {
+                                            $eq: userName,
+                                        },
+                                    },
+                                },
+                            },
                         ],
                     },
                 },
@@ -219,15 +228,31 @@ export const getRegisteredBattle_C = async (req, res) => {
         const data = await battleModel.aggregate([
             {
                 $match: {
-                    teams: {
-                        $elemMatch: {
-                            $elemMatch: {
-                                $eq: userName,
-                            },
-                        },
-                    },
+                    $or: [
+                        { teams: {
+                                $elemMatch: {
+                                    $elemMatch: {
+                                        $eq: userName,
+                                    },
+                                },
+                            } },
+                        { teamswithUserName: {
+                                $elemMatch: {
+                                    $elemMatch: {
+                                        $eq: userName,
+                                    },
+                                },
+                            } },
+                    ]
                 },
             },
+            {
+                $match: {
+                    $nor: [
+                        { status: "completed" }
+                    ]
+                }
+            }
         ]);
         res.status(200).json({
             success: true,
@@ -246,7 +271,7 @@ export const getRegisteredBattle_C = async (req, res) => {
 };
 export const createBattleOrder = async (req, res) => {
     const { authorization } = req.headers;
-    const { battle, members } = req.body;
+    const { battle, members, UserNameMembers } = req.body;
     if (!authorization) {
         return res.status(400).json({
             success: false,
@@ -262,7 +287,7 @@ export const createBattleOrder = async (req, res) => {
     }
     try {
         const decodedUser = jwt.verify(authorization, jwt_secret);
-        const { userName } = decodedUser;
+        const { userName, ffUserName } = decodedUser;
         const userDetails = await userModel.findOne({ userName });
         if (!userDetails) {
             return res.status(400).json({
@@ -299,8 +324,11 @@ export const createBattleOrder = async (req, res) => {
             });
         }
         const memberSet = new Set(members);
-        memberSet.add(userName);
+        memberSet.add(ffUserName);
         const updatedMember = Array.from(memberSet);
+        const UserNameMemberSet = new Set(UserNameMembers);
+        UserNameMemberSet.add(userName);
+        const updatedUserNameMembers = Array.from(UserNameMemberSet);
         const { settings: { slots }, } = battleInfo;
         if (48 / slots !== updatedMember.length) {
             return res.status(404).json({
@@ -311,12 +339,12 @@ export const createBattleOrder = async (req, res) => {
         const session = await mongoose.startSession();
         session.startTransaction();
         try {
-            const battleup = await battleModel.updateOne({ _id: battle }, {
-                $addToSet: { teams: updatedMember },
+            const battleupdate = await battleModel.updateOne({ _id: battle }, {
+                $addToSet: {
+                    teams: updatedMember,
+                    teamswithUserName: updatedUserNameMembers
+                }
             }, { session, raw: false });
-            await userModel.updateOne({ userName }, {
-                $inc: { balance: -battleInfo.entry },
-            }, { session });
             const order = await orderModel.create([{
                     battle: battle,
                     createBy: userName,
@@ -325,26 +353,36 @@ export const createBattleOrder = async (req, res) => {
                 }], { session });
             await session.commitTransaction();
             await session.endSession();
-            const response = await fetch(`http://127.0.0.1:5000/transaction/create/${order[0]._id}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    apikey: "123@edgeofwaresports.com"
-                },
-                body: JSON.stringify({
-                    status: "debited",
-                    type: "contest fee",
-                    value: battleInfo.entry
-                })
-            });
-            const data = await response.json();
-            if (!data.success) {
-                throw new Error(data.error);
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/transaction/create`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        apikey: "123@edgeofwaresports.com"
+                    },
+                    body: JSON.stringify({
+                        status: "debited",
+                        orderId: order[0]._id,
+                        type: "contest fee",
+                        value: battleInfo.entry
+                    })
+                });
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error(data.error);
+                }
+                return res.status(200).json({
+                    success: true,
+                    data: data.data,
+                });
             }
-            return res.status(200).json({
-                success: true,
-                data: data.data,
-            });
+            catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    success: false,
+                    error: "error creating transaction"
+                });
+            }
         }
         catch (err) {
             await session.abortTransaction();

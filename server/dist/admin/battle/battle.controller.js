@@ -121,4 +121,31 @@ export const publishPositions_C = async (req, res) => {
         });
     }
 };
+export const distributePrizes_C = async (req, res) => {
+    const { battle } = req.body;
+    try {
+        const verifiedBattle = await battleModel.findOne({ _id: battle });
+        if (!verifiedBattle) {
+            return res.status(400).json({
+                success: false,
+                error: "battle not found"
+            });
+        }
+        ;
+        if (verifiedBattle.positions.length < 1) {
+            return res.status(400).json({
+                success: false,
+                error: "positions not declared yet"
+            });
+        }
+        ;
+        try {
+            await fetch("http://127.0.0.1:5000");
+        }
+        catch (error) {
+        }
+    }
+    catch (error) {
+    }
+};
 //# sourceMappingURL=battle.controller.js.map

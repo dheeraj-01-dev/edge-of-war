@@ -141,24 +141,25 @@ export const getRegisterdBattle = async ({token}: {token: string | undefined }) 
   }
 }
 
-export const joinBattle = async ({battle, members, Authorization}: {
+export const joinBattle = async ({battle, members, Authorization, UserNameMembers}: {
   battle: string,
   members: string[],
+  UserNameMembers: string[],
   Authorization: string | undefined
 }) : Promise<responseType<string>> => {
+
   if(!Authorization){
     return {
       success: false,
       error: "unauthorized"
     }
   };
-  console.log(members)
   try {
     const json = await axios({
           method: "POST",
           url: `${domain}/battle/join`,
           data: {
-            battle, members
+            battle, members, UserNameMembers
           },
           headers: {
             apikey,

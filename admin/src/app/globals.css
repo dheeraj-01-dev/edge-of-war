@@ -65,9 +65,9 @@ body {
   user-zoom: none;
   outline: none;
   box-sizing: border-box;
-  user-select: none; 
-  -ms-user-select: none; 
-  -webkit-user-select: none; 
+  /* user-select: none;  */
+  /* -ms-user-select: none; 
+  -webkit-user-select: none;  */
   -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
 

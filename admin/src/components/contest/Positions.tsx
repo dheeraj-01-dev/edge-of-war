@@ -6,10 +6,11 @@ import toast from '@/scripts/toast'
 
 interface positions {
   teams: battleType["teams"],
-  battle: string | undefined
+  battle: string | undefined,
+  positions: battleType["positions"]
 };
 
-const Positions :React.FC<positions> = ({ teams, battle }) => {
+const Positions :React.FC<positions> = ({ teams, battle, positions }) => {
   const positionArray :string[][] = [];
 
   const duplicateTeams = Array.from(teams)
@@ -52,9 +53,33 @@ const Positions :React.FC<positions> = ({ teams, battle }) => {
   return (
     <div className={styles.container}>
         <div className={styles.header}>Publish Positions</div>
-        <div className={styles.slotsContainer}>
+        <div className={styles.slotsContainer}>           
+          {
+              positions&&positions.map((team, index)=>{
+                const teamStr = team?team.map((item, index) => `${index + 1}. ${item}`).join('\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'):"null";
+
+                return(
+                  <div className={styles.teamSlot} key={index}>
+                    <div className={styles.label}>Position {index+1}</div>
+                    <div>
+                      <select onChange={(e)=>{handleOnChage(index, e.target.value.split(","))}} className={styles.select} name={`slot${index+1}`}>
+                        <option value={team}>{teamStr}</option>
+                        {/* {
+                          teams.map((team)=>{
+                            const teamStr = team.map((item, index) => `${index + 1}. ${item}`).join('\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0');
+                            return(
+                              <option key={team[0]} style={{whiteSpace: "pre-line"}} value={team}>{teamStr}</option>
+                            )
+                          })
+                        } */}
+                      </select>
+                    </div>
+                  </div>
+                )
+              })
+            }
             {
-              teams.map((team, index)=>{
+              !positions&&teams.map((team, index)=>{
 
                 return(
                   <div className={styles.teamSlot} key={index}>

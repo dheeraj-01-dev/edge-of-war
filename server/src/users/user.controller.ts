@@ -17,16 +17,24 @@ const jwt_secret =
   "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
 
 export const registerUser = async (req: Request, res: Response) => {
-  const {
-    name,
-    otp,
-    userName,
-    email,
-    ffUid,
-    ffUserName,
-    password,
-    confirmPassword,
-  } = req.body;
+  // const {
+  //   name,
+  //   otp,
+  //   userName,
+  //   email,
+  //   ffUid,
+  //   ffUserName,
+  //   password,
+  //   confirmPassword,
+  // } = req.body;
+  const name = req.body.name.trim();
+  const otp = req.body.otp.trim();
+  const userName = req.body.userName.trim();
+  const email = req.body.email.trim();
+  const ffUid = req.body.ffUid.trim();
+  const ffUserName = req.body.ffUserName.trim();
+  const password = req.body.ffUid.trim();
+  const confirmPassword = req.body.ffUid.trim();
 
   try {
     if (password !== confirmPassword) {
@@ -47,11 +55,11 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await userModel.create({
-      ffUid,
-      ffUserName,
-      name,
-      userName,
-      email,
+      ffUid: ffUid.trim(),
+      ffUserName: ffUserName.trim(),
+      name: name.trim(),
+      userName: userName.trim(),
+      email: email.trim(),
       password: hashedPassword,
     });
 
@@ -86,7 +94,10 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 export const loginUser_C = async (req: any, res: any) => {
-  const { phone, email, password } = req.body;
+  // const { phone, email, password } = req.body;
+  const phone = req.body.phone?.trim();
+  const email = req.body.email?.trim();
+  const password = req.body.password.trim();
 
   try {
     const credentialToFind = (phone && { phone }) || (email && { email });
@@ -381,6 +392,7 @@ export const getAllFriends_C = async (req: Request, res: Response) => {
           "friend_details.profile": 1,
           "friend_details.ffUid": 1,
           "friend_details.name": 1,
+          "friend_details.ffUserName": 1,
         },
       },
     ]);

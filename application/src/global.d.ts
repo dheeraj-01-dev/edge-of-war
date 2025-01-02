@@ -126,6 +126,7 @@ type battleType = {
     _3: number;
   };
   teams: [string[]];
+  teamswithUserName: [string[]];
 };
 
 type responseType<T> = {
@@ -142,6 +143,7 @@ type decodedUserToken = {
   id: string;
   iat: number;
   profile: string;
+  ffUserName: string;
 };
 
 type member = {
@@ -149,7 +151,8 @@ type member = {
   ffUid: number;
   profile: string;
   userName: string;
-  userToken?: string
+  ffUserName: string;
+  userToken?: string;
 };
 
 type getFriendsApi = {

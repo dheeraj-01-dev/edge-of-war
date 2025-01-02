@@ -111,6 +111,7 @@ const Friends: React.FC<friends> = ({
                   ffUid={friend.ffUid}
                   profile={friend.profile}
                   userName={friend.userName}
+                  ffUserName={friend.ffUserName}
                 />
               </div>
             );

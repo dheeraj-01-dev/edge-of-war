@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express'
 
 config();
 import cors from 'cors'
-import battleRouter from './battles/battles.router.js';
+import battleRouter from './battles/battles.routes.js';
 import { userRouter } from './users/user.routes.js';
 import notificatonRouter from './notification/notification.routes.js';
 import validateapikey from './middlewares/apikeyvalidator.js';

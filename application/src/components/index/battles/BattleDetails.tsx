@@ -328,8 +328,9 @@ import NavigateBack from "@/hooks/Navigate.back";
 import BattlePlayerDetails from "./BattlePlayerDetails";
 import { CommentDots } from "@/components/icons/Comments";
 import BattleAuthenticators from "./BattleAuthenticators";
+import jwt from "jsonwebtoken";
 
-const BattleDetails = ({ battle, userName }: { battle: battleType, userName: string | undefined }) => {
+const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, userName: string | undefined, userToken: string | undefined }) => {
   const {
     _id,
     settings: { map, slots, gameMode, teamMode, ammo, gunAttributes, characterSkill, advanceSetting },
@@ -337,7 +338,8 @@ const BattleDetails = ({ battle, userName }: { battle: battleType, userName: str
     entry,
     teams,
     auth,
-    expire
+    expire,
+    teamswithUserName
   } = battle;
 
   // Fetch user cookie
@@ -345,14 +347,23 @@ const BattleDetails = ({ battle, userName }: { battle: battleType, userName: str
   // Use memoization for checking if the user is joined
   const isJoined = useMemo(() => {
     if (!userName) return false;
-    return teams.some(team => team.includes(userName));
-  }, [userName, teams]);
+    // teamswithUserName.some(team => team.includes(userName))
+    return userToken&&teamswithUserName.some(team => team.includes(userName)) || teams.some(team => team.includes(userName));
+  }, [userName, teams, teamswithUserName, userToken]);
 
   // Find the team the user is part of
   const myEntity = useMemo(() => {
     if (!userName) return [];
-    return teams.filter(team => team.includes(userName));
-  }, [userName, teams]);
+    // const decodedUserToken :any = jwt.decode(userToken)
+    if(teams.some(team => team.includes(userName))){
+      return teams.filter(team => team.includes(userName));
+    }
+    else{
+      if(!userToken){return[]}
+      const decodeduserToken = jwt.decode(userToken)
+      return teams.filter(team => team.includes(decodeduserToken.ffUserName));
+    }
+  }, [userName, teams, userToken]);
 
   return (
     <div className={styles["battle-details"]}>
@@ -439,6 +450,7 @@ const BattleDetails = ({ battle, userName }: { battle: battleType, userName: str
         <BattlePlayerDetails teams={teams} slots={slots} />
 
         <div className={styles["settings"]}>
+
           <div className={styles.primarySetting}>
             {[
               ["Game mode", gameMode],

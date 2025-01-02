@@ -1,5 +1,6 @@
 "use server"
 import { getLiveBattles } from '@/api/battle'
+import Positions from '@/components/contest/Positions'
 import ScafFold from '@/server/components/scafFold/ScafFold'
 import React from 'react'
 
@@ -8,7 +9,7 @@ const page = async () => {
   return (
     <ScafFold>
         <div>
-            page
+            <Positions battle='' teams={[[]]} positions={[[]]} />
         </div>
     </ScafFold>
   )
