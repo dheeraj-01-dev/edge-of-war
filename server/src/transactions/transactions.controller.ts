@@ -113,6 +113,7 @@ export const createTransaction_C = async (req: Request, res: Response) => {
 };
 
 export const crTransactionByAdmin_C = async (req: Request, res: Response) => {
+
   const { user, battle, value } = req.body;
 
   const { authorization } = req.headers;
@@ -164,6 +165,7 @@ export const crTransactionByAdmin_C = async (req: Request, res: Response) => {
 
     session.commitTransaction();
     session.endSession();
+
     res.status(200).json({
       success: true,
       data: "transaction Created Successfully"

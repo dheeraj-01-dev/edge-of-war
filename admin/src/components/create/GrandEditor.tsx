@@ -195,7 +195,7 @@ const GrandEditor: React.FC<grandEditor> = ({createBattle, auth, apikey, advance
               <label className={styles.label} style={{marginRight: 20}} htmlFor="Limited Ammo">Limited Ammo: </label>
               <input defaultChecked value="Limited" style={{marginRight: 5}} type="radio" name="Limited Ammo" />
               <label style={{marginRight: 20}} htmlFor="Yes">Yes</label>
-              <input value="UN-Limited" style={{marginRight: 5}} type="radio" name="Limited Ammo" />
+              <input value="un-limited" style={{marginRight: 5}} type="radio" name="Limited Ammo" />
               <label htmlFor="No">No</label>
             </div>
             <div style={{marginTop: 10}}>

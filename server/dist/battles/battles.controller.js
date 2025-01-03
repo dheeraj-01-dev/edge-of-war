@@ -445,12 +445,58 @@ export const getLiveBattles_C = async (req, res) => {
     }
 };
 export const getCompletedBattles_C = async (req, res) => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(400).json({
+            success: false,
+            error: "unAuthorized"
+        });
+    }
+    ;
     try {
-        const battles = await battleModel.aggregate([{
+        let decodedUser;
+        try {
+            decodedUser = await jwt.verify(authorization, jwt_secret);
+            if (!decodedUser) {
+                return res.status(400).json({
+                    success: false,
+                    error: "unAuthorized"
+                });
+            }
+        }
+        catch (error) {
+            return res.status(400).json({
+                success: false,
+                error: "unAuthorized"
+            });
+        }
+        const battles = await battleModel.aggregate([
+            {
                 $match: {
                     status: "completed"
                 }
-            }]);
+            },
+            {
+                $match: {
+                    $or: [
+                        { teams: {
+                                $elemMatch: {
+                                    $elemMatch: {
+                                        $eq: decodedUser.userName,
+                                    },
+                                },
+                            } },
+                        { teamswithUserName: {
+                                $elemMatch: {
+                                    $elemMatch: {
+                                        $eq: decodedUser.userName,
+                                    },
+                                },
+                            } },
+                    ]
+                },
+            },
+        ]);
         res.status(200).json({
             success: true,
             data: {

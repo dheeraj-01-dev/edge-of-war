@@ -28,13 +28,13 @@ export const registerUser = async (req: Request, res: Response) => {
   //   confirmPassword,
   // } = req.body;
   const name = req.body.name.trim();
-  const otp = req.body.otp.trim();
+  const otp = req.body.otp;
   const userName = req.body.userName.trim();
   const email = req.body.email.trim();
-  const ffUid = req.body.ffUid.trim();
+  const ffUid = req.body.ffUid;
   const ffUserName = req.body.ffUserName.trim();
-  const password = req.body.ffUid.trim();
-  const confirmPassword = req.body.ffUid.trim();
+  const password = req.body.password.trim();
+  const confirmPassword = req.body.confirmPassword.trim();
 
   try {
     if (password !== confirmPassword) {
@@ -55,11 +55,11 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await userModel.create({
-      ffUid: ffUid.trim(),
-      ffUserName: ffUserName.trim(),
-      name: name.trim(),
-      userName: userName.trim(),
-      email: email.trim(),
+      ffUid,
+      ffUserName,
+      name,
+      userName,
+      email,
       password: hashedPassword,
     });
 

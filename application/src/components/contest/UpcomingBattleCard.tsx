@@ -19,7 +19,7 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
   const { dateStr, id } = expire;
   const { gameMode, map, teamMode, ammo, slots } = settings;
 
-  // const [rday, setRday] = useState("")
+  const [rday, setRday] = useState("")
   const [rhr, setRhr] = useState("")
   const [rmi, setRmi] = useState("")
   const [rsec, setRsec] = useState("")
@@ -57,7 +57,7 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
       return { days: "00", hours: "00", minutes: "00", seconds: "00" };
     }
 
-    const days = String(Math.floor(diffInMs / (1000 * 60 * 60 * 24))).padStart(2, '0');
+    const days = String(Math.floor(diffInMs / (1000 * 60 * 60 * 24)));
     const hours = String(Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
     const minutes = String(Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
     const seconds = String(Math.floor((diffInMs % (1000 * 60)) / 1000)).padStart(2, '0');
@@ -67,8 +67,8 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
 
   setTimeout(() => {
     const currentTime = +new Date();
-    const { hours, minutes, seconds } = getTimeDifference(currentTime, id);
-    // setRday(days);
+    const { hours, minutes, seconds, days } = getTimeDifference(currentTime, id);
+    setRday(days);
     setRhr(hours);
     setRmi(minutes);
     setRsec(seconds)
@@ -86,7 +86,7 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
               <span style={{display: "inline-block", background: "yellow", height: 9, width: 9, borderRadius: 100}}></span>
               &nbsp; Live
             </div>:
-            <div className={styles.timeCountDown}>{`${rhr}:${rmi}:${rsec}`}</div> 
+            <div className={styles.timeCountDown}>{`${+rday===0?`${rhr}:${rmi}:${rsec}`:+rday===1?`${rday} day left`:`${rday} days left`}`}</div> 
           }
         </header>
 

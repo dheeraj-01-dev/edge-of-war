@@ -17,6 +17,9 @@ const LightEditor :React.FC<lightEditor> = ({platformCash, setBattleState, updat
 
     const update = (e: any)=>{
         updateBattleSetting({key: e.target.name, value: e.target.value});
+        if(e.target.name==="gameMode"){
+            updateBattleSetting({key: "slots", value: e.target.value==="Clash Squad"?2:48})
+        }
         if(e.target.name==="teamMode"){
             updateBattleSetting({key: "slots", value: e.target.value==="Solo"?48:e.target.value==="Duo"?24:12})
         }

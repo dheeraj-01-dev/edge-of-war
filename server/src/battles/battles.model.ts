@@ -1,11 +1,5 @@
 import { Schema, model } from "mongoose";
 
-interface team{
-  teamId: string,
-  leader: string,
-  participants: Array<string>
-}
-
 interface schema{
   battleId: number,
   status: string,
@@ -72,8 +66,11 @@ interface schema{
   roomPass: {
     type: number | string
   }
-  teams: Array<team>,
-  teamswithUserName: Array<team>
+  teams: string[][],
+  teamswithUserName: string[][],
+  _1: number,
+  _2: number,
+  _3: number
 }
 
 const battleSchema = new Schema<schema>({
@@ -97,7 +94,7 @@ const battleSchema = new Schema<schema>({
       required: true,
       default: "Battle Royale",
       enum: {
-        values: ["Battle Royale", "Class Squad"],
+        values: ["Battle Royale", "Clash Squad"],
         message: "gameMode `{VALUE}` not supported!"
       }
     },
@@ -482,6 +479,10 @@ const battleSchema = new Schema<schema>({
       ref: "users",
     }
   ],
+  _1: { type: Number },
+  _2: { type: Number },
+  _3: { type: Number },
+
 }, { timestamps: true })
 
 const battleModel = model("battles", battleSchema);

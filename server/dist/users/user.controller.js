@@ -11,13 +11,13 @@ const jwt_secret = process.env.JWT_SECRET_STR ||
     "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
 export const registerUser = async (req, res) => {
     const name = req.body.name.trim();
-    const otp = req.body.otp.trim();
+    const otp = req.body.otp;
     const userName = req.body.userName.trim();
     const email = req.body.email.trim();
-    const ffUid = req.body.ffUid.trim();
+    const ffUid = req.body.ffUid;
     const ffUserName = req.body.ffUserName.trim();
-    const password = req.body.ffUid.trim();
-    const confirmPassword = req.body.ffUid.trim();
+    const password = req.body.password.trim();
+    const confirmPassword = req.body.confirmPassword.trim();
     try {
         if (password !== confirmPassword) {
             return res.status(400).json({
@@ -35,11 +35,11 @@ export const registerUser = async (req, res) => {
         await otpModel.deleteMany({ email, otp });
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = await userModel.create({
-            ffUid: ffUid.trim(),
-            ffUserName: ffUserName.trim(),
-            name: name.trim(),
-            userName: userName.trim(),
-            email: email.trim(),
+            ffUid,
+            ffUserName,
+            name,
+            userName,
+            email,
             password: hashedPassword,
         });
         const { _id, createAt } = user;

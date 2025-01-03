@@ -54,25 +54,25 @@ const Create = ({createBattle, apikey, auth}: {auth: string | undefined, apikey:
     }
     const gameMode = battleState.settings.gameMode;
     if(gameMode==="Clash Squad"){
-      setPlatFormCash(-80);
+      setPlatFormCash(-60);
       setBattleState((data:any)=>({
         ...data,
         winning: {
-          _1: 80,
+          _1: 60,
           _2: 0,
           _3: 0
         }
       }));
     }else{
 
-      setPlatFormCash(-250);
+      setPlatFormCash(-190);
 
       setBattleState((data:any)=>({
         ...data,
         winning: {
-          _1: 130,
-          _2: 70,
-          _3: 50
+          _1: 90,
+          _2: 60,
+          _3: 40
         }
       }))
     }
@@ -82,7 +82,7 @@ const Create = ({createBattle, apikey, auth}: {auth: string | undefined, apikey:
     const teamMode = battleState.settings.teamMode;
     const gameMode = battleState.settings.gameMode;
     // const entry = battleState.entry;
-    const teamLength = {
+    const teamLength :any = {
       "Clash Squad": {Solo: 2, Duo: 2, Squad: 2},
       "Battle Royale": {Solo: 48, Duo: 24, Squad: 12}
     }[gameMode][teamMode];

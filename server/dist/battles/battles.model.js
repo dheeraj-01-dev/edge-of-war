@@ -20,7 +20,7 @@ const battleSchema = new Schema({
             required: true,
             default: "Battle Royale",
             enum: {
-                values: ["Battle Royale", "Class Squad"],
+                values: ["Battle Royale", "Clash Squad"],
                 message: "gameMode `{VALUE}` not supported!"
             }
         },
@@ -405,6 +405,9 @@ const battleSchema = new Schema({
             ref: "users",
         }
     ],
+    _1: { type: Number },
+    _2: { type: Number },
+    _3: { type: Number },
 }, { timestamps: true });
 const battleModel = model("battles", battleSchema);
 export default battleModel;
