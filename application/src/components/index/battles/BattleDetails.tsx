@@ -446,7 +446,8 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
       </div>
 
       <div className={styles["section2"]} id="battle-details-section-2-for-pc">
-        {isJoined && <BattleAuthenticators myEntity={myEntity} isJoined={isJoined} auth={auth} />}
+        {isJoined && <BattleAuthenticators userName={userName} battle={battle} myEntity={myEntity} isJoined={isJoined} auth={auth} />}
+        <BattlePlayerDetails heading="positions..." style={{marginBottom: 20}} teams={battle.positions} slots={slots} />
         <BattlePlayerDetails teams={teams} slots={slots} />
 
         <div className={styles["settings"]}>

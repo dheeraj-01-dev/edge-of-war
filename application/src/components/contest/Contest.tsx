@@ -4,8 +4,10 @@ import styles from "./styles/contest.module.css";
 import { useSwipeable } from "react-swipeable";
 import NotAvailableTemplate from "../temp/NotAvailableTemplate";
 import UpcomingBattle from "./UpcomingBattle";
+import CompletedBattles from "./CompletedBattles";
 
 interface contestType {
+  userName: string|undefined,
   upcomingBattles: battleType[] | undefined;
   completedBattles: battleType[] | undefined;
 }
@@ -13,6 +15,7 @@ interface contestType {
 const Contest: React.FC<contestType> = ({
   upcomingBattles,
   completedBattles,
+  userName
 }) => {
   // const [upcomingPage, setUpcomingPage] = useState(true);
   const [page, setPage] = useState(0);
@@ -65,7 +68,7 @@ const Contest: React.FC<contestType> = ({
         </div>
         <div className={styles.completed}>
           {completedBattles ? (
-            <div></div>
+            <CompletedBattles userName={userName} battles={completedBattles} />
           ) : (
             <NotAvailableTemplate
               style={{ height: "calc(100% - 20px)", background: "none" }}

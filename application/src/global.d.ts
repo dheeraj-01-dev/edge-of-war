@@ -127,6 +127,7 @@ type battleType = {
   };
   teams: [string[]];
   teamswithUserName: [string[]];
+  positions: [string[]];
 };
 
 type responseType<T> = {

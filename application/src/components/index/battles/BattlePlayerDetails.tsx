@@ -7,9 +7,11 @@ import styles from './styles/battlePlayerDetails.module.css'
 interface BattlePlayerDetailsProps {
   teams: [string[]];
   slots: number;
+  heading?: string;
+  style?: React.CSSProperties;
 }
 
-const BattlePlayerDetails: React.FC<BattlePlayerDetailsProps> = ({ teams, slots }) => {
+const BattlePlayerDetails: React.FC<BattlePlayerDetailsProps> = ({ teams, slots, heading="Teams...", style }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedTeamIndex, setExpandedTeamIndex] = useState<number | null>(0);
   const playerDivRef = useRef<HTMLDivElement>(null);
@@ -31,10 +33,10 @@ const BattlePlayerDetails: React.FC<BattlePlayerDetailsProps> = ({ teams, slots 
   };
 
   return (
-    <div ref={playerDivRef} className={styles.players}>
+    <div style={style} ref={playerDivRef} className={styles.players}>
       <div onClick={togglePlayer} className={styles["players-banner"]}>
         <span>
-          Teams... &nbsp;
+         {heading} &nbsp;
           <span className={styles.playerCount}>
             ({`${teams.length}/${slots}`})
           </span>
@@ -66,7 +68,7 @@ const BattlePlayerDetails: React.FC<BattlePlayerDetailsProps> = ({ teams, slots 
             </div>
             {expandedTeamIndex === index && (
               <div className={styles.teamMembers}>
-                {team.map((member, memberIndex) => (
+                {team?.map((member, memberIndex) => (
                   <div key={member} className={styles.teamMember}>
                     {memberIndex + 1}. &nbsp; &nbsp;{member}
                   </div>
