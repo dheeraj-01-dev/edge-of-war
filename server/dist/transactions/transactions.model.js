@@ -47,6 +47,9 @@ const transactionSchema = new Schema({
     currentBalance: {
         type: Number,
         required: true,
+    },
+    position: {
+        type: Number,
     }
 });
 const transactionModel = model("transactions", transactionSchema);

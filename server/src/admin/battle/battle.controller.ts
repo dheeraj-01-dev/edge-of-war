@@ -1,7 +1,9 @@
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import battleModel from "../../battles/battles.model.js";
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import orderModel from "../../orders/order.model.js";
+import transactionModel from "../../transactions/transactions.model.js";
+import { userModel } from "../../users/user.model.js";
 
 export const createBattleController = async (req: Request, res: Response) => {
   req.body.battleId = 101;
@@ -34,6 +36,13 @@ export const createBattleController = async (req: Request, res: Response) => {
 export const getRegisteredBattle = async (req: Request, res: Response) => {
   try {
     const data = await battleModel.aggregate([
+      {
+        $match: {
+          $nor: [{
+            status: "completed"
+          }]
+        }
+      },
       {
         $sort: {
           "expire.id": 1,
@@ -136,317 +145,227 @@ export const publishPositions_C = async (req: Request, res: Response) => {
   }
 };
 
-// export const distributePrizes_C = async (req: Request, res: Response) => {
-//   const { battle } = req.body;
+export const distributePrizes_C = async (req: Request, res: Response) => {
+  const { battleId } = req.body;
+  if(!battleId){
+    return res.status(404).json({
+      success: false,
+      error: "battleId required"
+    })
+  };
 
+  try {
+    const battle = await battleModel.findOne({_id: battleId});
+    if(!battle){
+      throw new Error("battle not found")
+    };
+
+    if(battle.status==="completed"){
+      throw new Error("Already distributed")
+    }
+    if(battle.positions.length<1){
+      throw new Error("positions not declayered yet!")
+    };
+
+    // battle.teamswithUserName.findIndex
+    let findUserNameOfWinner_1;
+    let findUserNameOfWinner_2;
+    let findUserNameOfWinner_3;
+
+    if(battle.positions[0]){
+      findUserNameOfWinner_1 = battle.teamswithUserName[battle.teams.findIndex(value => value.includes(battle.positions[0][0]))][0]
+    }
+    if(battle.positions[1]){
+      findUserNameOfWinner_2 = battle.teamswithUserName[battle.teams.findIndex(value => value.includes(battle.positions[1][0]))][0]
+    }
+    if(battle.positions[2]){
+      findUserNameOfWinner_3 = battle.teamswithUserName[battle.teams.findIndex(value => value.includes(battle.positions[2][0]))][0]
+    }
+
+    const order_1 = await orderModel.findOne({ createBy: findUserNameOfWinner_1, battle: battleId })
+    const order_2 = await orderModel.findOne({ createBy: findUserNameOfWinner_2, battle: battleId })
+    const order_3 = await orderModel.findOne({ createBy: findUserNameOfWinner_3, battle: battleId })
+
+    let transaction_1;
+    let transaction_2;
+    let transaction_3;
+
+    if(order_1){
+      const session_1 = await mongoose.startSession();
+      await session_1.startTransaction();
+
+      try {
+        const user = await userModel.findOneAndUpdate({_id: order_1.userId}, {
+          $inc: { balance: +battle.winning._1 }
+        }, { session: session_1, returnOriginal: true})
+  
+        if(user){
+          transaction_1 = await transactionModel.create([{
+            status: "credited",
+            createdBy: "admin.dheeraj",
+            createdTo: order_1.userId,
+            battleId: battleId,
+            type: "winning prize",
+            orderId: order_1._id,
+            value: battle.winning._1,
+            lastBalance: user.balance,
+            currentBalance: +user.balance + battle.winning._1,
+            position: 1
+          }], { session: session_1 })
+        };
+        await session_1.commitTransaction();
+      } catch (error :any) {
+        await session_1.abortTransaction();
+        return res.status(400).json({
+          success: false,
+          error: error.message?error.message:error
+        })
+      }finally{
+        await session_1.endSession();
+      }
+    }
+    if(order_2){
+      const session_2 = await mongoose.startSession();
+      await session_2.startTransaction();
+
+      try {
+        const user = await userModel.findOneAndUpdate({_id: order_2.userId}, {
+          $inc: { balance: +battle.winning._2 }
+        }, { session: session_2, returnOriginal: true})
+  
+        if(user){
+          transaction_2 = await transactionModel.create([{
+            status: "credited",
+            createdBy: "admin.dheeraj",
+            createdTo: order_2.userId,
+            battleId: battleId,
+            type: "winning prize",
+            orderId: order_2._id,
+            value: battle.winning._2,
+            lastBalance: user.balance,
+            currentBalance: +user.balance + battle.winning._2,
+            position: 2
+          }], { session: session_2 })
+        };
+        await session_2.commitTransaction();
+      } catch (error :any) {
+        await session_2.abortTransaction();
+        return res.status(400).json({
+          success: false,
+          error: error.message?error.message:error
+        })
+      }finally{
+        await session_2.endSession();
+      }
+    }
+    if(order_3){
+      const session_3 = await mongoose.startSession();
+      await session_3.startTransaction();
+
+      try {
+        const user = await userModel.findOneAndUpdate({_id: order_3.userId}, {
+          $inc: { balance: +battle.winning._3 }
+        }, { session: session_3, returnOriginal: true})
+  
+        if(user){
+          transaction_3 = await transactionModel.create([{
+            status: "credited",
+            createdBy: "admin.dheeraj",
+            createdTo: order_3.userId,
+            battleId: battleId,
+            type: "winning prize",
+            orderId: order_3._id,
+            value: battle.winning._3,
+            lastBalance: user.balance,
+            currentBalance: +user.balance + battle.winning._3,
+            position: 3
+          }], { session: session_3 })
+        };
+        await session_3.commitTransaction();
+      } catch (error :any) {
+        await session_3.abortTransaction();
+        return res.status(400).json({
+          success: false,
+          error: error.message?error.message:error
+        })
+      }finally{
+        await session_3.endSession();
+      }
+    }
+
+    await battleModel.updateOne({
+      _id: battleId
+    }, { status: "completed" });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        message: "Transactions Completed",
+        transaction_1, transaction_2, transaction_3
+      }
+    })
+
+
+  } catch (error :any) {
+    return res.status(404).json({
+      success: false,
+      error: error.message?error.message:error
+    })
+  }
+};
+  
+
+// const handleTransaction = async (userId, prize, position, battleId, orderId) => {
 //   const session = await mongoose.startSession();
 //   await session.startTransaction();
+
 //   try {
-//     const verifiedBattle = await battleModel.findOneAndUpdate(
-//       { _id: battle },
-//       {
-//         status: "completed",
-//       },
-//       { session, returnOriginal: true }
-//     );
-//     if (!verifiedBattle) {
-
-//         await session.abortTransaction();
-//         await session.endSession();
-//       return res.status(400).json({
-//         success: false,
-//         error: "battle not found",
-//       });
+//     const user = await userModel.findOneAndUpdate({ _id: userId }, { $inc: { balance: prize } }, { session, returnOriginal: false });
+//     if (user) {
+//       return await transactionModel.create([{
+//         status: "credited",
+//         createdBy: "admin.dheeraj",
+//         createdTo: userId,
+//         battleId,
+//         type: "winning prize",
+//         orderId,
+//         value: prize,
+//         lastBalance: user.balance,
+//         currentBalance: user.balance + prize,
+//         position
+//       }], { session });
 //     }
-//     if (verifiedBattle.status === "completed") {
-
-//         await session.abortTransaction();
-//         await session.endSession();
-//       return res.status(404).json({
-//         success: false,
-//         error: "Already distributed",
-//       });
-//     }
-//     if (verifiedBattle.positions.length < 1) {
-
-//         await session.abortTransaction();
-//         await session.endSession();
-//       return res.status(400).json({
-//         success: false,
-//         error: "positions not declared yet",
-//       });
-//     }
-
-//     try {
-//       verifiedBattle.positions.map(async (team, index: number) => {
-//         // return
-//         if (index > 2) {
-//         }else{
-//             if (!team || team?.length < 1) {
-//             } else {
-//                 const indexOfuserNameTeam = verifiedBattle.teams.map((teamArr , index2)=>{
-//                     const isInclued = teamArr.includes(team[0])
-//                     if(isInclued){
-//                         return index2
-//                     }
-//                 })[0];
-    
-//                 if(!indexOfuserNameTeam){
-    
-//                     await session.abortTransaction();
-//                     await session.endSession();
-                    
-//                     return res.status(404).json({
-//                         success: false,
-//                         error: `${team} not registered in battle`
-//                     })
-//                 };
-    
-//                 try {
-//                     const order = await orderModel.findOne({
-//                         createBy: verifiedBattle.teamswithUserName[indexOfuserNameTeam]
-//                     });
-    
-//                     if(!order){
-//                         await session.abortTransaction();
-//                         await session.endSession();
-//                         return res.status(400).json({
-//                             success: false,
-//                             error: "order not found"
-//                         })
-//                     };
-    
-    
-//                     const fetchRes = await fetch(
-//                         "http://127.0.0.1:5000/transaction/create/cr/byadmin",
-//                         {
-//                           method: "POST",
-//                           headers: {
-//                             authorization: "#*${dheeraj.eow.dev}*:)",
-//                             apikey: "123@edgeofwaresports.com",
-//                             "Content-Type": "application/json",
-//                           },
-//                           body: JSON.stringify({
-//                             user: order.userId,
-//                             battle: verifiedBattle._id,
-//                             // @ts-expect-error wining object index error
-//                             value: verifiedBattle.winning[`_${index + 1}`],
-//                           }),
-//                         }
-//                       );
-//                       const data = await fetchRes.json();
-//                       console.log(data);
-    
-//                         if (data.success) {
-//                             await session.commitTransaction();
-//                             await session.endSession();
-    
-//                             return res.status(200).json({
-//                             success: true,
-//                             data: "prize distributed",
-//                             });
-//                         } else {
-//                             await session.abortTransaction();
-//                             await session.endSession();
-    
-//                             return res.status(400).json({
-//                             success: false,
-//                             error: data.error,
-//                             });
-//                         }
-                                
-//                 } catch (error) {
-//                     await session.abortTransaction();
-//                     await session.endSession();
-//                     return res.status(400).json({
-//                         success: false,
-//                         error
-//                     })
-//                 }
-    
-//             }
-//         }
-//       });
-//     } catch (error: any) {
-//       console.log(error);
-
-//       await session.abortTransaction();
-//       await session.endSession();
-
-//       res.status(400).json({
-//         success: false,
-//         error: error.message ? error.message : error,
-//       });
-//     }
-//   } catch (error) {}
+//   } catch (error) {
+//     await session.abortTransaction();
+//     throw error;
+//   } finally {
+//     await session.endSession();
+//   }
 // };
 
+// export const distributePrizes_C = async (req: Request, res: Response) => {
+//   // Validate battleId and other checks...
 
-export const distributePrizes_C = async (req: Request, res: Response) => {
-    const { battle, position } = req.body;
+//   const winners = [
+//     { position: 1, prize: battle.winning._1, userName: findUserNameOfWinner_1 },
+//     { position: 2, prize: battle.winning._2, userName: findUserNameOfWinner_2 },
+//     { position: 3, prize: battle.winning._3, userName: findUserNameOfWinner_3 }
+//   ];
 
-    if(!position || +position>3 || +position<1 ){
-      return res.status(400).json({
-        success: false,
-        error: "invlaid position given"
-      })
-    }
-    
-    try {
-  
-      const verifiedBattle = await battleModel.findOne(
-        { _id: battle }
-      );
-  
-      if (!verifiedBattle) {
-        throw new Error("Battle not found");
-      }
-  
-      if (verifiedBattle.status === "completed") {
-        throw new Error("Already distributed");
-      }
-  
-      if (verifiedBattle.positions.length < 1) {
-        throw new Error("Positions not declared yet");
-      };
+//   try {
+//     const transactions = await Promise.all(winners.map(async winner => {
+//       if (winner.userName) {
+//         const order = await orderModel.findOne({ createBy: winner.userName, battle: battleId });
+//         if (order) {
+//           return handleTransaction(order.userId, winner.prize, winner.position, battleId, order._id);
+//         }
+//       }
+//     }));
 
-      const firstTeam = verifiedBattle.positions[position-1]
-      if(firstTeam&&firstTeam.length>0){
-        
-        const indexOfUserNameTeam = verifiedBattle.teams.findIndex((teamArr) =>
-          teamArr.includes(firstTeam[0])
-        );
-        if (indexOfUserNameTeam === -1) {
-          throw new Error(`${firstTeam} not registered in battle`);
-        }
+//     await battleModel.updateOne({ _id: battleId }, { status: "completed" });
 
-        const order = await orderModel.findOne({
-          createBy: verifiedBattle.teamswithUserName[indexOfUserNameTeam][0]
-        });
-
-        if (!order) {
-          throw new Error("Order not found");
-        }
-
-                // Make external API request to distribute the prize
-        const fetchRes = await fetch(
-          "http://127.0.0.1:5000/transaction/create/cr/byadmin",
-          {
-            method: "POST",
-            headers: {
-              authorization: "#*${dheeraj.eow.dev}*:)",
-              apikey: "123@edgeofwaresports.com",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              user: order.userId,
-              battle: verifiedBattle._id,
-              // @ts-expect-error
-              value: verifiedBattle.winning[`_${position}`],
-            }),
-          }
-        );
-        const data = await fetchRes.json();
-
-        console.log(data)
-  
-        if (!data.success) {
-          throw new Error(data.error || "Failed to distribute prize");
-        }
-      }
-      else{
-        await battleModel.updateOne({_id: verifiedBattle._id}, {
-          _1: 0
-        })
-        throw new Error(position+" position is empty")
-      };
-  
-
-      // Using a for...of loop instead of map to handle async properly
-      // for (const [index, team] of verifiedBattle.positions.entries()) {
-      //   if (index > 2) continue; // Skip teams that don't need to be handled
-  
-      //   if (!team || team.length < 1) continue;
-  
-      //   const indexOfUserNameTeam = verifiedBattle.teams.findIndex((teamArr) =>
-      //     teamArr.includes(team[0])
-      //   );
-  
-      //   if (indexOfUserNameTeam === -1) {
-      //     throw new Error(`${team} not registered in battle`);
-      //   }
-  
-      //   const order = await orderModel.findOne({
-      //     createBy: verifiedBattle.teamswithUserName[indexOfUserNameTeam]
-      //   });
-  
-      //   if (!order) {
-      //     throw new Error("Order not found");
-      //   }
-  
-      //   // Make external API request to distribute the prize
-      //   const fetchRes = await fetch(
-      //     "http://127.0.0.1:5000/transaction/create/cr/byadmin",
-      //     {
-      //       method: "POST",
-      //       headers: {
-      //         authorization: "#*${dheeraj.eow.dev}*:)",
-      //         apikey: "123@edgeofwaresports.com",
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         user: order.userId,
-      //         battle: verifiedBattle._id,
-      //         // @ts-expect-error
-      //         value: verifiedBattle.winning[`_${index + 1}`],
-      //       }),
-      //     }
-      //   );
-      //   const data = await fetchRes.json();
-
-      //   console.log(data)
-  
-      //   if (!data.success) {
-      //     throw new Error(data.error || "Failed to distribute prize");
-      //   }
-      // }
-  
-      // If everything goes well, commit the transaction
-      if(position===1){
-        await battleModel.updateOne({_id: verifiedBattle._id}, {
-          _1: verifiedBattle.winning[`_1`]
-        })
-      }
-      if(position===2){
-        await battleModel.updateOne({_id: verifiedBattle._id}, {
-          _2: verifiedBattle.winning[`_2`]
-        })
-      }
-      if(position===3){
-        await battleModel.updateOne({_id: verifiedBattle._id}, {
-          _3: verifiedBattle.winning[`_3`]
-        })
-      }
-
-      const updatedBattle = await battleModel.findOne({ _id: verifiedBattle._id });
-      // console.log(updatedBattle)
-      if(updatedBattle && updatedBattle._1 && updatedBattle._2 && updatedBattle._3){
-        console.log("kdjasfkjhasdjfhwejkhfj")
-        await battleModel.updateOne({_id: verifiedBattle._id}, {
-          status: "completed"
-        })
-      }
-      return res.status(200).json({
-        success: true,
-        data: "Prize distributed",
-      });
-      
-    } catch (error :any) {
-      // If any error occurs, abort the transaction
-      return res.status(400).json({
-        success: false,
-        error: error.message || error,
-      });
-    }
-  };
-  
+//     return res.status(200).json({ success: true, data: { message: "Transactions Completed", transactions } });
+//   } catch (error) {
+//     return res.status(400).json({ success: false, error: error.message });
+//   }
+// };

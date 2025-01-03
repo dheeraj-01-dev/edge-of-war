@@ -1,16 +1,17 @@
 'use client'
 import React from 'react'
 import styles from './styles/positions.module.css'
-import { publishPositions } from '@/api/admin/battle'
+import { distributePrizes, publishPositions } from '@/api/admin/battle'
 import toast from '@/scripts/toast'
 
 interface positions {
   teams: battleType["teams"],
   battle: string | undefined,
+  slots: number | string,
   positions: battleType["positions"]
 };
 
-const Positions :React.FC<positions> = ({ teams, battle, positions }) => {
+const Positions :React.FC<positions> = ({ teams, battle, positions, slots }) => {
   const positionArray :string[][] = [];
 
   const duplicateTeams = Array.from(teams)
@@ -50,12 +51,33 @@ const Positions :React.FC<positions> = ({ teams, battle, positions }) => {
       console.log(error)
     }
   };
+
+  const onDistribute = async () => {
+    try {
+      const response = await distributePrizes({
+        apikey: "123@edgeofwaresports.com",
+        authorization: "#*${dheeraj.eow.dev}*:)",
+        battleId: battle
+      });
+      if(response.data){
+        toast(response.data)
+      }else if(response.error){
+        toast(response.error)
+      }else{
+        toast("something error, check the console")
+        console.log(response)
+      }
+    } catch (error) {
+      toast("something error, check the console")
+      console.log(error)
+    }
+  }
   return (
     <div className={styles.container}>
         <div className={styles.header}>Publish Positions</div>
         <div className={styles.slotsContainer}>           
           {
-              positions&&positions.map((team, index)=>{
+              positions&&positions.length>0&&positions.map((team, index)=>{
                 const teamStr = team?team.map((item, index) => `${index + 1}. ${item}`).join('\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'):"null";
 
                 return(
@@ -79,7 +101,7 @@ const Positions :React.FC<positions> = ({ teams, battle, positions }) => {
               })
             }
             {
-              !positions&&teams.map((team, index)=>{
+              positions&&positions.length<1&&Array.from({length: +slots}).map((team, index)=>{
 
                 return(
                   <div className={styles.teamSlot} key={index}>
@@ -104,6 +126,7 @@ const Positions :React.FC<positions> = ({ teams, battle, positions }) => {
         </div>
         <div className={styles.buttonContainer}>
           <button onClick={onPublish} className={styles.button}>Publish</button>
+          <button onClick={onDistribute} className={styles.button}>Distribute Prizes</button>
         </div>
         
     </div>

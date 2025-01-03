@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./styles/grandEditor.module.css";
+import toast from "@/scripts/toast";
 
 type grandEditor = {
   advanceOption: boolean,
@@ -36,7 +37,20 @@ const GrandEditor: React.FC<grandEditor> = ({createBattle, auth, apikey, advance
   };
 
   const handleCreate = async () => {
-    const res = await createBattle(battleState, apikey, auth);
+    try {
+      const response = await createBattle(battleState, apikey, auth);
+      if(response.data){
+        toast(response.data)
+      }else if(response.error){
+        toast(response.error)
+      }else{
+        toast("something error, check the console")
+        console.log(response)
+      }
+    } catch (error) {
+      toast("something error, check the console")
+      console.log(error)
+    }
   }
 
   return (

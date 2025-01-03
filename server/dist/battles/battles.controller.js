@@ -330,7 +330,7 @@ export const createBattleOrder = async (req, res) => {
         UserNameMemberSet.add(userName);
         const updatedUserNameMembers = Array.from(UserNameMemberSet);
         const { settings: { slots }, } = battleInfo;
-        if (48 / slots !== updatedMember.length) {
+        if ((battleInfo.settings.gameMode === "Battle Royal" && 48 / slots !== updatedMember.length)) {
             return res.status(404).json({
                 success: false,
                 error: "Invalid Team members",

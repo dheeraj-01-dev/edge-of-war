@@ -132,3 +132,49 @@ export const publishPositions = async ({ apikey, authorization, positions, battl
   }
 };
 
+export const distributePrizes = async ({apikey, authorization, battleId}: {apikey: string|undefined, authorization: string|undefined, battleId:string|undefined}) :Promise<responseType<string>> => {
+  try {
+    if(!battleId){
+      throw new Error("battleId required")
+    }
+    if(!apikey||!authorization){
+      throw new Error("unAuthorized")
+    };
+
+      try {
+        const json = await axios({
+          method: "POST",
+          url: `${domain}/admin/battle/distribute-prizes`,
+          headers: {apikey, Authorization: authorization},
+          data: {
+            battleId
+          },
+        });
+        
+        return {
+          success: json.data.success,
+          data: json.data.data,
+        };
+      } catch (error: any) {
+        console.log(error.response)
+        // Check if the error is an AxiosError and has a response property
+        if (axios.isAxiosError(error) && error.response) {
+          return {
+            success: error.response.data.success || false,
+            error: error.response.data.error || "An error occurred",
+          };
+        }
+        
+        // Handle unknown other error types
+        return {
+          success: false,
+          error: "An unexpected error occurred",
+        };
+      }
+    } catch (error :any) {
+      return{
+        success: false,
+        error: error.message?error.message:error
+      }
+    }
+  }
