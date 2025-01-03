@@ -457,7 +457,7 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
               ["Team mode", teamMode],
               ["Ammo", ammo],
               ["Map", map],
-              ["Time", `${new Date(expire.id).getHours()}:${new Date(expire.id).getMinutes().toString().length===1?`0${new Date(expire.id).getMinutes()}`:new Date(expire.id).getMinutes()}`],
+              ["Time", expire.dateStr.split("|")[1].trim()],
               ["Date", expire.dateStr.split("|")[0].trim()],
               [],
               ["Gun attributes", gunAttributes],
