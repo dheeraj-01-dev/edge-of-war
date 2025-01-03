@@ -277,3 +277,55 @@ export const createFriendRequest = async ({
     };
   }
 };
+
+
+export const requestWithdrawal = async ({ authorization, upiId, confirmUpiId, contactPhone, otp, amount}: {
+  authorization: string | undefined,
+  upiId: string | undefined,
+  confirmUpiId: string | undefined,
+  contactPhone: string | undefined,
+  otp: string | undefined,
+  amount: number | undefined,
+}) : Promise<responseType<string>> => {
+
+  
+  try {
+    if(!authorization){return {success: false, error: "unAuhtorized"}};
+    if(!upiId){return {success: false, error: "upi id required"}};
+    if(!confirmUpiId){return {success: false, error: "confirm upi id required"}};
+    if(!contactPhone){return {success: false, error: "contact phone required"}};
+    if(!otp){return {success: false, error: "otp required"}};
+    if(!amount){return {success: false, error: "amount required"}};
+
+    const response = await axios({
+      method: "POST",
+      url: `${domain}/user/request/withdrawal`,
+      headers: {
+        apikey,
+        Authorization: authorization,
+      },
+      data: {
+        upiId, confirmUpiId, contactPhone, otp, amount
+      },
+    });
+
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+
+    // Handle unknown other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+}

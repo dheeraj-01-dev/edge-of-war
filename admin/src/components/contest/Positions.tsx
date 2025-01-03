@@ -59,6 +59,7 @@ const Positions :React.FC<positions> = ({ teams, battle, positions, slots }) => 
         authorization: "#*${dheeraj.eow.dev}*:)",
         battleId: battle
       });
+      console.log(response)
       if(response.data){
         toast(response.data)
       }else if(response.error){
@@ -68,6 +69,7 @@ const Positions :React.FC<positions> = ({ teams, battle, positions, slots }) => 
         console.log(response)
       }
     } catch (error) {
+      console.log(error)
       toast("something error, check the console")
       console.log(error)
     }

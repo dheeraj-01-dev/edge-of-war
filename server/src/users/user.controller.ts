@@ -7,6 +7,8 @@ import { passwordResetModel, userModel } from "./user.model.js";
 import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 import { otpModel } from "../auth/auth.model.js";
 import nodemailer from "nodemailer";
+import { withdrawalRequestsModel } from "../transactions/transactions.model.js";
+import { error } from "console";
 // import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 // import { otpModel } from "../auth/auth.model.js";
 
@@ -514,5 +516,99 @@ export const forgotPassword_C = async (req: Request, res: Response) => {
       success: false,
       error: "Something went Wrong",
     });
+  }
+};
+
+
+export const requestWithdrawal_C = async (req: Request, res: Response) => {
+  const { upiId, confirmUpiId, contactPhone, otp, amount } = req.body;
+  const { authorization } = req.headers;
+
+  const session = await mongoose.startSession();
+  await session.startTransaction();
+
+  try {  
+    
+    if(upiId!==confirmUpiId){
+      return res.status(404).json({
+        success: false,
+        error: "upi id and confirm upi id does not matched"
+      })
+    }
+    let verifiedToken :any;
+    try {
+      if(!authorization){
+        return res.status(400).json({
+          success: false,
+          error: "unAuthorized"
+        });
+      }
+      verifiedToken = jwt.verify(authorization, jwt_secret);
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        error: "unAuthorized"
+      });
+    }
+
+    if(!verifiedToken&&!verifiedToken.email){
+      return res.status(400).json({
+        success: false,
+        error: "Try login again"
+      })
+    };
+    const userDetails = await userModel.findOne({ userName: verifiedToken.userName });
+    if(!userDetails){
+      return res.status(404).json({
+        success: false,
+        error: "user not found"
+      })
+    };
+
+    if(userDetails.balance<amount){
+      return res.status(404).json({
+        success: false,
+        error: "requested amount exceed"
+      })
+    }
+
+    const databaseOtp = await otpModel.findOne({email: userDetails.email});
+
+    if(!databaseOtp|| +databaseOtp.otp!==+otp){
+      return res.status(400).json({
+        success: false,
+        error: "Invalid Otp, Try sending again!"
+      })
+    };
+
+    const withdrawalRequest = await withdrawalRequestsModel.create([{
+      createdBy: userDetails._id,
+      amount: +amount,
+      upiId, otp, contactPhone, status: "requested"
+    }], { session });
+    const upatedUser = await userModel.updateOne({ _id: userDetails._id }, {
+      $inc: { balance: -(+amount) }
+    }, { session })
+    if(withdrawalRequest){
+      await session.commitTransaction();
+      await session.endSession();
+      return res.status(200).json({
+        success: true,
+        data: "request sent successfully"
+      });
+    }
+    await session.abortTransaction();
+    await session.endSession();
+    return res.status(400).json({
+      success: false,
+      error: "somthing went wrong, contact support!"
+    })
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error, contact support!"
+    })
   }
 };

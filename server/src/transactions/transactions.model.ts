@@ -65,9 +65,29 @@ const withdrawalRequestsSchema = new Schema({
         ref: "users",
         required: true
     },
+    status: {
+        type: String,
+        required: true,
+        default: "requested",
+        enum: {
+            values: ["requested", "completed", "rejected"],
+            message: "status `{VALUE}` not supported"
+        }
+    },
     amount: {
         type: Number,
         required: true
+    },
+    upiId: {
+        type: String,
+        required: true
+    },
+    contactPhone: {
+        type: String,
+        required: true
+    },
+    otp: {
+        type: String
     }
 }, { timestamps: true });
 

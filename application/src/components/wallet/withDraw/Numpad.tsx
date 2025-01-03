@@ -207,6 +207,10 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./numpad.module.css";
 import toast from "@/scripts/toast";
 import Image from "next/image";
+import { sendVerificationEmail } from "@/api/auth/email";
+import jwt from "jsonwebtoken";
+import { requestWithdrawal } from "@/api/user";
+import { useRouter } from "next/navigation";
 
 // Interface for component props
 interface NumpadProps {
@@ -222,6 +226,9 @@ const Numpad: React.FC<NumpadProps> = ({
   balance,
   authorization,
 }) => {
+  const router = useRouter();
+
+
   const [inputValue, setInputValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const deleteTimer = useRef<NodeJS.Timeout | null>(null);
@@ -236,7 +243,7 @@ const Numpad: React.FC<NumpadProps> = ({
     if (value === "." && inputValue.includes(".")) return; // Prevent multiple dots
 
     // Check for two decimal places limit
-    const [integerPart, decimalPart] = inputValue.split(".");
+    const [decimalPart] = inputValue.split(".");
     if (decimalPart && decimalPart.length >= 2) return;
 
     setInputValue((prev) => prev + value);
@@ -276,6 +283,57 @@ const Numpad: React.FC<NumpadProps> = ({
   };
 
 
+  const [upiId, setUpiId] = useState<string>("")
+  const [confirmUpiId, setConfirmUpiId] = useState<string>("")
+  const [contactPhone, setContactPhone] = useState<string>("")
+  const [otp, setOtp] = useState<string>("")
+
+  const sendOtp = async ({email} : {email: string}) => {
+    try {
+      toast("sending otp.....please wait");
+      setUpiPage(2);
+      const response = await sendVerificationEmail({email: email});
+      if(response.success){ toast("otp sent to registered mail"); return }
+      if(response.error){ toast(response.error); return }
+      toast("somethig wrong happend, contact support")
+    } catch {
+      toast("somethig wrong happend, contact support")
+    }
+  }
+
+  const handleNext = async ()=>{
+    if(!upiId){ toast("upi id required"); return }
+    if(!confirmUpiId){ toast("confirm upi id required"); return }
+    if(!contactPhone){ toast("contact phone required"); return }
+    if(contactPhone.length!==10){ toast("please enter valid phone"); return }
+    if(upiId!==confirmUpiId){ toast("upi id and confirm upi id does not matched"); return };
+    if(!authorization){ toast("unAuthorized, try login again"); return };
+    try {
+      const decodedToken = jwt.decode(authorization);
+      if(!decodedToken.email){ toast("unAuthorized, try login again"); return }
+      await sendOtp({email: decodedToken.email});
+    } catch {
+      toast("somethig wrong happend, contact support")
+    }
+  }
+
+  const handleSubmit = async ()=>{
+    if(!otp){toast("otp required"); return};
+    try {
+      const response = await requestWithdrawal({ authorization, upiId, confirmUpiId, contactPhone, otp, amount: +inputValue })
+      if(response.success){ 
+        toast("withdrawal requested");
+        router.push("/");
+        router.refresh()
+         return;
+        }
+      if(response.error){ toast(response.error); return }
+      toast("somethig wrong happend, contact support")
+    } catch {
+      toast("somethig wrong happend, contact support")
+    }
+  }
+
   return (
     <div style={{position: "relative"}}>
 
@@ -292,32 +350,37 @@ const Numpad: React.FC<NumpadProps> = ({
             <div>
               <div className={styles.inputContainer}>
                 <Image height={20} width={20} alt="_" src="/icons/wallet.png" />
-                <input type="text" className={styles.input} placeholder="enter your upi id" />
+                <input value={upiId} spellCheck={false} autoCapitalize="none" onChange={(e)=>{setUpiId(e.target.value)}} type="text" className={styles.input} placeholder="enter your upi id" />
               </div>
               <div className={styles.inputContainer}>
                 <Image height={20} width={20} alt="_" src="/icons/wallet.png" />
-                <input type="text" className={styles.input} placeholder="confirm your upi id" />
+                <input value={confirmUpiId} spellCheck={false} autoCapitalize="none" onChange={(e)=>{setConfirmUpiId(e.target.value)}} type="text" className={styles.input} placeholder="confirm your upi id" />
               </div>
               <div className={styles.inputContainer}>
                 <Image height={20} width={20} alt="_" src="/icons/support.png" />
-                <input type="text" className={styles.input} placeholder="enter your contact phone no." />
+                <input maxLength={10} value={contactPhone} spellCheck={false} autoCapitalize="none" onChange={(e)=>{setContactPhone(e.target.value)}} type="tel" className={styles.input} placeholder="enter your contact phone no." />
+              </div>
+              <div style={{fontWeight: 700, fontSize: "80%", marginLeft: 10, marginTop: 10}}>
+                {
+                  upiId&&confirmUpiId?upiId===confirmUpiId?<span style={{color: "#01bd01"}}>*upi id and confirm upi id mathed</span>:<span style={{color: "red"}}>*upi id and confirm upi id does not mathed</span>:""
+                }
               </div>
             </div>:
             <div>
               <div className={styles.inputContainer}>
                 <Image height={20} width={20} alt="_" src="/icons/email.png" />
-                <input type="text" className={styles.input} placeholder="otp sent on registered mail" />
+                <input value={otp} onChange={(e)=>{setOtp(e.target.value)}} type="tel" className={styles.input} placeholder="otp sent on registered mail" />
               </div>
-              <div className={styles.resendButton}>resend otp?</div>
+              <div className={styles.resendButton}> <span onClick={handleNext}> resend otp?</span></div>
             </div>
           }
           <div>
             {
               upiPage===1?
-              <button className={styles.button} onClick={()=>{setUpiPage(2)}}>Next</button>:
-              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 10, marginTop: -10}}>
+              <button className={styles.button} onClick={handleNext}>Next</button>:
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 10}}>
                 <button className={styles.button} onClick={()=>{setUpiPage(1)}}>Back</button>
-                <button className={styles.submitButton} >Submit</button>
+                <button className={styles.submitButton} onClick={handleSubmit} >Submit</button>
               </div>
             }
           </div>

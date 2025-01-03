@@ -97,5 +97,33 @@ export const getAllFriends_V = async (req, res, next) => {
         });
     }
 };
+export const requestWithdrawal_V = async (req, res, next) => {
+    const { upiId, confirmUpiId, contactPhone, otp, amount } = req.body;
+    const { authorization } = req.headers;
+    try {
+        const schma = z.object({
+            upiId: z.string({ message: "upi id required" }),
+            confirmUpiId: z.string({ message: "confirm upi id required" }),
+            contactPhone: z.string({ message: "contact phone required" }).length(10, { message: "Invalid contact phone" }),
+            otp: z.string(),
+            amount: z.number({ message: "amount required" }),
+            authorization: z.string({ message: "unAuthorized" })
+        });
+        const validSchema = schma.safeParse({ upiId, confirmUpiId, contactPhone, otp, amount, authorization });
+        if (validSchema.success) {
+            return next();
+        }
+        return res.status(400).json({
+            success: false,
+            error: validSchema.error.issues[0].message
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error
+        });
+    }
+};
 export { validateRegistration };
 //# sourceMappingURL=user.validator.js.map
