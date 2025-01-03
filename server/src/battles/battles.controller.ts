@@ -341,6 +341,13 @@ export const createBattleOrder = async (req: Request, res: Response) => {
     });
   }
 
+  if(battleInfo.settings.slots>=battleInfo.teams.length){
+    return res.status(400).json({
+      success: false,
+      error: "Max Team Reached",
+    });
+  }
+
   try {
     const decodedUser: any = jwt.verify(authorization, jwt_secret);
     const { userName, ffUserName } = decodedUser;

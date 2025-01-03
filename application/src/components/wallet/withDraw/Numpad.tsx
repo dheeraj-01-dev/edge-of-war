@@ -262,34 +262,71 @@ const Numpad: React.FC<NumpadProps> = ({
     deleteTimer.current = null;
   };
 
+  const [upiPageActive, setUpiPageActive] = useState(false)
+  const [upiPage, setUpiPage] = useState(1)
+
   // Withdraw function with balance validation
   const withDrawNow = async () => {
     if (!inputValue) return toast("Withdrawable balance required");
     if (+inputValue > balance) return toast("Withdrawable balance exceeds");
     if (+inputValue < 10) return toast("withdraw balance must be more than 10");
 
-    toast("Processing withdrawal...");
+    setUpiPageActive(true)
     // Add actual withdrawal functionality here (API call, etc.)
   };
+
 
   return (
     <div style={{position: "relative"}}>
 
-      <div className={styles.upiModal}>
-        <div className={styles.upiHeader}>Add UPI Id</div>
-        <div className={styles.inputContainer}>
-          <input type="text" className={styles.input} placeholder="enter your upi id" />
-        </div>
-        <div className={styles.inputContainer}>
-          <Image height={20} width={20} alt="_" src="/icons/support.png" />
-          <input type="text" className={styles.input} placeholder="enter your contact phone no." />
+      <div className={`${styles.upiModalContainer} ${upiPageActive&&styles.upiPageActive}`}>
+        <div className={styles.upiModal}>
+          <div className={styles.requestedAmountContainer}>
+              <Image onClick={()=>{setUpiPageActive(false)}} height={15} width={15} alt="_" src="/icons/arrowLeftWhite.png" />
+            <div className={styles.requestedAmount}>Requested Amount - ₹ {inputValue}</div>
+            
+          </div>
+          <div className={styles.upiHeader}>Add UPI Id</div>
+          {
+            upiPage===1?
+            <div>
+              <div className={styles.inputContainer}>
+                <Image height={20} width={20} alt="_" src="/icons/wallet.png" />
+                <input type="text" className={styles.input} placeholder="enter your upi id" />
+              </div>
+              <div className={styles.inputContainer}>
+                <Image height={20} width={20} alt="_" src="/icons/wallet.png" />
+                <input type="text" className={styles.input} placeholder="confirm your upi id" />
+              </div>
+              <div className={styles.inputContainer}>
+                <Image height={20} width={20} alt="_" src="/icons/support.png" />
+                <input type="text" className={styles.input} placeholder="enter your contact phone no." />
+              </div>
+            </div>:
+            <div>
+              <div className={styles.inputContainer}>
+                <Image height={20} width={20} alt="_" src="/icons/email.png" />
+                <input type="text" className={styles.input} placeholder="otp sent on registered mail" />
+              </div>
+              <div className={styles.resendButton}>resend otp?</div>
+            </div>
+          }
+          <div>
+            {
+              upiPage===1?
+              <button className={styles.button} onClick={()=>{setUpiPage(2)}}>Next</button>:
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 10, marginTop: -10}}>
+                <button className={styles.button} onClick={()=>{setUpiPage(1)}}>Back</button>
+                <button className={styles.submitButton} >Submit</button>
+              </div>
+            }
+          </div>
         </div>
       </div>
 
 
-      <div className={styles.inputContainer}>
+      <div className={styles.balanceValueContainer}>
         <div style={{ fontSize: 30 }}>₹&nbsp;</div>
-        {/* Display current input value */}
         <div className={styles.display} style={{ fontSize: 40 }}>
           {!inputValue && <div style={{ opacity: 0.5 }}>0</div>}
           {inputValue}

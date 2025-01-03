@@ -13,7 +13,7 @@
     align-items: center;
   }
   
-  .inputContainer{
+  .balanceValueContainer{
     margin-top: 20px;
     display: flex;
     align-items: center;
@@ -80,13 +80,34 @@
     background: #0ba7e524 !important;
   }
 
-  .upiModal{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .upiModalContainer{
     position: fixed;
     z-index: 10;
-    height: calc(100dvh - 40px);
-    width: calc(100dvw - 30px);
-    top: 20px;
-    left: 15px;
+    height: 100dvh;
+    width: 100dvw;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.596);
+    padding: 20px;
+    margin-top: 150dvh;
+    transition: all 0.4s;
+  }
+  .upiModal{
+    height: 100%;
     background: var(--bg-8);
     border-radius: 20px;
     display: flex;
@@ -95,13 +116,31 @@
     padding: 30px;
   }
 
+  .upiPageActive{
+    margin-top: 0px !important;
+  }
+
+  .requestedAmountContainer{
+    font-weight: 800;
+    font-size: 120%;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    display: flex;
+    align-items: center;
+  }
+  .requestedAmount{
+    margin-left: 20px;
+    opacity: 0.7;
+  }
+
   .upiHeader{
     font-size: 200%;
     font-weight: 800;
   }
   .inputContainer{
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 15px;
     padding: 15px 20px;
     background: #000;
     display: flex;
@@ -110,4 +149,30 @@
   .input{
     margin-left: 10px;
     width: 100%;
+  }
+  .button{
+    background: var(--bg-10);
+    border: 2px solid var(--bg-3);
+    padding: 15px 20px;
+    border-radius: 20px;
+    width: 100%;
+    margin-top:30px;
+    font-weight: 800;
+    opacity: 0.8;
+  }
+  .submitButton{
+    background: var(--bg-1);
+    border: 2px solid #345266;
+    padding: 15px 20px;
+    border-radius: 20px;
+    width: 100%;
+    margin-top:30px;
+    font-weight: 800;
+    opacity: 0.8;
+  }
+  .resendButton{
+    color: #0ba7e5;
+    text-align: end;
+    padding-right: 20px;
+    margin-top: 10px;
   }
