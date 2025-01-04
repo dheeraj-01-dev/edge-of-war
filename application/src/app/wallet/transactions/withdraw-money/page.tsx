@@ -22,7 +22,7 @@ const page = async () => {
   return (
     <div style={{padding: 10}}>
       <AddMoneyHeader template='Withdraw' />
-      <BalanceSheet balance={{rupee: updatedBalance[0], paisa: updatedBalance[1]}} template='balance' />
+      <BalanceSheet balance={{rupee: updatedBalance[0], paisa: updatedBalance[1]?updatedBalance[1]:"00"}} template='balance' />
       <Numpad balance={response.data.balance} Withdraw authorization={authorization} buttonTemplate='Withdraw Money' />
     </div>
   )

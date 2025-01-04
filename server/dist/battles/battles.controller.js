@@ -285,7 +285,7 @@ export const createBattleOrder = async (req, res) => {
             error: "battle not found",
         });
     }
-    if (battleInfo.settings.slots >= battleInfo.teams.length) {
+    if (battleInfo.settings.slots <= battleInfo.teams.length) {
         return res.status(400).json({
             success: false,
             error: "Max Team Reached",

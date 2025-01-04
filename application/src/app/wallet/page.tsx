@@ -21,7 +21,7 @@ const page = async () => {
   return (
     <div style={{padding: 10}}>
       <WalletHeader />
-      <BalanceSheet balance={{rupee: updatedBalance[0], paisa: updatedBalance[1]}} template='balance' />
+      <BalanceSheet balance={{rupee: updatedBalance[0], paisa: updatedBalance[1]?updatedBalance[1]:"00"}} template='balance' />
       <TransactionsBtn />
     </div>
   )
