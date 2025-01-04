@@ -99,12 +99,10 @@ const LightEditor :React.FC<lightEditor> = ({platformCash, setBattleState, updat
                 </select>
             </div>
             <div style={{marginTop: 10}}>
-                <label className={styles.label} htmlFor="minimumLevel">Minimum Level: </label>
-                <select onChange={update} className={styles.select} name="minimumLevel">
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
-                    <option value="60">60</option>
+                <label className={styles.label} htmlFor="ammo">ammo: </label>
+                <select onChange={update} className={styles.select} name="ammo">
+                    <option value="limited">limited</option>
+                    <option value="un-limited">un-limited</option>
                 </select>
             </div>
             <div style={{marginTop: 10}}>

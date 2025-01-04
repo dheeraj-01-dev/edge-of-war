@@ -124,9 +124,9 @@ const battleSchema = new Schema<schema>({
     ammo: {
       type: String,
       required: true,
-      default: "Limited",
+      default: "limited",
       enum: {
-        values: ["Limited", "UN-Limited"],
+        values: ["limited", "un-limited"],
         message: "ammo `{VALUE}` not supported!"
       }
     },
@@ -287,10 +287,10 @@ const battleSchema = new Schema<schema>({
       'Limited Ammo': {
         type: String,
         required: true,
-        default: "Limited",
+        default: "limited",
         enum: {
-          values: ['Limited', "UN-Limited"],
-          message: "Limited Ammo `{VALUE}` not supported!"
+          values: ['limited', "un-limited"],
+          message: "limited Ammo `{VALUE}` not supported!"
         }
       },
       Airdrop: {

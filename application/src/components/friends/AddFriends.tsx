@@ -90,7 +90,7 @@ const AddFriends = ({ sampleUsers, userToken }: { sampleUsers: member[] | undefi
                   }}
                   alt="x"
                   requestBtn
-                  createFriendRequest={()=>{return createFriendRequest({userName: inpValue, token: userToken})}}
+                  createFriendRequest={()=>{return createFriendRequest({userName: user.userName, token: userToken})}}
                 />
               </div>
             );

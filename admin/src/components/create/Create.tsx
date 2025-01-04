@@ -15,7 +15,7 @@ const Create = ({createBattle, apikey, auth}: {auth: string | undefined, apikey:
         map: "BERMUDA",
         teamMode: "Solo",
         slots: 48,
-        ammo: "Limited" as "Limited",
+        ammo: "limited" as "limited",
         gunAttributes: "No" as "No",
         characterSkill: "Yes" as "Yes",
         loadout: "Yes" as "Yes",
