@@ -60,8 +60,8 @@ const Positions :React.FC<positions> = ({ teams, battle, positions, slots }) => 
         battleId: battle
       });
       console.log(response)
-      if(response.data){
-        toast(response.data)
+      if(response.success){
+        toast("Distributed successfully")
       }else if(response.error){
         toast(response.error)
       }else{

@@ -39,8 +39,9 @@ const GrandEditor: React.FC<grandEditor> = ({createBattle, auth, apikey, advance
   const handleCreate = async () => {
     try {
       const response = await createBattle(battleState, apikey, auth);
-      if(response.data){
-        toast(response.data)
+      console.log(response)
+      if(response.success){
+        toast("created successfully")
       }else if(response.error){
         toast(response.error)
       }else{

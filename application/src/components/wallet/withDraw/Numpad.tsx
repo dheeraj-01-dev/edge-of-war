@@ -243,7 +243,7 @@ const Numpad: React.FC<NumpadProps> = ({
     if (value === "." && inputValue.includes(".")) return; // Prevent multiple dots
 
     // Check for two decimal places limit
-    const [decimalPart] = inputValue.split(".");
+    const [,decimalPart] = inputValue.split(".");
     if (decimalPart && decimalPart.length >= 2) return;
 
     setInputValue((prev) => prev + value);
