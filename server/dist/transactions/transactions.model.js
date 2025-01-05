@@ -69,6 +69,21 @@ const withdrawalRequestsSchema = new Schema({
             message: "status `{VALUE}` not supported"
         }
     },
+    utr: {
+        type: String
+    },
+    message: {
+        type: String
+    },
+    creditedTo: {
+        type: String
+    },
+    creditedBy: {
+        type: String
+    },
+    creditedAmount: {
+        type: Number
+    },
     amount: {
         type: Number,
         required: true

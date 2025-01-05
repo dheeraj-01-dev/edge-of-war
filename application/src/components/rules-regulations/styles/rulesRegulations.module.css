@@ -1,0 +1,64 @@
+/* Container for the entire page */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Title style */
+  .container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+    font-weight: 800;
+  }
+  
+  /* Section heading style */
+  .container h2 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+    font-weight: 700;
+  }
+  
+  /* Section border style */
+  .container section {
+    border: 2px solid var(--bg-3); /* Using the global variable for section borders */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: var(--bg-7);
+  }
+  
+  /* Unordered list style */
+  .container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  /* List item styling */
+  .container ul li {
+    margin-bottom: 10px;
+  }
+  
+  /* Footer style */
+  .container p {
+    font-size: 1.2rem;
+    margin-top: 30px;
+    text-align: center;
+    opacity: 0.4;
+  }
+  
+  /* Styling for the "Unlimited Ammo Custom" rule section */
+  .unlimited-ammo {
+    background-color: #ffdddd;
+    border: 2px solid #ff4d4d;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #ff0000;
+  }
+  

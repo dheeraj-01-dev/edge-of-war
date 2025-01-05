@@ -271,7 +271,7 @@ const CompletedBattleCard: React.FC<battleCardProps> = ({
             </div>
           </div>
 
-          <footer style={{ marginTop: 10, fontSize: "85%" }}>
+          <footer style={{ marginTop: 10, fontSize: "85%", display: "grid", gridTemplateColumns: "2fr 1.3fr" }}>
             <div>
               <span style={{ fontWeight: 700 }}>your stats - </span>
               <span style={{ color: "yellow", fontWeight: 700 }}>
@@ -285,6 +285,13 @@ const CompletedBattleCard: React.FC<battleCardProps> = ({
                 position
               </span>
             </div>
+            {/* <div>
+              <span style={{ fontWeight: 700 }}>prize - </span>
+              <span style={{ color: "yellow", fontWeight: 700 }}>{
+                // @ts-expect-error winnig keys error
+                battle.winning[`_${yourPosition}`]||"0"
+              }</span>
+            </div> */}
           </footer>
         </Link>
       </div>

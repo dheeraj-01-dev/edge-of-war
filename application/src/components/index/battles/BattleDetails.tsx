@@ -386,8 +386,11 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
             <CommentDots height={30} width={30} fill="#fff" />
           </div>
         </div>
-        <div style={{color: "red", fontSize: "80%", padding: "10px 10px 0 10px"}}>
-          Note:- No teamUp and cheat allowed between matches
+        <div style={{color: "#009dff", fontSize: "80%", padding: "10px 10px 0 10px"}}>
+          Note:- &nbsp; 
+              <Link href="/rules-regulations" style={{textDecoration: "underline"}}>
+                edge of eSports Tournament rules & regulations
+              </Link>
         </div>
 
         <div className={styles["winners"]}>
@@ -444,6 +447,7 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
           </div>
         </div>
       </div>
+
 
       <div className={styles["section2"]} id="battle-details-section-2-for-pc">
         {isJoined && <BattleAuthenticators userName={userName} battle={battle} myEntity={myEntity} isJoined={isJoined} auth={auth} />}

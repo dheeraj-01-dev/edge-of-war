@@ -31,6 +31,21 @@ type battleType = {
   positions: string[][] | undefined;
 };
 
+type withdrawalRequest = {
+  _id: string,
+  createdBy: string,
+  status: string,
+  utr: string | number,
+  message: string,
+  creditedTo: string,
+  creditedBy: string,
+  creditedAmount: number,
+  amount: number,
+  upiId: string,
+  contactPhone: string,
+  otp: string
+};
+
 type responseType<T> = {
   success: boolean;
   error?: string;

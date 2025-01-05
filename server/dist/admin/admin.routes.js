@@ -1,6 +1,7 @@
 import { Router } from "express";
 import battleRouter from "./battle/battle.routes.js";
 import userRouter from "./user/user.routes.js";
+import withdrawalRouter from "./withdrawal/withdrawal.routes.js";
 const adminRouter = Router();
 adminRouter.use((req, res, next) => {
     const { authorization } = req.headers;
@@ -17,5 +18,6 @@ adminRouter.use((req, res, next) => {
 });
 adminRouter.use("/battle", battleRouter);
 adminRouter.use("/user", userRouter);
+adminRouter.use("/withdrawal", withdrawalRouter);
 export default adminRouter;
 //# sourceMappingURL=admin.routes.js.map

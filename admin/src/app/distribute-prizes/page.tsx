@@ -9,7 +9,8 @@ const page = async () => {
   return (
     <ScafFold>
         <div>
-            <Positions slots={battles.data?.battles.settings.slots} battle='' teams={[[]]} positions={[[]]} />
+          
+            {/* <Positions slots={battles.data?.battles.settings.slots} battle='' teams={[[]]} positions={[[]]} /> */}
         </div>
     </ScafFold>
   )

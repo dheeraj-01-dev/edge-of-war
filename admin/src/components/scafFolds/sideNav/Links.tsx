@@ -44,6 +44,13 @@ const links = [
     width: 20,
     height: 20,
   },
+  {
+    text: "Withdrawal",
+    src: "/icons/wallet.png",
+    href: "/withdrawal-request",
+    width: 20,
+    height: 20,
+  },
   // {
   //   text: "Tournament",
   //   src: "/icons/trophy-a7.png",

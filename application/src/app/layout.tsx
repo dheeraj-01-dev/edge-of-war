@@ -7,7 +7,7 @@ import Script from "next/script";
 const exo = Exo_2({ weight: "400", subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
-  title: "Edge of War",
+  title: "edge of eSports",
   description: "battleroyale esports",
 };
 
@@ -18,6 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/eoe.jpg" />
       {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
       <body className={exo.className}>
         {children}
