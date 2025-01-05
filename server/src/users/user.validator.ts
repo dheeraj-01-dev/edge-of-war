@@ -39,9 +39,9 @@ const validateRegistration = (req:Request, res:Response, next:NextFunction)=>{
 
 export const loginUser_V = (req: Request, res: Response, next: NextFunction)=>{
 
-  const phone = `${req.body.phone}`?.trim();
+  const phone = req.body.phone?.trim();
   const email = req.body.email?.trim();
-  const password = `${req.body.password}`.trim();
+  const password = req.body.password.trim();
 
   if(!email&&!phone){
     return res.status(400).json({
