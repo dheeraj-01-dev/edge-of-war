@@ -329,3 +329,94 @@ export const requestWithdrawal = async ({ authorization, upiId, confirmUpiId, co
     };
   }
 }
+
+export const forgotPassword = async ({email}:{
+  email: string
+}) :Promise<responseType<string>> => {
+  if(!email){
+    return {
+      success: false,
+      error: "email required"
+    }
+  };
+
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${domain}/user/forgotpassword`,
+      headers: {
+        apikey,
+      },
+      data: {email},
+    });
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+    
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+
+    // Handle unknown other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+}
+
+export const createNewPassword = async ({authorization, newPassword, confirmNewPassword, oldPassword, linkToken}:{
+  authorization?: string | undefined,
+  newPassword: string,
+  confirmNewPassword: string,
+  oldPassword?: string | undefined,
+  linkToken?: string | undefined
+}) :Promise<responseType<string>> => {
+  if(!(newPassword&&confirmNewPassword) || newPassword!==confirmNewPassword){
+    return {
+      success: false,
+      error: "newPassword and confirmNewPassword doest not matched"
+    }
+  };
+
+  console.log({linkToken})
+
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${domain}/user/new-password`,
+      headers: {
+        apikey,
+        Authorization: authorization,
+      },
+      data: {newPassword, confirmNewPassword, oldPassword, linkToken},
+    });
+
+    console.log(response.data)
+    return {
+      success: response.data.success,
+      data: response.data.data,
+    };
+    
+  } catch (error: unknown) {
+    // Check if the error is an AxiosError and has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: error.response.data.success || false,
+        error: error.response.data.error || "An error occurred",
+      };
+    }
+
+    // Handle unknown other error types
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+}

@@ -1,0 +1,62 @@
+/* Styling for the form container */
+.formContainer {
+    max-width: 600px;
+    min-width: 350px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--bg-7);
+    border: 2px solid var(--bg-3);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Scoped styles for h2 inside .formContainer */
+  .formContainer h2 {
+    text-align: center;
+    font-size: 200%;
+    font-weight: 800;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+  
+  /* Styling for form groups (label + input) */
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .formContainer label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .formContainer input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid var(--bg-1);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Submit button styles */
+  .formContainer .submitButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #009dff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  
+  /* Error message styling */
+  .formContainer .errorMessage {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  

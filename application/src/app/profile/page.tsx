@@ -8,7 +8,7 @@ import UserProfile from "@/components/profile/UserProfile";
 import Balance from "@/components/profile/Balance";
 import PersonalInfo from "@/components/profile/PersonalInfo";
 import PasswordSecurity from "@/components/profile/PasswordAndSequrity";
-import { getPersonalInfo } from "@/api/user";
+import { createNewPassword, getPersonalInfo } from "@/api/user";
 import Leaderboard from "@/components/profile/Leaderboard";
 import Logout from "@/components/profile/Logout";
 import { ConfirmationDialogProvider } from "@/components/ConfirmDialog/ConfirmDialog";
@@ -52,7 +52,7 @@ const page = async () => {
             userName={userName}
           />
         </div>
-        <PasswordSecurity style={{ marginTop: 35 }} />
+        <PasswordSecurity authorization={token} createNewPassword={createNewPassword} style={{ marginTop: 35 }} />
         <ConfirmationDialogProvider>
           <Logout />
         </ConfirmationDialogProvider>

@@ -3,12 +3,21 @@
 import React, { useState } from "react";
 import styles from './styles/passwordAndSequrity.module.css'
 import Image from "next/image";
+import toast from "@/scripts/toast";
 
 interface passwordSecurityProps {
   style ?: React.CSSProperties;
+  authorization: string | undefined;
+  createNewPassword: ({authorization, newPassword, confirmNewPassword, oldPassword, linkToken}:{
+    authorization?: string | undefined,
+    newPassword: string,
+    confirmNewPassword: string,
+    oldPassword?: string | undefined,
+    linkToken?: string | undefined
+  }) => Promise<responseType<string>>
 }
 
-const PasswordSecurity: React.FC<passwordSecurityProps> = ({style}) => {
+const PasswordSecurity: React.FC<passwordSecurityProps> = ({style, createNewPassword, authorization}) => {
   // State for managing passwords
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -32,18 +41,36 @@ const PasswordSecurity: React.FC<passwordSecurityProps> = ({style}) => {
   // State for logout all sessions
   // const [sessionMessage, setSessionMessage] = useState("");
 
-  const handlePasswordChange = () => {
-    if (newPassword !== confirmPassword) {
+  const handlePasswordChange = async () => {
+    if (!(newPassword&&confirmPassword) || newPassword !== confirmPassword) {
       setPasswordMessage("New passwords do not match.");
+      toast("New passwords do not match.");
       return;
     }
 
     // Simulate a password change operation
-    setPasswordMessage("Password updated successfully!");
+    try {
+      setPasswordMessage("sending request....please wait.")
+      const response = await createNewPassword({newPassword, confirmNewPassword: confirmPassword, oldPassword: currentPassword, authorization});
+      if(response.data){
+        toast(response.data)
+        setPasswordMessage("Password updated successfully!");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      }else if(response.error){
+        toast(response.error)
+      }else{
+        toast("error reseting password, contact support")
+      }
+    } catch {
+      toast("error reseting password, contact support")
+    }finally{
+      // setCurrentPassword("");
+      // setNewPassword("");
+      // setConfirmPassword("");
+    }
     // Reset input fields
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
   };
 
   // const toggleTwoFactor = () => {

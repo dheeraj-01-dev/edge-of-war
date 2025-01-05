@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import mongoose from "mongoose";
-import { passwordResetModel, userModel } from "./user.model.js";
+import { userModel } from "./user.model.js";
 import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 import { otpModel } from "../auth/auth.model.js";
 import nodemailer from "nodemailer";
@@ -405,22 +405,27 @@ export const forgotPassword_C = async (req, res) => {
                 error: "user not found",
             });
         }
-        await passwordResetModel.create({
-            email,
-        });
+        const { name, ffUid, userName, ffUserName, createAt, _id } = user;
         const token = await jwt.sign({
+            name,
+            ffUid,
+            userName,
+            createAt,
+            id: _id,
+            profile: "/men.png",
             email,
+            ffUserName,
         }, jwt_secret);
-        const link = `https://domain.com/reset-password/${token}`;
+        const link = `https://edgeofesports.com/reset-password/${token}`;
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "mr.oops2090@gmail.com",
-                pass: "hprq geji orhz enni",
-            },
+                user: 'edgeofesports@gmail.com',
+                pass: 'bqfj gbci xlgi esid'
+            }
         });
         let mailOptions = {
-            from: "Edge Of War<mail@edgeofwaresports.com>",
+            from: "edge of eSports<mail@edgeofesports.com>",
             to: email,
             subject: "Password Reset Link",
             html: `
@@ -434,7 +439,10 @@ export const forgotPassword_C = async (req, res) => {
         };
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                return console.log(error);
+                res.status(500).json({
+                    success: false,
+                    error,
+                });
             }
             res.status(200).json({
                 success: true,
@@ -446,6 +454,117 @@ export const forgotPassword_C = async (req, res) => {
         res.status(500).json({
             success: false,
             error: "Something went Wrong",
+        });
+    }
+};
+export const createNewPassword_C = async (req, res) => {
+    const { authorization } = req.headers;
+    const { linkToken, newPassword, confirmNewPassword, oldPassword } = req.body;
+    if (!(newPassword && confirmNewPassword) || newPassword !== confirmNewPassword) {
+        return res.status(400).json({
+            success: false,
+            error: "password and newPassword does not matched"
+        });
+    }
+    if (linkToken) {
+        try {
+            const verifiedToken = jwt.verify(linkToken, jwt_secret);
+            if (!verifiedToken && verifiedToken.email && verifiedToken.iat) {
+                return res.status(400).json({
+                    success: false,
+                    error: "Invalid link"
+                });
+            }
+            ;
+            const userDetails = await userModel.findOne({ email: verifiedToken.email });
+            if (!userDetails) {
+                return res.status(400).json({
+                    success: false,
+                    error: "Invalid link"
+                });
+            }
+            try {
+                const newHashedPassword = await bcrypt.hash(newPassword, 12);
+                await userModel.findOneAndUpdate({ _id: userDetails._id }, { password: newHashedPassword });
+                return res.status(200).json({
+                    success: true,
+                    data: "password updated successfully"
+                });
+            }
+            catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    error: "error creating new password"
+                });
+            }
+        }
+        catch (error) {
+            return res.status(400).json({
+                success: false,
+                error: "unAuthorized"
+            });
+        }
+    }
+    else if (oldPassword) {
+        if (!authorization) {
+            return res.status(400).json({
+                success: false,
+                error: "unAuthorized"
+            });
+        }
+        ;
+        const decodedToken = jwt.verify(authorization, jwt_secret);
+        if (!decodedToken && decodedToken.email) {
+            return res.status(400).json({
+                success: false,
+                error: "unAuthorized"
+            });
+        }
+        ;
+        const verifiedUser = await userModel.findOne({ email: decodedToken.email }).select("password");
+        if (!verifiedUser) {
+            return res.status(400).json({
+                success: false,
+                error: "unAuthorized"
+            });
+        }
+        ;
+        try {
+            const passMatch = await bcrypt.compare(oldPassword, verifiedUser.password);
+            if (!passMatch) {
+                return res.status(404).json({
+                    success: false,
+                    error: "old password does not matched, try forgot password"
+                });
+            }
+            if (passMatch) {
+                try {
+                    const newHashedPassword = await bcrypt.hash(newPassword, 12);
+                    await userModel.findOneAndUpdate({ _id: verifiedUser._id }, { password: newHashedPassword });
+                    return res.status(200).json({
+                        success: true,
+                        data: "password updated successfully"
+                    });
+                }
+                catch (error) {
+                    return res.status(400).json({
+                        success: false,
+                        error: "error creating new password"
+                    });
+                }
+            }
+        }
+        catch (error) {
+            return res.status(400).json({
+                success: false,
+                error: "unAuthorized"
+            });
+        }
+    }
+    else {
+        return res.status(400).json({
+            success: false,
+            error: "Invalid request"
         });
     }
 };

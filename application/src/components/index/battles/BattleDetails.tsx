@@ -471,7 +471,7 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
             ].map(([label, value], index) => {
               if(!label){
                 return(
-                  <div key={label} style={{border: "2px solid var(--bg-7)"}}></div>
+                  <div key={index} style={{border: "2px solid var(--bg-7)"}}></div>
                 )
               }
               return(

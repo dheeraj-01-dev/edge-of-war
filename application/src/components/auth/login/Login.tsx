@@ -73,6 +73,7 @@ const Login = ({
           <div className={styles.inputContainer}>
             <Image src="/icons/user.png" height={20} width={20} alt="user" />
             <input
+              autoCapitalize="none"
               spellCheck={false}
               autoCorrect="off"
               value={loginIdentifier}
