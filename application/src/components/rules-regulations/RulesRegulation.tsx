@@ -201,7 +201,8 @@ const Rules: FC = () => {
           "Players must follow the Fair Play Code and avoid exploiting bugs or glitches.",
           "Players must use their own devices and internet connections. We are not responsible for any technical issues.",
           "Report issues to the tournament moderators within the specified time frame. Organizers' decisions are final.",
-          "Team-up Not Allowed: Players are not permitted to team up with opponents or form alliances during matches. Any violation of this rule will lead to disqualification."
+          "Team-up Not Allowed: Players are not permitted to team up with opponents or form alliances during matches. Any violation of this rule will lead to disqualification.",
+          "Unregistered Players Not Allowed to Spectate: Players who are not registered for the tournament are not allowed to spectate the matches. This is to prevent exposing the location of players to others."
         ]
     },      
     {
