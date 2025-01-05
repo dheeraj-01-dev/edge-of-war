@@ -473,7 +473,7 @@ export const forgotPassword_C = async (req: Request, res: Response) => {
       jwt_secret
     );
 
-    const link = `https://edgeofesports.com/reset-password/${token}`;
+    const link = `https://edgeofesports.com/new-password/${token}`;
 
     let transporter = nodemailer.createTransport({
       service: "gmail", // or you can configure with other services or custom SMTP
