@@ -158,7 +158,8 @@ const Rules: FC = () => {
           "- Smoke Grenades",
           "- Gluu Wall Melter",
           "- Freezer",
-          "Any player caught using these items will be immediately disqualified from the tournament."
+          "Any player caught using these items will be immediately disqualified from the tournament.",
+    "If a team accidentally uses a prohibited item by mistake, it may be permissible, but this mistake will not be accepted if repeated. A second occurrence will result in disqualification for the entire team."
         ]
     },
     {
