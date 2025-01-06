@@ -9,8 +9,8 @@ const posterImages = [
   { src: "/events/event.png", alt: "Event 1" },
   { src: "/events/event.png", alt: "Event 2" },
   { src: "/events/event.png", alt: "Event 3" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 2" },
-  { src: "/icons/insert-picture-icon.png", alt: "Event 3" },
+  { src: "/events/event.png", alt: "Event 3" },
+  { src: "/events/event.png", alt: "Event 3" },
   // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
   // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
   // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },
@@ -126,8 +126,8 @@ const EventDashboard: React.FC = () => {
           >
             <div className={styles.imgParent}>
               {/* <img src={poster.src} alt={poster.alt} /> */}
-              <Image height={40} width={40} src={poster.src} alt={poster.alt} />
-              {poster.alt}
+              <Image layout="intrinsic" height={120} width={370} src={poster.src} alt={poster.alt} />
+              {/* {poster.alt} */}
             </div>
           </div>
         ))}
