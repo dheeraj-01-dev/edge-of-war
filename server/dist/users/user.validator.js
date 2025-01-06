@@ -1,5 +1,13 @@
 import z from 'zod';
 const validateRegistration = (req, res, next) => {
+    const name = req.body.name.trim();
+    const otp = req.body.otp;
+    const userName = req.body.userName.trim();
+    const email = req.body.email.trim();
+    const ffUid = req.body.ffUid;
+    const ffUserName = req.body.ffUserName.trim();
+    const password = req.body.password.trim();
+    const confirmPassword = req.body.confirmPassword.trim();
     const schema = z.object({
         name: z.string({ message: "name required!" }).min(3, { message: "name must be min 3 character long." }).max(50, { message: "name must be less then 50 character." }),
         userName: z.string({ message: "userName required!" }).min(3).max(50),
@@ -10,7 +18,9 @@ const validateRegistration = (req, res, next) => {
         password: z.string({ message: "password required!" }).min(4, { message: "password must be greater than 4 character" }).max(50, { message: "password must be smaller then 50 digits" }),
         confirmPassword: z.string({ message: "password required!" }).min(4, { message: "password must be greater than 4 character" }).max(50, { message: "password must be smaller then 50 digits" })
     });
-    const validReq = schema.safeParse(req.body);
+    const validReq = schema.safeParse({
+        name, userName, email, ffUid, password, ffUserName, confirmPassword, otp
+    });
     if (!validReq.error) {
         return next();
     }
@@ -21,7 +31,9 @@ const validateRegistration = (req, res, next) => {
     });
 };
 export const loginUser_V = (req, res, next) => {
-    const { phone, email } = req.body;
+    const phone = req.body.phone?.trim();
+    const email = req.body.email?.trim();
+    const password = req.body.password.trim();
     if (!email && !phone) {
         return res.status(400).json({
             sucess: false,
@@ -34,7 +46,7 @@ export const loginUser_V = (req, res, next) => {
         email: z.string().email({ message: "Invalid email" }).optional(),
         password: z.string({ message: "password required!" })
     });
-    const validReq = schema.safeParse(req.body);
+    const validReq = schema.safeParse({ phone, email, password });
     if (!validReq.error) {
         return next();
     }

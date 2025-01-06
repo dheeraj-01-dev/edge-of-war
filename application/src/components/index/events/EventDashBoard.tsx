@@ -6,7 +6,9 @@ import styles from "./styles/eventDashboard.module.css";
 import Image from "next/image";
 
 const posterImages = [
-  { src: "/icons/insert-picture-icon.png", alt: "Event 1" },
+  { src: "/events/event.png", alt: "Event 1" },
+  { src: "/events/event.png", alt: "Event 2" },
+  { src: "/events/event.png", alt: "Event 3" },
   { src: "/icons/insert-picture-icon.png", alt: "Event 2" },
   { src: "/icons/insert-picture-icon.png", alt: "Event 3" },
   // { src: "/icons/insert-picture-icon.png", alt: "Event 4" },

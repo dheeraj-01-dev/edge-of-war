@@ -48,7 +48,7 @@ export const loginUser_V = (req: Request, res: Response, next: NextFunction)=>{
       sucess: false,
       error:"phone or email required!"
     })
-  };
+  }; 
   const schema = z.object({
     phone: z.number().min(999999999, {message: "Invalid phone !"}).max(9999999999, {message: "Invalid phone !"}).optional(),
     email: z.string().email({message:"Invalid email"}).optional(),
