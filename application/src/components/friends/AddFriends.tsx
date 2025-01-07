@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./styles/world.module.css";
 import Image from "next/image";
 import UserTemplates from "../temp/UserTemplate";
@@ -21,6 +21,8 @@ const createFriendRequest = async ({
 };
 
 const AddFriends = ({ sampleUsers, userToken }: { sampleUsers: member[] | undefined, userToken: string | undefined }) => {
+
+  const inputRef = useRef<HTMLInputElement>(null)
   const [inpValue, setInpValue] = useState("");
   const [users, setUsers] = useState([]);
   const [userNotFound, setUserNotFound] = useState(false);
@@ -54,9 +56,9 @@ const AddFriends = ({ sampleUsers, userToken }: { sampleUsers: member[] | undefi
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await findUser(inpValue);
-    const form = e.currentTarget as HTMLFormElement;
-    const input = form.children[1] as HTMLInputElement
-    input.blur();
+    // const form = e.currentTarget as HTMLFormElement;
+    // const input = form.children[1] as HTMLInputElement
+    inputRef.current?.blur();
   };
 
   return (
@@ -64,17 +66,19 @@ const AddFriends = ({ sampleUsers, userToken }: { sampleUsers: member[] | undefi
       <form onSubmit={onSubmit} className={styles.form}>
         <Image height={17} width={17} alt="" src="/icons/magnifier.png" />
         <input
+          ref={inputRef}
           autoCapitalize="off"
           autoCorrect="off"
           autoComplete="off"
           className={styles.inputField}
           type="search"
+          value={inpValue}
           placeholder="userName or uid"
           onChange={updateUser}
         />
       </form>
 
-      <div className={styles.samples}>
+      <div className={styles.memberContainer}>
         {users&&users.length>0 ? (
           users.map((user: member) => {
             return (
@@ -98,16 +102,17 @@ const AddFriends = ({ sampleUsers, userToken }: { sampleUsers: member[] | undefi
         ) : userNotFound ? (
           <div> &nbsp; &nbsp;&nbsp;&nbsp; user not found </div>
         ) : (
-          <div>
+          <div style={{height: "100%", }}>
             <div className={styles.sampleTemplates}>people you may know</div>
-            <div>
+            <div className={styles.memberContainer}>
               {sampleUsers?.map((user: member) => {
                 return (
                   <div key={user.userName}>
                     <UserTemplates
                       onClick={() => {}}
-                      style={{ margin: "12px" }}
+                      // style={{marginBottom: 15}}
                       dimension={45}
+                      style={{marginBottom: 10}}
                       user={{
                         userName: user.userName,
                         ffUid: user.ffUid,

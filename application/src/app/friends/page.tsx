@@ -21,7 +21,7 @@ const page = async () => {
     <div>
       <AuthProtected isLoggedIn={token?true:false}>
         <div className={styles.newConversation}>
-          <Titles title="Friends" />
+          <Titles title={`Friends [${friends?.length}]`} />
           <FriendsSearchBox style={{ marginBottom: "10px" }} />
           <AllFriendSection friends={friends} />
         </div>

@@ -1,4 +1,16 @@
 
+.world{
+  height: calc(100% - 15px);
+}
+.memberContainer{
+  overflow: auto;
+  height: calc(100% - 10px);
+  padding-bottom: 40px;
+  /* overflow: auto; */
+  /* display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px; */
+}
 .inputField {
   width: 100%;
   border: none;
@@ -24,5 +36,5 @@
   opacity: 0.5;
   font-size: 80%;
   margin-left: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
