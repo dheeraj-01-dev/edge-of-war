@@ -21,10 +21,7 @@ const Create = ({
   const battle: battleType = {
     status: "upcoming",
     mode: "survival",
-    auth: {
-      roomId: 0,
-      roomPass: 0,
-    },
+    auth: {},
     positions: [],
     settings: {
       gameMode: "Battle Royale",

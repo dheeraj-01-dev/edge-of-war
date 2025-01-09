@@ -3,9 +3,9 @@ type battleType = {
   battleId?: number;
   mode: "survival" | "scoring" ,
   status: string;
-  auth: {
-    roomId: string | number | undefined,
-    roomPass: stirng | number | undefined
+  auth?: {
+    roomId?: string | number | undefined,
+    roomPass?: stirng | number | undefined
   },
   settings: {
     gameMode: "Battle Royale"|"Clash Squad",

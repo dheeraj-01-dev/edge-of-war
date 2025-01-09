@@ -43,8 +43,6 @@ const UpcomingBattle: React.FC<upcomingBattleType> = ({ battles, handleHost }) =
             <div>
               <RegisteredPlayers slots={focusedBattle.settings.slots} teams={focusedBattle.teams} />
             </div>
-            {/* <div style={{height: 600, background: "var(--bg-7)", padding: 20, borderRadius: 20, marginTop: 20}}></div>
-            <div style={{height: 400, background: "var(--bg-7)", padding: 20, borderRadius: 20, marginTop: 20}}></div> */}
           </div>
         </div>:
         <div className={styles.container}>

@@ -316,21 +316,21 @@ const GrandEditor: React.FC<grandEditor> = ({createBattle, auth, apikey, advance
 
   const handleCreate = async () => {
     console.log(battleState)
-    try {
-      const response = await createBattle(battleState, apikey, auth);
-      console.log(response)
-      if(response.success){
-        toast("created successfully")
-      }else if(response.error){
-        toast(response.error)
-      }else{
-        toast("something error, check the console")
-        console.log(response)
-      }
-    } catch (error) {
-      toast("something error, check the console")
-      console.log(error)
-    }
+    // try {
+    //   const response = await createBattle(battleState, apikey, auth);
+    //   console.log(response)
+    //   if(response.success){
+    //     toast("created successfully")
+    //   }else if(response.error){
+    //     toast(response.error)
+    //   }else{
+    //     toast("something error, check the console")
+    //     console.log(response)
+    //   }
+    // } catch (error) {
+    //   toast("something error, check the console")
+    //   console.log(error)
+    // }
   }
 
   return (

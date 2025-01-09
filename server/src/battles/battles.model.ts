@@ -130,42 +130,6 @@ const battleSchema = new Schema<schema>({
       required: true,
       default: 24
     },
-    ammo: {
-      type: String,
-      required: true,
-      default: "limited",
-      enum: {
-        values: ["limited", "un-limited"],
-        message: "ammo `{VALUE}` not supported!"
-      }
-    },
-    gunAttributes: {
-      type: String,
-      required: true,
-      default: "No",
-      enum: {
-        values: ["No", "Yes"],
-        message: "gunAttributes `{VALUE}` not supported!"
-      }
-    },
-    characterSkill: {
-      type: String,
-      required: true,
-      default: "Yes",
-      enum: {
-        values: ["No", "Yes"],
-        message: "characterSkill `{VALUE}` not supported!"
-      }
-    },
-    loadout: {
-      type: String,
-      required: true,
-      default: "Yes",
-      enum: {
-        values: ["No", "Yes"],
-        message: "loadout `{VALUE}` not supported!"
-      }
-    },
     advanceSetting: {
       presetMode: {
         type: String,

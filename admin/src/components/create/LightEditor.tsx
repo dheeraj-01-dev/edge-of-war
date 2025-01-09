@@ -152,8 +152,6 @@ const LightEditor: React.FC<lightEditor> = ({
 
     // const [entry, setEntry] = useState("")
   const update = (e: any) => {
-    if (battleState.settings.gameMode === "Clash Squad") {
-    }
     updateBattleSetting({ key: e.target.name, value: e.target.value });
     if (e.target.name === "gameMode") {
       updateBattleSetting({

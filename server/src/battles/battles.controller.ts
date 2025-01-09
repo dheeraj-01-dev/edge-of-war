@@ -383,7 +383,7 @@ export const createBattleOrder = async (req: Request, res: Response) => {
       })
     };
 
-    if(battleInfo.entry<userDetails.balance){
+    if(battleInfo.entry>userDetails.balance){
 
     return res.status(400).json({
       success: false,

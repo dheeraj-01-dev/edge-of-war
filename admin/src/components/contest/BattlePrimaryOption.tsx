@@ -14,8 +14,8 @@ interface battlePrimaryOption {
 
 
 const BattlePrimaryOption :React.FC<battlePrimaryOption> = ({ battle, handleHost }) => {
-    const settingArr = Object.keys(battle.settings);
-    settingArr.pop();
+    let settingArr = Object.keys(battle.settings);
+    settingArr = settingArr.filter(item => item !== 'advanceSetting')
 
 
       const [rday, setRday] = useState("")
@@ -61,7 +61,7 @@ const BattlePrimaryOption :React.FC<battlePrimaryOption> = ({ battle, handleHost
       }
       
   return (
-    <div style={{width: "100%", border: "2px solid var(--bg-1)", borderRadius: 20, marginLeft: 20}}>
+    <div style={{width: "100%", border: "2px solid var(--bg-1)", borderRadius: 20, marginLeft: 20, background: "var(--bg-7)"}}>
       <div className={styles.fieldContainer}>
         <div className={styles.field} style={{display: 'flex'}}>
           <div style={{display: "flex"}}>
@@ -102,7 +102,7 @@ const BattlePrimaryOption :React.FC<battlePrimaryOption> = ({ battle, handleHost
                 <div style={{display: "flex"}}>
                   <label className={styles.label}>{value}: </label>
                   {
-                    // @ts-ignore
+                      // @ts-ignore
                     <div className={styles.value}>{battle.settings[value]}</div>
                   }
                 </div>

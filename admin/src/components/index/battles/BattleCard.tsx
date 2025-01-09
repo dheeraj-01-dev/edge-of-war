@@ -43,7 +43,7 @@ const BattleCard: React.FC<battleCardProps> = ({
 
             <div className={styles.battleDetail}>
               <div className={styles.battleMode}>
-                {teamMode} {advanceSetting['Limited Ammo']} &nbsp;#
+                {teamMode} {advanceSetting['Limited Ammo']} &nbsp;#{battle.battleId}
               </div>
 
               <div>
