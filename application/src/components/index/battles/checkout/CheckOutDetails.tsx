@@ -31,7 +31,7 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
   const router = useRouter();
   const {
     _id,
-    settings: { map, gameMode, teamMode, ammo },
+    settings: { map, gameMode, teamMode },
     battleId,
     entry,
     expire: { dateStr },
@@ -123,7 +123,7 @@ const CheckOutDetails: React.FC<checkOutDetails> = ({
           <div className={styles.settings}>
             <div>
               <div className={styles.teamMode}>
-                {teamMode} {ammo} &nbsp; #{battleId}
+                {teamMode} {battle.settings.advanceSetting["Limited Ammo"]} &nbsp; #{battleId}
               </div>
               <div className={styles.dateStr}>{dateStr}</div>
             </div>

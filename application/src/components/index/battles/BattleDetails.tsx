@@ -333,7 +333,7 @@ import jwt from "jsonwebtoken";
 const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, userName: string | undefined, userToken: string | undefined }) => {
   const {
     _id,
-    settings: { map, slots, gameMode, teamMode, ammo, gunAttributes, characterSkill, advanceSetting },
+    settings: { map, slots, gameMode, teamMode, advanceSetting },
     winning: { _1, _2, _3 },
     entry,
     teams,

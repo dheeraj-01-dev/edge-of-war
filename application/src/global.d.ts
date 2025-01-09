@@ -18,10 +18,6 @@ type battleType = {
       | "BERMUDA REMASTER";
     teamMode: "Solo" | "Duo" | "Squad";
     slots: number;
-    ammo: "Limited" | "UN-Limited";
-    gunAttributes: "Yes" | "No";
-    characterSkill: "Yes" | "No";
-    loadout: "Yes" | "No";
     advanceSetting: {
       "Battle Royale": {
         "presetMode": string,

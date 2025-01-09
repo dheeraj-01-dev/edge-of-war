@@ -203,7 +203,7 @@ const CompletedBattleCard: React.FC<battleCardProps> = ({
   const { _id, settings, battleId, expire, winning, status, entry } = battle;
   const { _1 } = winning;
   const { dateStr } = expire;
-  const { gameMode, map, teamMode, ammo } = settings;
+  const { gameMode, map, teamMode } = settings;
 
 
   // Calculate remaining time difference

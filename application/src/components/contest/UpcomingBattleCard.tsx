@@ -17,7 +17,7 @@ const UpcomingBattleCard: React.FC<battleCardProps> = ({
   const { _id, settings, battleId, expire, winning, teams, status, entry } = battle;
   const { _1 } = winning;
   const { dateStr, id } = expire;
-  const { gameMode, map, teamMode, ammo, slots } = settings;
+  const { gameMode, map, teamMode, slots } = settings;
 
   const [rday, setRday] = useState("")
   const [rhr, setRhr] = useState("")
