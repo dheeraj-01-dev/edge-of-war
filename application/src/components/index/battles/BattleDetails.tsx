@@ -457,6 +457,9 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
         <div className={styles["settings"]}>
 
           <div className={styles.primarySetting}>
+              <div className={styles["setting"]} style={{fontWeight: 800, color: "yellow"}}>
+                <span className={styles["setting-span"]}>Winning Type</span> {battle.mode}
+              </div>
             {[
               ["Game mode", gameMode],
               ["Team mode", teamMode],
