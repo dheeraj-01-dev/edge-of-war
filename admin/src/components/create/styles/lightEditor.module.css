@@ -1,7 +1,4 @@
-.label{
-    width: 120px;
-    display: inline-block;
-}
+
 .select{
     margin-left: 10px;
     padding: 4px 15px;
@@ -13,13 +10,27 @@
     display: flex;
     align-items: center;
     height: 100%;
-    /* padding: 15px 0; */
     scale: 0.87;
     justify-content: space-around;
 }
 .input{
-    margin-left: 10px;
     background: var(--bg-10);
     border: 1px solid var(--bg-1);
     padding: 4px 15px;
+}
+
+.editorContainer{
+    display: grid;
+    grid-gap: 10px;
+    padding: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.label{
+    min-width: max-content;
+}
+
+.singleOption{
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
 }

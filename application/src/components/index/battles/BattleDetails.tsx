@@ -460,13 +460,13 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
             {[
               ["Game mode", gameMode],
               ["Team mode", teamMode],
-              ["Ammo", ammo],
+              ["Ammo", battle.settings.advanceSetting["Limited Ammo"]],
               ["Map", map],
               ["Time", expire.dateStr.split("|")[1].trim()],
               ["Date", expire.dateStr.split("|")[0].trim()],
               [],
-              ["Gun attributes", gunAttributes],
-              ["Character skill", characterSkill],
+              ["Gun attributes", battle.settings.advanceSetting["Gun Attributes"]],
+              ["Character skill", battle.settings.advanceSetting["Character Skill"]],
               [],
             ].map(([label, value], index) => {
               if(!label){

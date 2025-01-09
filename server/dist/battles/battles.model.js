@@ -14,6 +14,14 @@ const battleSchema = new Schema({
             message: "status `{VALUE}` not supported!"
         }
     },
+    mode: {
+        type: String,
+        required: true,
+        enum: {
+            values: ["scoring", "survival"],
+            message: "mode `{VALUE}` not supported!"
+        }
+    },
     settings: {
         gameMode: {
             type: String,

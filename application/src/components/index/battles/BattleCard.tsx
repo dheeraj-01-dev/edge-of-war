@@ -6,42 +6,18 @@ import Link from 'next/link';
 
 interface battleCardProps {
   isLogin?: boolean;
-  battle?: battleType;
+  battle : battleType;
   style?: React.CSSProperties;
 }
 
 const BattleCard: React.FC<battleCardProps> = ({
-  battle = {
-    _id: "00",
-    battleId: "00",
-    settings: {
-      gameMode: "GameMode",
-      map: "MAP",
-      teamMode: "teamMode",
-      slots: 0,
-      ammo: "ammo",
-      gunAttributes: "gunAttributes",
-      characterSkill: "characterSkill",
-      loadout: "loadout",
-    },
-    expire: {
-      id: 0,
-      dateStr: "choose one",
-    },
-    entry: 0,
-    winning: {
-      _1: 0,
-      _2: 0,
-      _3: 0,
-    },
-    teams: [],
-  },
+  battle,
   style: parentStyle,
 }) => {
   const { _id, settings, battleId, expire, entry, winning, teams } = battle;
   const { _1 } = winning;
   const { dateStr } = expire;
-  const { gameMode, map, teamMode, ammo, slots } = settings;
+  const { gameMode, map, teamMode, slots } = settings;
 
   // const [rday, setRday] = useState("")
   // const [rhr, setRhr] = useState("")
@@ -108,7 +84,7 @@ const BattleCard: React.FC<battleCardProps> = ({
           <div className={styles.title}>
             {gameMode}&nbsp; [{map}]
           </div>
-          <div style={{color: "yellow"}}>survival</div>
+          <div style={{color: "yellow"}}>{battle.mode}</div>
           {/* <div className={styles.timeCountDown}>{`${rday}:${rhr}:${rmi}:${rsec}`}</div> */}
         </header>
 
@@ -126,7 +102,7 @@ const BattleCard: React.FC<battleCardProps> = ({
 
             <div className={styles.battleDetail}>
               <div className={styles.battleMode}>
-                {teamMode} {ammo} &nbsp;#{battleId}
+                {teamMode} {battle.settings.advanceSetting['Limited Ammo']} &nbsp;#{battleId}
               </div>
 
               <div>
@@ -167,7 +143,7 @@ const BattleCard: React.FC<battleCardProps> = ({
           <Link href={`/battle/${_id}`}>
             <div className={styles.prizes}>
               <Image width={30} height={25} src="/icons/trophy.png" alt="winnings" />
-              &nbsp;&nbsp;{_1}-/
+              &nbsp;&nbsp;{_1}/-
             </div>
           </Link>
         </div>

@@ -1,25 +1,61 @@
 "use client"
 import React, { useState } from 'react'
 import styles from './styles/create.module.css'
-import Mobile from './Mobile'
 import BattleCard from '../index/battles/BattleCard'
-import LightEditor from './LightEditor';
-import GrandEditor from './GrandEditor';
+import LightEditor from '../create/LightEditor'
+import GrandEditor from '../create/GrandEditor'
 
 
 
 const Create = ({createBattle, apikey, auth}: {auth: string | undefined, apikey: string | undefined, createBattle: (data: any, apikey: string | undefined, auth: string | undefined) => Promise<any>}) => {
   const battle :battleType = {
+    status: "upcoming",
+    auth: {
+        roomId: 0,
+        roomPass: 0
+    },
+    positions: [],
       settings: {
         gameMode: "Battle Royale",
-        map: "BERMUDA",
+        map:  "BERMUDA",
         teamMode: "Solo",
         slots: 48,
-        ammo: "limited" as "limited",
-        gunAttributes: "No" as "No",
-        characterSkill: "Yes" as "Yes",
-        loadout: "Yes" as "Yes",
-        advanceOption: {}
+        // ammo: "limited",
+        // gunAttributes: "No",
+        // characterSkill: "Yes",
+        // loadout: "Yes",
+        advanceSetting: {
+            presetMode: 'Classic',
+            EP: '0',
+            revival: 'Yes',
+            'Movement Speed': '100%',
+            HP: '200',
+            'Jump Height': '100%',
+            Environment: 'Day',
+            'Auto Revival': 'No',
+            Vehicles: 'Yes',
+            UAV: 'Yes',
+            'Generic Enemy Outfit': 'Yes',
+            'Precise Aim': 'Yes',
+            'Gun Attributes': 'No',
+            'Safe Zone Movin': 'No',
+            'Limited Ammo': 'limited',
+            Airdrop: 'Yes',
+            'Out-Of-Zone Damage': 'Standard',
+            Airstrike: 'Yes',
+            'Hide TeamMate Nickname': 'No',
+            'Character Skill': 'Yes',
+            'In-Game Mission': 'Yes',
+            'Quit-Out Penalty': 'Yes',
+            'Fall Damage': 'Yes',
+            'Zone Shrink Speed': 'Standard',
+            'High Tier Loot Zone': 'Yes',
+            Airship: 'Yes',
+            'Friendly Fire': 'No',
+            LoadOut: 'Yes',
+            'In-Match Quests': 'No',
+            'Only Headshot': 'No'
+          }
       },
       expire: {
         id: 0,
@@ -82,7 +118,7 @@ const Create = ({createBattle, apikey, auth}: {auth: string | undefined, apikey:
     const teamMode = battleState.settings.teamMode;
     const gameMode = battleState.settings.gameMode;
     // const entry = battleState.entry;
-    const teamLength :any = {
+    const teamLength = {
       "Clash Squad": {Solo: 2, Duo: 2, Squad: 2},
       "Battle Royale": {Solo: 48, Duo: 24, Squad: 12}
     }[gameMode][teamMode];
@@ -162,7 +198,7 @@ const Create = ({createBattle, apikey, auth}: {auth: string | undefined, apikey:
           <div className={styles.lightEditor}>
             <BattleCard battle={battleState} style={{minWidth: "400px"}} />
             <div className={styles.section2}>
-              <LightEditor setBattleState={setBattleState} platformCash={platFormCash} winning={battleState.winning} calculateAndUpdateWinning={calculateAndUpdateWinning} updateBattleSetting={updateBattleSetting} updateBattleSingleLevel={updateBattleSingleLevel} />
+              <LightEditor battleState={battleState} setBattleState={setBattleState} platformCash={platFormCash} winning={battleState.winning} calculateAndUpdateWinning={calculateAndUpdateWinning} updateBattleSetting={updateBattleSetting} updateBattleSingleLevel={updateBattleSingleLevel} />
             </div>
           </div>
           <div style={{width: "100%"}} className={styles.grandEditor}>

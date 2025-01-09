@@ -14,9 +14,18 @@
 }
 
 .container{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+    padding: 20px;
+    display: grid;
+    border: 3px solid gray;
+    border-radius: 20px;
+    grid-gap: 15px;
+    margin-top: 20px;
+    background: #0000005b;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+.singleEditor{
+    display: grid;
+    grid-template-columns: 1.5fr 3fr;
 }
 
 .button{
@@ -32,8 +41,11 @@
     top: 0;
     left: 0;
     height: 100%;
-    opacity: 0.3;
+    opacity: 0.5;
     width: 100%;
     border-radius: 20px;
     background: #000;
+}
+.secondaryOption{
+    display: flex;
 }

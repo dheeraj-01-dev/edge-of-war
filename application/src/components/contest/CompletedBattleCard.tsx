@@ -248,7 +248,7 @@ const CompletedBattleCard: React.FC<battleCardProps> = ({
 
             <div className={styles.battleDetail}>
               <div className={styles.battleMode}>
-                {teamMode} {ammo} &nbsp;#{battleId}
+                {teamMode} {battle.settings.advanceSetting["Limited Ammo"]} &nbsp;#{battleId}
               </div>
               <div>
                 <div>{dateStr}</div>
@@ -267,7 +267,7 @@ const CompletedBattleCard: React.FC<battleCardProps> = ({
             </div>
             <div className={styles.prizes}>
               <Image width={30} height={25} src="/icons/trophy.png" alt="winnings" />
-              &nbsp;&nbsp;{_1}-
+              &nbsp;&nbsp;{_1}/-
             </div>
           </div>
 

@@ -1,21 +1,49 @@
 type battleType = {
   _id?: string;
   battleId?: number;
+  mode: "survival" | "scoring" ,
   status: string;
   auth: {
     roomId: string | number | undefined,
     roomPass: stirng | number | undefined
   },
   settings: {
-    gameMode: string;
-    advanceSetting: any;
-    map: string;
-    teamMode: string;
-    slots: number;
-    ammo: string;
-    gunAttributes: string;
-    characterSkill: string;
-    loadout: string;
+    gameMode: "Battle Royale"|"Clash Squad",
+    map: "BERMUDA"|"PURGATORY"|"KALAHARI"|"ALPINE"|"NEXTERA"|"BERMUDA REMASTER",
+    teamMode: "Solo"|"Duo"|"Squad",
+    slots: 2 | 12 | 24 | 48,
+    advanceSetting: {
+      presetMode: 'Classic' | "Grenade" | "Melee" | "Sniper" | "Pistol" | "Hardcore Mode" | "Esports Mode" | "Master Mind" | "Custom Preset",
+      EP: '0' | "50" | "200",
+      revival: 'Yes' | "No",
+      'Movement Speed': '100%' | "50%" | "125%" | "200%",
+      HP: '200' | "50" | "500" | "1",
+      'Jump Height': '100%' | "200%" | "400%",
+      Environment: 'Day' | "Night",
+      'Auto Revival': 'No' | "Yes",
+      Vehicles: 'Yes' | "No",
+      UAV: 'Yes' | "No",
+      'Generic Enemy Outfit': 'Yes' | "No",
+      'Precise Aim': 'Yes' | "No",
+      'Gun Attributes': 'No' | "Yes",
+      'Safe Zone Movin': 'No' | "Yes",
+      'Limited Ammo': 'limited' | "un-limited",
+      Airdrop: 'Yes' | "No",
+      'Out-Of-Zone Damage': 'Standard' | "High",
+      Airstrike: 'Yes' | "No",
+      'Hide TeamMate Nickname': 'No' | "Yes",
+      'Character Skill': 'Yes' | "No",
+      'In-Game Mission': 'Yes' | "No",
+      'Quit-Out Penalty': 'Yes' | "No",
+      'Fall Damage': 'Yes' | "No",
+      'Zone Shrink Speed': 'Standard' | "Fast",
+      'High Tier Loot Zone': 'Yes' | "No",
+      Airship: 'Yes' | "No",
+      'Friendly Fire': 'No' | "Yes",
+      LoadOut: 'Yes' | "No",
+      'In-Match Quests': 'No' | "Yes",
+      'Only Headshot': 'No' | "Yes"
+    };
   };
   expire: {
     id: number;

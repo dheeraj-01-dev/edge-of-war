@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 interface schema{
   battleId: number,
   status: string,
+  mode: string,
   auth: {
     roomId: number,
     roomPass: string
@@ -86,6 +87,14 @@ const battleSchema = new Schema<schema>({
     enum: {
       values: ["upcoming", "live", "completed"],
       message: "status `{VALUE}` not supported!"
+    }
+  },
+  mode: {
+    type: String,
+    required: true,
+    enum: {
+      values: ["scoring", "survival"],
+        message: "mode `{VALUE}` not supported!"
     }
   },
   settings: {

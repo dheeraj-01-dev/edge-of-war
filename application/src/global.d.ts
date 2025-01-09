@@ -2,6 +2,7 @@ type battleType = {
   _id: string;
   battleId: number;
   status: string,
+  mode: "scoring" | "survival",
   auth?: {
     roomId: string,
     roomPass: string

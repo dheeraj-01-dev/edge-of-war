@@ -6,98 +6,18 @@ import Link from 'next/link';
 
 interface battleCardProps {
   isLogin?: boolean;
-  battle?: any;
+  battle : battleType;
   style?: React.CSSProperties;
 }
 
 const BattleCard: React.FC<battleCardProps> = ({
-  battle = {
-    settings: {
-      gameMode: "GameMode",
-      map: "MAP",
-      teamMode: "teamMode",
-      slots: 0,
-      ammo: "ammo",
-      gunAttributes: "gunAttributes",
-      characterSkill: "characterSkill",
-      loadout: "loadout",
-    },
-    expire: {
-      id: 0,
-      dateStr: "choose one",
-    },
-    entry: 0,
-    winning: {
-      _1: 0,
-      _2: 0,
-      _3: 0,
-    },
-    teams: [],
-  },
+  battle,
   style: parentStyle,
 }) => {
-  const { _id, settings, battleId, expire, entry, winning, teams } = battle;
+  const { settings, expire, entry, winning, teams } = battle;
   const { _1 } = winning;
   const { dateStr } = expire;
-  const { gameMode, map, teamMode, ammo, slots } = settings;
-
-  // const [rday, setRday] = useState("")
-  // const [rhr, setRhr] = useState("")
-  // const [rmi, setRmi] = useState("")
-  // const [rsec, setRsec] = useState("")
-
-  // function getTimeDifference(date1 :any, date2 :any) {
-  //   const diffInMs = Math.abs(date2 - date1);
-  
-  //   const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  //   const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-  //   const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-  
-  //   return { days, hours, minutes, seconds };
-  // }
-
-  // function getTimeDifference(date1 :any, date2 :any) {
-  //   const diffInMs = date2 - date1;
-  
-  //   if (diffInMs <= 0) {
-  //     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  //   }
-  
-  //   const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  //   const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-  //   const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-  
-  //   return { days, hours, minutes, seconds };
-  // }
-
-
-  // function getTimeDifference(date1 :number, date2 :number) {
-  //   const diffInMs = date2 - date1;
-  
-  //   if (diffInMs <= 0) {
-  //     return { days: "00", hours: "00", minutes: "00", seconds: "00" };
-  //   }
-  
-  //   const days = String(Math.floor(diffInMs / (1000 * 60 * 60 * 24))).padStart(2, '0');
-  //   const hours = String(Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-  //   const minutes = String(Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-  //   const seconds = String(Math.floor((diffInMs % (1000 * 60)) / 1000)).padStart(2, '0');
-  
-  //   return { days, hours, minutes, seconds };
-  // }
-  
-  
-
-  // setTimeout(() => {
-  //   // const currentTime = +new Date();
-  //   // const { days, hours, minutes, seconds } = getTimeDifference(currentTime, id);
-  //   // setRday(days);
-  //   // setRhr(hours);
-  //   // setRmi(minutes);
-  //   // setRsec(seconds)
-  // }, 1000);
+  const { gameMode, map, teamMode, slots, advanceSetting } = settings;
 
   return (
     <div style={parentStyle}>
@@ -106,10 +26,10 @@ const BattleCard: React.FC<battleCardProps> = ({
           <div className={styles.title}>
             {gameMode}&nbsp; [{map}]
           </div>
-          {/* <div className={styles.timeCountDown}>{`${rday}:${rhr}:${rmi}:${rsec}`}</div> */}
+          <div className={styles.timeCountDown}>{battle.mode}</div>
         </header>
 
-        <Link href={`/battle/${_id}`}>
+        <Link href={`#`}>
           <div className={styles.infoContainer}>
             <div className={styles.battleMap}>
               <Image
@@ -123,7 +43,7 @@ const BattleCard: React.FC<battleCardProps> = ({
 
             <div className={styles.battleDetail}>
               <div className={styles.battleMode}>
-                {teamMode} {ammo} &nbsp;#{battleId}
+                {teamMode} {advanceSetting['Limited Ammo']} &nbsp;#
               </div>
 
               <div>
@@ -157,11 +77,11 @@ const BattleCard: React.FC<battleCardProps> = ({
 
         <div className={styles.dealBox}>
           <div className={styles.entryBox}>
-            <Link href={`/battle/checkout/${_id}`}>
+            <Link href={`#`}>
               <div className={styles.entryBtn}>Join now - {entry}</div>
             </Link>
           </div>
-          <Link href={`/battle/${_id}`}>
+          <Link href={`#`}>
             <div className={styles.prizes}>
               <Image width={30} height={25} src="/icons/trophy.png" alt="winnings" />
               &nbsp;&nbsp;{_1}-/
@@ -169,7 +89,7 @@ const BattleCard: React.FC<battleCardProps> = ({
           </Link>
         </div>
 
-        <Link href={`/battle/${_id}`}>
+        <Link href={`#`}>
           <footer className={styles.footer}>
             <span className={styles.battleCardCount}>
               {teams.length}/{slots}

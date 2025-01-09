@@ -1,7 +1,7 @@
 "use server";
 import ScafFold from "@/server/components/scafFold/ScafFold";
 import React from "react";
-import Create from "@/components/create/Create";
+import Create from "@/components/create2/Create";
 import { createBattle } from "../../api/admin/battle";
 import { cookies } from "next/headers";
 
@@ -11,7 +11,7 @@ const page = async () => {
   const apikey = (await cookieStore).get("__eow_apikey")?.value;
 
   return (
-    <ScafFold style={{ padding: 20 }}>
+    <ScafFold>
       <Create createBattle={createBattle} auth={auth} apikey={apikey} />
     </ScafFold>
   );
