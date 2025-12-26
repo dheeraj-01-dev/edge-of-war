@@ -1,11 +1,13 @@
 "use server";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
+// import { NextRequest } from "next/server";
 import z from "zod";
 import { FormState } from "../components/server/RegisterFrom";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
-  return "hilo";
+export async function GET() {
+  const res = NextResponse.json({hi: "hilo"})
+  return res;
 }
 
 export async function registerFormAction(

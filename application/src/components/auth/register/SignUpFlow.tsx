@@ -24,7 +24,7 @@ const SignupFlow = () => {
     password: "",
     confirmPassword: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const handleNext = () => setStep(step + 1);
   const handlePrevious = () => setStep(step - 1);

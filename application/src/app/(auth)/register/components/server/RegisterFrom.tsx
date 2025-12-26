@@ -1,6 +1,6 @@
 "use client"
 // pages/register.tsx (or app/register/page.tsx for App Router)
-import { useState, ChangeEvent, useActionState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Eye, EyeOff, Mail, Lock, Shield } from 'lucide-react';
 import styles from './../styles/register-form.module.css'
 import Link from 'next/link';
@@ -27,7 +27,7 @@ interface Props {
   formAction: (state: FormState, formData: FormData) => Promise<FormState>
 }
 
-export default function RegisterForm({ formAction }: Props) {
+export default function RegisterForm({ }: Props) {
   const [formData, setFormData] = useState<FormDataa>({
     email: '',
     password: '',
@@ -37,7 +37,7 @@ export default function RegisterForm({ formAction }: Props) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showVerifyPassword, setShowVerifyPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [formState, newFormAction, isPending] = useActionState(formAction, { error: undefined })
+  // const [formState, newFormAction, isPending] = useActionState(formAction, { error: undefined })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

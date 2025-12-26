@@ -360,8 +360,8 @@ const BattleDetails = ({ battle, userName, userToken }: { battle: battleType, us
     }
     else{
       if(!userToken){return[]}
-      const decodeduserToken = jwt.decode(userToken)
-      return teams.filter(team => team.includes(decodeduserToken.ffUserName));
+      const decodeduserToken : any = jwt.decode(userToken)
+      return teams.filter(team => team.includes(decodeduserToken?.ffUserName));
     }
   }, [userName, teams, userToken]);
 

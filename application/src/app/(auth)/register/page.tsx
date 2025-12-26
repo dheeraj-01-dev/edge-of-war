@@ -1,7 +1,7 @@
 "use server"
 import React from 'react'
 import styles from './page.module.css'
-import Titles from '@/components/temp/Titles'
+// import Titles from '@/components/temp/Titles'
 import RegisterFrom from './components/server/RegisterFrom'
 import { registerFormAction } from './api/route'
 

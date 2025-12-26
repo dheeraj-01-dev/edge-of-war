@@ -309,9 +309,9 @@ const Numpad: React.FC<NumpadProps> = ({
     if(upiId!==confirmUpiId){ toast("upi id and confirm upi id does not matched"); return };
     if(!authorization){ toast("unAuthorized, try login again"); return };
     try {
-      const decodedToken = jwt.decode(authorization);
-      if(!decodedToken.email){ toast("unAuthorized, try login again"); return }
-      await sendOtp({email: decodedToken.email});
+      const decodedToken: any = jwt.decode(authorization);
+      if(!decodedToken?.email){ toast("unAuthorized, try login again"); return }
+      await sendOtp({email: decodedToken?.email});
     } catch {
       toast("somethig wrong happend, contact support")
     }

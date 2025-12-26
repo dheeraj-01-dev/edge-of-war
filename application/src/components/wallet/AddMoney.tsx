@@ -25,7 +25,7 @@ const AddMoneyPage: React.FC = () => {
         color: '#F37254'
       },
     };
-    const rzp = new (window as Window).Razorpay(options);
+    const rzp = new (window as any).Razorpay(options);
     rzp.open();
   }
 

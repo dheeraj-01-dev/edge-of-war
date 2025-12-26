@@ -3,20 +3,14 @@ import { api } from "@/axios/api";
 import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import z from "zod";
 
-export async function POST(request: NextRequest) {
-  return "hilo";
+export async function GET() {
+  const res = NextResponse.json({hi: "hilo"})
+  return res;
 }
 
-async function wait() {
-  return new Promise<void>((resolve, reject) => {
-    setTimeout(() => {
-      resolve();
-    }, 5000);
-  });
-}
 
 export async function loginFormAction(
   state: { error?: string },
@@ -62,7 +56,7 @@ export async function loginFormAction(
     });
   } catch (error) {
     const err = error as AxiosError;
-    return { error: (err.response?.data as any)?.error || "An error occurred" };
+    return { error: (err.response?.data as { error: string })?.error || "An error occurred" };
   }
 
   redirect("/");

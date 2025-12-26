@@ -25,7 +25,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   
   const jsonResponse = await getAllFriends({token: userToken})
   
-  const decodedUserToken = jwt.decode<decodedUserToken>(userToken);
+  const decodedUserToken = jwt.decode(userToken);
   
   // Validate the decoded token
   const isTokenValid = decodedUserToken && typeof decodedUserToken !== 'string';
