@@ -6,6 +6,7 @@
 .loginChild{
   padding: 80px 40px;
   width: 85dvw;
+  max-width: 500px;
   border: 2px solid var(--bg-1);
   background: var(--bg-7);
   /* box-shadow: 0 0 40px 2px var(--bg-3); */

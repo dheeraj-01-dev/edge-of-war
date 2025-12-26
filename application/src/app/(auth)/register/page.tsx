@@ -1,16 +1,18 @@
 "use server"
 import React from 'react'
 import styles from './page.module.css'
-import SignupFlow from '@/components/auth/register/SignUpFlow'
 import Titles from '@/components/temp/Titles'
+import RegisterFrom from './components/server/RegisterFrom'
+import { registerFormAction } from './api/route'
 
 const page = async () => {
   return (
-    <div className={styles.page}>
-      <Titles title='Register' />
+    <div className={styles.pages}>
+      {/* <Titles title='Register' /> */}
       {/* <Register registerFunction={registerUser} /> */}
       <div>
-        <SignupFlow />
+        <RegisterFrom formAction={registerFormAction} />
+        {/* <SignupFlow /> */}
       </div>
     </div>
   )

@@ -1,128 +1,86 @@
 "use client";
-import React, { useState } from "react";
+import React, { useActionState, useEffect } from "react";
 import styles from "./login.module.css";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 import Link from "next/link";
+import { LockKeyhole } from "lucide-react";
+import { EmailOutlined } from "@mui/icons-material";
 import toast from "@/scripts/toast";
-// import { fetchUser } from '@/api/user/login'
 
-const Login = ({
-  fetchUser,
-}: {
-  fetchUser: ({
-    phone,
-    email,
-    password,
-  }: {
-    phone?: number;
-    email?: string;
-    password: string;
-  }) => Promise<responseType<{token: string, userName: string}>>;
-}) => {
-  const router = useRouter();
-  const [loginIdentifier, setLoginIdentifier] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+interface Props {
+  formAction: (
+    state: { error?: string },
+    formData: FormData
+  ) => Promise<{ error?: string }>;
+}
 
-  let loginCredential: string;
-  // loginIdentifier.includes("@")
-  //   ? (loginCredential = "email")
-  //   : (loginCredential = "phone");
-  // loginCredential === "phone" ? parseInt(loginIdentifier) : "";
+const LoginForm = ({ formAction }: Props) => {
+  const [formState, newFormAction, isPending] = useActionState(formAction, {
+    error: undefined,
+  } as { error?: string });
 
-  if(loginIdentifier.includes("@")){ (loginCredential = "email")}else{(loginCredential = "phone")}
-  if(loginCredential==="phone"){parseInt(loginIdentifier)}
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const currentDate = +new Date();
-    const response = await fetchUser({
-      [loginCredential]:
-        loginCredential === "phone"
-          ? parseInt(loginIdentifier)
-          : loginIdentifier,
-      password: loginPassword,
-    });
-    
-    if (response.data) {
-      setCookie("__eow_user_token", response.data.token, {
-        expires: new Date(currentDate + 7776000000),
-      });
-      setCookie("__eow_user_name", response.data.userName, {
-        expires: new Date(currentDate + 7776000000),
-      });
-      // setCookie("u_state", json.data.token, {expires : new Date(currentDate+7776000000)});
-      // setCookie("u_p_state", json.data.profile, {expires : new Date(currentDate+7776000000)});
-      // setCookie("i_state", json.data._id, {expires : new Date(currentDate+7776000000)});
-      // setCookie("u_n_state", json.data.userName, {expires : new Date(currentDate+7776000000)});
-      toast("Login successfull !");
-      router.push("/");
-      router.refresh();
-    } else {
-      toast(response.error);
-    }
-  };
+  useEffect(() => {
+    console.log("FormSTate: ", formState);
+    toast(formState.error);
+  }, [formState]);
 
   return (
     <div className={styles.login}>
       <div className={styles.loginChild}>
         <div className={styles.loginTitle}>Login</div>
-        <form method="post" onSubmit={handleLogin}>
+        <form action={newFormAction}>
           <div className={styles.inputContainer}>
-            <Image src="/icons/user.png" height={20} width={20} alt="user" />
+            <EmailOutlined />
             <input
+              name="email"
               autoCapitalize="none"
               spellCheck={false}
               autoCorrect="off"
-              value={loginIdentifier}
-              onChange={(e) => {
-                setLoginIdentifier(e.target.value);
-              }}
               id="loginIdentifier"
-              type="text"
+              type="email"
               placeholder="email"
+              required
             />
           </div>
           <div className={styles.inputContainer}>
-            <Image
-              src="/icons/high-score.png"
-              height={20}
-              width={20}
-              alt="user"
-            />
+            <LockKeyhole />
             <input
               autoCapitalize="none"
               autoComplete="off"
               spellCheck={false}
               autoCorrect="off"
-              value={loginPassword}
-              onChange={(e) => {
-                setLoginPassword(e.target.value);
-              }}
+              name="password"
               id="loginPassword"
               type="text"
               placeholder="password"
+              required
             />
           </div>
-          <div style={{textAlign: "end", marginTop: 10}}>
+          <div style={{ textAlign: "end", marginTop: 10 }}>
             <Link className={styles.registerLink} href={"/forgotpassword"}>
               forgot password?
             </Link>
           </div>
           <div className={styles.submitContainer}>
-            <button type="submit" className={styles.submitButton}>
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isPending}
+              style={{ opacity: isPending ? 0.4 : 1 }}
+            >
               Login
             </button>
           </div>
         </form>
-            <div style={{fontSize: "90%", marginTop: 90, textAlign: "center"}}>don't have account? 
-              <Link className={styles.registerLink} href={"/register"}> Register</Link>
-            </div>
+        <div style={{ fontSize: "90%", marginTop: 90, textAlign: "center" }}>
+          don't have account?
+          <Link className={styles.registerLink} href={"/register"}>
+            {" "}
+            Register
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginForm;
