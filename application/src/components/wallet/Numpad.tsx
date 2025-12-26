@@ -112,7 +112,7 @@ const Numpad :React.FC<numpad> = ({ buttonTemplate = "Template", Withdraw = fals
             toast(error.message?error.message:error)
           }
         };
-        const rzp = new window.Razorpay(res.data);
+        const rzp = new (window as any).Razorpay(res.data);
         // @ts-expect-error response type any
         rzp.on("payment.failed", async function (response) {
           try {
