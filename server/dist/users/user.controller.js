@@ -1,39 +1,27 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { config } from "dotenv";
 import mongoose from "mongoose";
 import { userModel } from "./user.model.js";
 import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 import { otpModel } from "../auth/auth.model.js";
 import nodemailer from "nodemailer";
 import { withdrawalRequestsModel } from "../transactions/transactions.model.js";
-config();
-const jwt_secret = process.env.JWT_SECRET_STR ||
-    "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
+import { JWT_SECRET } from "../env.config.js";
+import { ACCESS_TOKEN } from "../constants.js";
 export const registerUser = async (req, res) => {
-    const name = req.body.name.trim();
-    const otp = req.body.otp;
-    const userName = req.body.userName.trim();
-    const email = req.body.email.trim();
-    const ffUid = req.body.ffUid;
-    const ffUserName = req.body.ffUserName.trim();
-    const password = req.body.password.trim();
-    const confirmPassword = req.body.confirmPassword.trim();
+    const { name, otp, userName, email, ffUid, ffUserName, password } = req.body;
     try {
-        if (password !== confirmPassword) {
-            return res.status(400).json({
-                success: false,
-                error: `password and confirmPassword doesn't matched!`,
-            });
-        }
-        const verified = await verifyEmailAndOtpLocally({ email, otp });
+        const verified = await verifyEmailAndOtpLocally({
+            email,
+            otp: Number(otp),
+        });
         if (!verified.success) {
             return res.status(400).json({
                 success: false,
-                error: `Invalid Otp !`,
+                error: `Invalid Otp !!`,
             });
         }
-        await otpModel.deleteMany({ email, otp });
+        await otpModel.deleteMany({ email, otp: Number(otp) });
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = await userModel.create({
             ffUid,
@@ -53,12 +41,18 @@ export const registerUser = async (req, res) => {
             createAt,
             id: _id,
             profile: "/men.png",
-        }, jwt_secret);
+        }, JWT_SECRET);
+        res.cookie(ACCESS_TOKEN, token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
         res.status(200).json({
             success: true,
             data: {
                 token,
-                userName
+                userName,
             },
         });
     }
@@ -98,7 +92,13 @@ export const loginUser_C = async (req, res) => {
             profile: "/men.png",
             email,
             ffUserName,
-        }, jwt_secret);
+        }, JWT_SECRET);
+        res.cookie(ACCESS_TOKEN, token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
         res.status(200).json({
             success: true,
             data: {
@@ -115,50 +115,32 @@ export const loginUser_C = async (req, res) => {
     }
 };
 export const getPersonalInfo_C = async (req, res) => {
-    const { authorization } = req.headers;
-    if (!authorization) {
-        return res.status(400).json({
+    const accessToken = req.cookies[ACCESS_TOKEN];
+    if (!accessToken) {
+        return res.status(404).json({
             success: false,
-            error: "unauthorized",
+            error: "unAuthorized",
         });
     }
     try {
-        let decodedToken;
-        try {
-            decodedToken = jwt.verify(authorization, jwt_secret);
-        }
-        catch (error) {
-            return res.status(400).json({
-                success: false,
-                error: "unauthorized",
+        const verifiedToken = jwt.verify(accessToken, JWT_SECRET);
+        const user = await userModel.findById(verifiedToken?.id);
+        if (user) {
+            return res.status(200).json({
+                success: true,
+                data: user,
             });
         }
-        const { id } = decodedToken;
-        const persnolInfo = await userModel.aggregate([
-            {
-                $match: {
-                    _id: new mongoose.Types.ObjectId(id),
-                },
-            },
-            {
-                $unset: "password",
-            },
-        ]);
-        if (persnolInfo.length < 1) {
-            return res.status(404).json({
-                success: false,
-                error: "user not found !",
-            });
-        }
-        res.status(200).json({
-            success: true,
-            data: persnolInfo[0],
+        return res.status(404).json({
+            success: false,
+            error: "user not found",
         });
     }
-    catch (err) {
-        res.status(500).json({
+    catch (error) {
+        console.log(error);
+        return res.status(404).json({
             success: false,
-            error: "something went wrong !",
+            error: "unAuthorized",
         });
     }
 };
@@ -215,7 +197,7 @@ export const getSingleUser = async (req, res) => {
             .json({ success: false, message: "please enter all required fields." });
     }
     try {
-        const verifiedToken = jwt.verify(authToken, jwt_secret);
+        const verifiedToken = jwt.verify(authToken, JWT_SECRET);
         const verifiedUser = await userModel.findById(verifiedToken._id);
         if (!verifiedUser) {
             return res
@@ -278,7 +260,7 @@ export const updateUserData = async (req, res) => {
             .json({ success: false, message: "please provide atleast one field." });
     }
     try {
-        const verifiedToken = jwt.verify(authToken, jwt_secret);
+        const verifiedToken = jwt.verify(authToken, JWT_SECRET);
         const verifiedUser = await userModel.findById(verifiedToken._id);
         if (!verifiedUser || user !== verifiedUser?._id.toHexString()) {
             return res.status(404).json({ success: false, message: "invalid user" });
@@ -312,7 +294,7 @@ export const getAllFriends_C = async (req, res) => {
     try {
         let decodedToken;
         try {
-            decodedToken = jwt.verify(authorization, jwt_secret);
+            decodedToken = jwt.verify(authorization, JWT_SECRET);
         }
         catch (error) {
             return res.status(400).json({
@@ -415,14 +397,14 @@ export const forgotPassword_C = async (req, res) => {
             profile: "/men.png",
             email,
             ffUserName,
-        }, jwt_secret);
+        }, JWT_SECRET);
         const link = `https://edgeofesports.com/new-password/${token}`;
         let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: 'edgeofesports@gmail.com',
-                pass: 'bqfj gbci xlgi esid'
-            }
+                user: "edgeofesports@gmail.com",
+                pass: "bqfj gbci xlgi esid",
+            },
         });
         let mailOptions = {
             from: "edge of eSports<mail@edgeofesports.com>",
@@ -460,27 +442,29 @@ export const forgotPassword_C = async (req, res) => {
 export const createNewPassword_C = async (req, res) => {
     const { authorization } = req.headers;
     const { linkToken, newPassword, confirmNewPassword, oldPassword } = req.body;
-    if (!(newPassword && confirmNewPassword) || newPassword !== confirmNewPassword) {
+    if (!(newPassword && confirmNewPassword) ||
+        newPassword !== confirmNewPassword) {
         return res.status(400).json({
             success: false,
-            error: "password and newPassword does not matched"
+            error: "password and newPassword does not matched",
         });
     }
     if (linkToken) {
         try {
-            const verifiedToken = jwt.verify(linkToken, jwt_secret);
+            const verifiedToken = jwt.verify(linkToken, JWT_SECRET);
             if (!verifiedToken && verifiedToken.email && verifiedToken.iat) {
                 return res.status(400).json({
                     success: false,
-                    error: "Invalid link"
+                    error: "Invalid link",
                 });
             }
-            ;
-            const userDetails = await userModel.findOne({ email: verifiedToken.email });
+            const userDetails = await userModel.findOne({
+                email: verifiedToken.email,
+            });
             if (!userDetails) {
                 return res.status(400).json({
                     success: false,
-                    error: "Invalid link"
+                    error: "Invalid link",
                 });
             }
             try {
@@ -488,20 +472,20 @@ export const createNewPassword_C = async (req, res) => {
                 await userModel.findOneAndUpdate({ _id: userDetails._id }, { password: newHashedPassword });
                 return res.status(200).json({
                     success: true,
-                    data: "password updated successfully"
+                    data: "password updated successfully",
                 });
             }
             catch (error) {
                 return res.status(400).json({
                     success: false,
-                    error: "error creating new password"
+                    error: "error creating new password",
                 });
             }
         }
         catch (error) {
             return res.status(400).json({
                 success: false,
-                error: "unAuthorized"
+                error: "unAuthorized",
             });
         }
     }
@@ -509,32 +493,31 @@ export const createNewPassword_C = async (req, res) => {
         if (!authorization) {
             return res.status(400).json({
                 success: false,
-                error: "unAuthorized"
+                error: "unAuthorized",
             });
         }
-        ;
-        const decodedToken = jwt.verify(authorization, jwt_secret);
+        const decodedToken = jwt.verify(authorization, JWT_SECRET);
         if (!decodedToken && decodedToken.email) {
             return res.status(400).json({
                 success: false,
-                error: "unAuthorized"
+                error: "unAuthorized",
             });
         }
-        ;
-        const verifiedUser = await userModel.findOne({ email: decodedToken.email }).select("password");
+        const verifiedUser = await userModel
+            .findOne({ email: decodedToken.email })
+            .select("password");
         if (!verifiedUser) {
             return res.status(400).json({
                 success: false,
-                error: "unAuthorized"
+                error: "unAuthorized",
             });
         }
-        ;
         try {
             const passMatch = await bcrypt.compare(oldPassword, verifiedUser.password);
             if (!passMatch) {
                 return res.status(404).json({
                     success: false,
-                    error: "old password does not matched, try forgot password"
+                    error: "old password does not matched, try forgot password",
                 });
             }
             if (passMatch) {
@@ -543,13 +526,13 @@ export const createNewPassword_C = async (req, res) => {
                     await userModel.findOneAndUpdate({ _id: verifiedUser._id }, { password: newHashedPassword });
                     return res.status(200).json({
                         success: true,
-                        data: "password updated successfully"
+                        data: "password updated successfully",
                     });
                 }
                 catch (error) {
                     return res.status(400).json({
                         success: false,
-                        error: "error creating new password"
+                        error: "error creating new password",
                     });
                 }
             }
@@ -557,14 +540,14 @@ export const createNewPassword_C = async (req, res) => {
         catch (error) {
             return res.status(400).json({
                 success: false,
-                error: "unAuthorized"
+                error: "unAuthorized",
             });
         }
     }
     else {
         return res.status(400).json({
             success: false,
-            error: "Invalid request"
+            error: "Invalid request",
         });
     }
 };
@@ -577,7 +560,7 @@ export const requestWithdrawal_C = async (req, res) => {
         if (upiId !== confirmUpiId) {
             return res.status(404).json({
                 success: false,
-                error: "upi id and confirm upi id does not matched"
+                error: "upi id and confirm upi id does not matched",
             });
         }
         let verifiedToken;
@@ -585,67 +568,71 @@ export const requestWithdrawal_C = async (req, res) => {
             if (!authorization) {
                 return res.status(400).json({
                     success: false,
-                    error: "unAuthorized"
+                    error: "unAuthorized",
                 });
             }
-            verifiedToken = jwt.verify(authorization, jwt_secret);
+            verifiedToken = jwt.verify(authorization, JWT_SECRET);
         }
         catch (error) {
             return res.status(400).json({
                 success: false,
-                error: "unAuthorized"
+                error: "unAuthorized",
             });
         }
         if (!verifiedToken && !verifiedToken.email) {
             return res.status(400).json({
                 success: false,
-                error: "Try login again"
+                error: "Try login again",
             });
         }
-        ;
-        const userDetails = await userModel.findOne({ userName: verifiedToken.userName });
+        const userDetails = await userModel.findOne({
+            userName: verifiedToken.userName,
+        });
         if (!userDetails) {
             return res.status(404).json({
                 success: false,
-                error: "user not found"
+                error: "user not found",
             });
         }
-        ;
         if (userDetails.balance < amount) {
             return res.status(404).json({
                 success: false,
-                error: "requested amount exceed"
+                error: "requested amount exceed",
             });
         }
         const databaseOtp = await otpModel.findOne({ email: userDetails.email });
         if (!databaseOtp || +databaseOtp.otp !== +otp) {
             return res.status(400).json({
                 success: false,
-                error: "Invalid Otp, Try sending again!"
+                error: "Invalid Otp, Try sending again!",
             });
         }
-        ;
-        const withdrawalRequest = await withdrawalRequestsModel.create([{
+        const withdrawalRequest = await withdrawalRequestsModel.create([
+            {
                 createdBy: userDetails._id,
                 amount: +amount,
-                upiId, otp, contactPhone, status: "requested"
-            }], { session });
+                upiId,
+                otp,
+                contactPhone,
+                status: "requested",
+            },
+        ], { session });
         const upatedUser = await userModel.updateOne({ _id: userDetails._id }, {
-            $inc: { balance: -(+amount) }
+            $inc: { balance: -+amount },
         }, { session });
         if (withdrawalRequest) {
             await session.commitTransaction();
             await session.endSession();
             return res.status(200).json({
                 success: true,
-                data: "request sent successfully"
+                data: "request sent successfully",
             });
         }
         await session.abortTransaction();
         await session.endSession();
         return res.status(400).json({
             success: false,
-            error: "somthing went wrong, contact support!"
+            error: "somthing went wrong, contact support!",
         });
     }
     catch (error) {
@@ -653,7 +640,7 @@ export const requestWithdrawal_C = async (req, res) => {
         await session.endSession();
         return res.status(500).json({
             success: false,
-            error: "Internal server error, contact support!"
+            error: "Internal server error, contact support!",
         });
     }
 };

@@ -11,10 +11,12 @@ import adminRouter from './admin/admin.routes.js';
 import { authRouter } from './auth/auth.routes.js';
 import { transactionRouter } from './transactions/transactions.routes.js';
 import paymentRouter from './payment/payment.routes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(cors());
 app.use(validateapikey);
+app.use(cookieParser())
 
 app.use((req, res, next)=>{
   const { authorization } = req.headers;

@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { config } from "dotenv";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { passwordResetModel, userModel } from "./user.model.js";
@@ -9,51 +8,27 @@ import { otpModel } from "../auth/auth.model.js";
 import nodemailer from "nodemailer";
 import { withdrawalRequestsModel } from "../transactions/transactions.model.js";
 import { error } from "console";
+import { JWT_SECRET } from "../env.config.js";
+import { ACCESS_TOKEN } from "../constants.js";
 // import { verifyEmailAndOtpLocally } from "../auth/auth.controller.js";
 // import { otpModel } from "../auth/auth.model.js";
 
-config();
-
-const jwt_secret =
-  process.env.JWT_SECRET_STR ||
-  "7#D9g5F@6pU2q%V9sZ1yL*8sK$kG3e!Xb6F9qD+LzJ9uPzA%wH2J3x7XsQnS+*4tM8K3A6h1Tb5zR!zCvPq";
-
 export const registerUser = async (req: Request, res: Response) => {
-  // const {
-  //   name,
-  //   otp,
-  //   userName,
-  //   email,
-  //   ffUid,
-  //   ffUserName,
-  //   password,
-  //   confirmPassword,
-  // } = req.body;
-  const name = req.body.name.trim();
-  const otp = req.body.otp;
-  const userName = req.body.userName.trim();
-  const email = req.body.email.trim();
-  const ffUid = req.body.ffUid;
-  const ffUserName = req.body.ffUserName.trim();
-  const password = req.body.password.trim();
-  const confirmPassword = req.body.confirmPassword.trim();
+  const { name, otp, userName, email, ffUid, ffUserName, password } = req.body;
 
   try {
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        error: `password and confirmPassword doesn't matched!`,
-      });
-    }
-    const verified = await verifyEmailAndOtpLocally({ email, otp });
+    const verified = await verifyEmailAndOtpLocally({
+      email,
+      otp: Number(otp),
+    });
     if (!verified.success) {
       return res.status(400).json({
         success: false,
-        error: `Invalid Otp !`,
+        error: `Invalid Otp !!`,
       });
     }
 
-    await otpModel.deleteMany({ email, otp });
+    await otpModel.deleteMany({ email, otp: Number(otp) });
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await userModel.create({
@@ -77,13 +52,19 @@ export const registerUser = async (req: Request, res: Response) => {
         id: _id,
         profile: "/men.png",
       },
-      jwt_secret
+      JWT_SECRET,
     );
+    res.cookie(ACCESS_TOKEN, token, {
+      httpOnly: true,
+      secure: false, // set to true if using HTTPS
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
     res.status(200).json({
       success: true,
       data: {
         token,
-        userName
+        userName,
       },
     });
   } catch (err: any) {
@@ -131,8 +112,15 @@ export const loginUser_C = async (req: any, res: any) => {
         email,
         ffUserName,
       },
-      jwt_secret
+      JWT_SECRET,
     );
+
+    res.cookie(ACCESS_TOKEN, token, {
+      httpOnly: true,
+      secure: false, // set to true if using HTTPS
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
     res.status(200).json({
       success: true,
       data: {
@@ -149,50 +137,31 @@ export const loginUser_C = async (req: any, res: any) => {
 };
 
 export const getPersonalInfo_C = async (req: Request, res: Response) => {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return res.status(400).json({
+  const accessToken = req.cookies[ACCESS_TOKEN];
+  if (!accessToken) {
+    return res.status(404).json({
       success: false,
-      error: "unauthorized",
+      error: "unAuthorized",
     });
   }
-
   try {
-    let decodedToken: any;
-    try {
-      decodedToken = jwt.verify(authorization, jwt_secret);
-    } catch (error) {
-      return res.status(400).json({
-        success: false,
-        error: "unauthorized",
+    const verifiedToken = jwt.verify(accessToken, JWT_SECRET) as { id: string };
+    const user = await userModel.findById(verifiedToken?.id);
+    if (user) {
+      return res.status(200).json({
+        success: true,
+        data: user,
       });
     }
-    const { id } = decodedToken;
-    const persnolInfo = await userModel.aggregate([
-      {
-        $match: {
-          _id: new mongoose.Types.ObjectId(id),
-        },
-      },
-      {
-        $unset: "password",
-      },
-    ]);
-    if (persnolInfo.length < 1) {
-      return res.status(404).json({
-        success: false,
-        error: "user not found !",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      data: persnolInfo[0],
-    });
-  } catch (err) {
-    res.status(500).json({
+    return res.status(404).json({
       success: false,
-      error: "something went wrong !",
+      error: "user not found",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({
+      success: false,
+      error: "unAuthorized",
     });
   }
 };
@@ -252,7 +221,7 @@ export const getSingleUser = async (req: any, res: any) => {
       .json({ success: false, message: "please enter all required fields." });
   }
   try {
-    const verifiedToken: any = jwt.verify(authToken, jwt_secret);
+    const verifiedToken: any = jwt.verify(authToken, JWT_SECRET);
 
     const verifiedUser = await userModel.findById(verifiedToken._id);
     if (!verifiedUser) {
@@ -322,7 +291,7 @@ export const updateUserData = async (req: any, res: any) => {
       .json({ success: false, message: "please provide atleast one field." });
   }
   try {
-    const verifiedToken: any = jwt.verify(authToken, jwt_secret);
+    const verifiedToken: any = jwt.verify(authToken, JWT_SECRET);
     const verifiedUser = await userModel.findById(verifiedToken._id);
 
     if (!verifiedUser || user !== verifiedUser?._id.toHexString()) {
@@ -335,7 +304,7 @@ export const updateUserData = async (req: any, res: any) => {
 
     const updatedUser = await userModel.updateOne(
       { _id: verifiedUser._id },
-      { $set: { name: newName, ffUid: newffUid, userName: newUserName } }
+      { $set: { name: newName, ffUid: newffUid, userName: newUserName } },
     );
     if (updatedUser.modifiedCount !== 1) {
       return res
@@ -365,7 +334,7 @@ export const getAllFriends_C = async (req: Request, res: Response) => {
   try {
     let decodedToken: any;
     try {
-      decodedToken = jwt.verify(authorization, jwt_secret);
+      decodedToken = jwt.verify(authorization, JWT_SECRET);
     } catch (error) {
       return res.status(400).json({
         success: false,
@@ -470,7 +439,7 @@ export const forgotPassword_C = async (req: Request, res: Response) => {
         email,
         ffUserName,
       },
-      jwt_secret
+      JWT_SECRET,
     );
 
     const link = `https://edgeofesports.com/new-password/${token}`;
@@ -483,9 +452,9 @@ export const forgotPassword_C = async (req: Request, res: Response) => {
       // },
 
       auth: {
-        user: 'edgeofesports@gmail.com',
-        pass: 'bqfj gbci xlgi esid'
-      }
+        user: "edgeofesports@gmail.com",
+        pass: "bqfj gbci xlgi esid",
+      },
 
       // host: "mail.edgeofwaresports.com",
       // port: 465, // Use 587 if you're using TLS
@@ -536,21 +505,24 @@ export const createNewPassword_C = async (req: Request, res: Response) => {
   const { authorization } = req.headers;
   const { linkToken, newPassword, confirmNewPassword, oldPassword } = req.body;
 
-  if(!(newPassword&&confirmNewPassword) || newPassword!==confirmNewPassword){
+  if (
+    !(newPassword && confirmNewPassword) ||
+    newPassword !== confirmNewPassword
+  ) {
     return res.status(400).json({
       success: false,
-      error: "password and newPassword does not matched"
-    })
+      error: "password and newPassword does not matched",
+    });
   }
-  if(linkToken){
+  if (linkToken) {
     try {
-      const verifiedToken :any = jwt.verify(linkToken, jwt_secret);
-      if(!verifiedToken&&verifiedToken.email&&verifiedToken.iat){
+      const verifiedToken: any = jwt.verify(linkToken, JWT_SECRET);
+      if (!verifiedToken && verifiedToken.email && verifiedToken.iat) {
         return res.status(400).json({
           success: false,
-          error: "Invalid link"
-        })
-      };
+          error: "Invalid link",
+        });
+      }
       // console.log(+new Date()-+new Date())
       // console.log(verifiedToken.iat+600000-(+new Date()))
       // if((verifiedToken.iat+600000)<(+new Date())){
@@ -560,100 +532,106 @@ export const createNewPassword_C = async (req: Request, res: Response) => {
       //   })
       // };
 
-      const userDetails = await userModel.findOne({email: verifiedToken.email});
-      if(!userDetails){
+      const userDetails = await userModel.findOne({
+        email: verifiedToken.email,
+      });
+      if (!userDetails) {
         return res.status(400).json({
           success: false,
-          error: "Invalid link"
-        })
+          error: "Invalid link",
+        });
       }
       try {
         const newHashedPassword = await bcrypt.hash(newPassword, 12);
-        await userModel.findOneAndUpdate({_id: userDetails._id}, { password: newHashedPassword});
+        await userModel.findOneAndUpdate(
+          { _id: userDetails._id },
+          { password: newHashedPassword },
+        );
 
         return res.status(200).json({
           success: true,
-          data: "password updated successfully"
-        })
-        
+          data: "password updated successfully",
+        });
       } catch (error) {
         return res.status(400).json({
           success: false,
-          error: "error creating new password"
-        })
+          error: "error creating new password",
+        });
       }
     } catch (error) {
       return res.status(400).json({
         success: false,
-        error: "unAuthorized"
-      })
+        error: "unAuthorized",
+      });
     }
-  }else if(oldPassword){
-    if(!authorization){
+  } else if (oldPassword) {
+    if (!authorization) {
       return res.status(400).json({
         success: false,
-        error: "unAuthorized"
-      })
-    };
-    const decodedToken :any = jwt.verify(authorization, jwt_secret);
-    
-    if(!decodedToken&&decodedToken.email){
-      return res.status(400).json({
-        success: false,
-        error: "unAuthorized"
-      })
-    };
-    const verifiedUser = await userModel.findOne({email: decodedToken.email}).select("password");
-    if(!verifiedUser){
-      return res.status(400).json({
-        success: false,
-        error: "unAuthorized"
-      })
-    };
+        error: "unAuthorized",
+      });
+    }
+    const decodedToken: any = jwt.verify(authorization, JWT_SECRET);
 
+    if (!decodedToken && decodedToken.email) {
+      return res.status(400).json({
+        success: false,
+        error: "unAuthorized",
+      });
+    }
+    const verifiedUser = await userModel
+      .findOne({ email: decodedToken.email })
+      .select("password");
+    if (!verifiedUser) {
+      return res.status(400).json({
+        success: false,
+        error: "unAuthorized",
+      });
+    }
 
     try {
-      const passMatch = await bcrypt.compare(oldPassword, verifiedUser.password);
-      if(!passMatch){
+      const passMatch = await bcrypt.compare(
+        oldPassword,
+        verifiedUser.password,
+      );
+      if (!passMatch) {
         return res.status(404).json({
           success: false,
-          error: "old password does not matched, try forgot password"
-        })
+          error: "old password does not matched, try forgot password",
+        });
       }
-      if(passMatch){
+      if (passMatch) {
         try {
           const newHashedPassword = await bcrypt.hash(newPassword, 12);
-          await userModel.findOneAndUpdate({_id: verifiedUser._id}, { password: newHashedPassword});
+          await userModel.findOneAndUpdate(
+            { _id: verifiedUser._id },
+            { password: newHashedPassword },
+          );
 
           return res.status(200).json({
             success: true,
-            data: "password updated successfully"
-          })
-          
+            data: "password updated successfully",
+          });
         } catch (error) {
           return res.status(400).json({
             success: false,
-            error: "error creating new password"
-          })
+            error: "error creating new password",
+          });
         }
       }
-      
     } catch (error) {
       return res.status(400).json({
         success: false,
-        error: "unAuthorized"
-      })
+        error: "unAuthorized",
+      });
     }
-
-  }
-  else{
+  } else {
     return res.status(400).json({
       success: false,
-      error: "Invalid request"
-    })
-    }
+      error: "Invalid request",
+    });
+  }
 };
-
 
 export const requestWithdrawal_C = async (req: Request, res: Response) => {
   const { upiId, confirmUpiId, contactPhone, otp, amount } = req.body;
@@ -662,88 +640,101 @@ export const requestWithdrawal_C = async (req: Request, res: Response) => {
   const session = await mongoose.startSession();
   await session.startTransaction();
 
-  try {  
-    
-    if(upiId!==confirmUpiId){
+  try {
+    if (upiId !== confirmUpiId) {
       return res.status(404).json({
         success: false,
-        error: "upi id and confirm upi id does not matched"
-      })
+        error: "upi id and confirm upi id does not matched",
+      });
     }
-    let verifiedToken :any;
+    let verifiedToken: any;
     try {
-      if(!authorization){
+      if (!authorization) {
         return res.status(400).json({
           success: false,
-          error: "unAuthorized"
+          error: "unAuthorized",
         });
       }
-      verifiedToken = jwt.verify(authorization, jwt_secret);
+      verifiedToken = jwt.verify(authorization, JWT_SECRET);
     } catch (error) {
       return res.status(400).json({
         success: false,
-        error: "unAuthorized"
+        error: "unAuthorized",
       });
     }
 
-    if(!verifiedToken&&!verifiedToken.email){
+    if (!verifiedToken && !verifiedToken.email) {
       return res.status(400).json({
         success: false,
-        error: "Try login again"
-      })
-    };
-    const userDetails = await userModel.findOne({ userName: verifiedToken.userName });
-    if(!userDetails){
+        error: "Try login again",
+      });
+    }
+    const userDetails = await userModel.findOne({
+      userName: verifiedToken.userName,
+    });
+    if (!userDetails) {
       return res.status(404).json({
         success: false,
-        error: "user not found"
-      })
-    };
-
-    if(userDetails.balance<amount){
-      return res.status(404).json({
-        success: false,
-        error: "requested amount exceed"
-      })
+        error: "user not found",
+      });
     }
 
-    const databaseOtp = await otpModel.findOne({email: userDetails.email});
+    if (userDetails.balance < amount) {
+      return res.status(404).json({
+        success: false,
+        error: "requested amount exceed",
+      });
+    }
 
-    if(!databaseOtp|| +databaseOtp.otp!==+otp){
+    const databaseOtp = await otpModel.findOne({ email: userDetails.email });
+
+    if (!databaseOtp || +databaseOtp.otp !== +otp) {
       return res.status(400).json({
         success: false,
-        error: "Invalid Otp, Try sending again!"
-      })
-    };
+        error: "Invalid Otp, Try sending again!",
+      });
+    }
 
-    const withdrawalRequest = await withdrawalRequestsModel.create([{
-      createdBy: userDetails._id,
-      amount: +amount,
-      upiId, otp, contactPhone, status: "requested"
-    }], { session });
-    const upatedUser = await userModel.updateOne({ _id: userDetails._id }, {
-      $inc: { balance: -(+amount) }
-    }, { session })
-    if(withdrawalRequest){
+    const withdrawalRequest = await withdrawalRequestsModel.create(
+      [
+        {
+          createdBy: userDetails._id,
+          amount: +amount,
+          upiId,
+          otp,
+          contactPhone,
+          status: "requested",
+        },
+      ],
+      { session },
+    );
+    const upatedUser = await userModel.updateOne(
+      { _id: userDetails._id },
+      {
+        $inc: { balance: -+amount },
+      },
+      { session },
+    );
+    if (withdrawalRequest) {
       await session.commitTransaction();
       await session.endSession();
       return res.status(200).json({
         success: true,
-        data: "request sent successfully"
+        data: "request sent successfully",
       });
     }
     await session.abortTransaction();
     await session.endSession();
     return res.status(400).json({
       success: false,
-      error: "somthing went wrong, contact support!"
-    })
+      error: "somthing went wrong, contact support!",
+    });
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
     return res.status(500).json({
       success: false,
-      error: "Internal server error, contact support!"
-    })
+      error: "Internal server error, contact support!",
+    });
   }
 };
